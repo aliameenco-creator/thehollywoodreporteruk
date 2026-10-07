@@ -1,6 +1,6 @@
 name: Deploy to Hostinger
 
-# Push to main (or run manually from the Actions tab) to lint, then sync the
+# Push to main (or run manually from the Actions tab) to lint, then copy the
 # theme and both plugins to the Hostinger site.
 #
 # Required repository secrets (Settings > Secrets and variables > Actions):
@@ -9,6 +9,9 @@ name: Deploy to Hostinger
 #   HOSTINGER_SSH_USER  e.g. u123456789
 #   HOSTINGER_SSH_KEY   private key whose public half is added in hPanel > SSH Access
 #   HOSTINGER_WP_PATH   WordPress root, e.g. /home/u123456789/domains/<domain>/public_html
+#
+# Safety: the path is trimmed and validated, the job aborts unless WordPress is
+# found at that path, and files are only ever added or updated, never deleted.
 
 on:
   push:
@@ -51,39 +54,58 @@ jobs:
       - uses: actions/checkout@v4
         if: env.HAS_SECRETS == 'true'
 
-      - name: Configure SSH
+      - name: Validate settings and configure SSH
         if: env.HAS_SECRETS == 'true'
         env:
           SSH_KEY: ${{ secrets.HOSTINGER_SSH_KEY }}
-          SSH_HOST: ${{ secrets.HOSTINGER_SSH_HOST }}
-          SSH_PORT: ${{ secrets.HOSTINGER_SSH_PORT }}
+          RAW_HOST: ${{ secrets.HOSTINGER_SSH_HOST }}
+          RAW_PORT: ${{ secrets.HOSTINGER_SSH_PORT }}
+          RAW_USER: ${{ secrets.HOSTINGER_SSH_USER }}
+          RAW_PATH: ${{ secrets.HOSTINGER_WP_PATH }}
         run: |
+          set -euo pipefail
+          # Pasted secrets often carry a trailing newline or spaces; strip all whitespace.
+          clean() { printf '%s' "$1" | tr -d '[:space:]'; }
+          HOST="$(clean "$RAW_HOST")"
+          PORT="$(clean "${RAW_PORT:-65002}")"
+          USER_NAME="$(clean "$RAW_USER")"
+          WP_PATH="$(clean "$RAW_PATH")"
+          WP_PATH="${WP_PATH%/}"
+
+          if ! printf '%s' "$WP_PATH" | grep -Eq '^/home/[A-Za-z0-9_]+/domains/[A-Za-z0-9.-]+/public_html$'; then
+            echo "::error::HOSTINGER_WP_PATH must look like /home/<user>/domains/<domain>/public_html"
+            exit 1
+          fi
+
           mkdir -p ~/.ssh
           printf '%s\n' "$SSH_KEY" > ~/.ssh/id_deploy
           chmod 600 ~/.ssh/id_deploy
-          ssh-keyscan -p "${SSH_PORT:-65002}" "$SSH_HOST" >> ~/.ssh/known_hosts
+          ssh-keyscan -p "$PORT" "$HOST" >> ~/.ssh/known_hosts
 
-      - name: Sync theme and plugins
+          # Refuse to touch anything unless this really is the WordPress root.
+          ssh -i ~/.ssh/id_deploy -p "$PORT" "$USER_NAME@$HOST" \
+            "test -f '$WP_PATH/wp-config.php' && test -d '$WP_PATH/wp-content/themes' && test -d '$WP_PATH/wp-content/plugins'" \
+            || { echo "::error::WordPress not found at HOSTINGER_WP_PATH; nothing was deployed."; exit 1; }
+
+          {
+            echo "DEPLOY_HOST=$HOST"
+            echo "DEPLOY_PORT=$PORT"
+            echo "DEPLOY_USER=$USER_NAME"
+            echo "DEPLOY_PATH=$WP_PATH"
+          } >> "$GITHUB_ENV"
+
+      - name: Copy theme and plugins
         if: env.HAS_SECRETS == 'true'
-        env:
-          SSH_HOST: ${{ secrets.HOSTINGER_SSH_HOST }}
-          SSH_PORT: ${{ secrets.HOSTINGER_SSH_PORT }}
-          SSH_USER: ${{ secrets.HOSTINGER_SSH_USER }}
-          WP_PATH: ${{ secrets.HOSTINGER_WP_PATH }}
         run: |
-          RSH="ssh -i ~/.ssh/id_deploy -p ${SSH_PORT:-65002}"
-          # --delete is scoped to each of our own folders; other plugins on the server are untouched.
+          set -euo pipefail
+          RSH="ssh -i $HOME/.ssh/id_deploy -p $DEPLOY_PORT"
+          # No --delete: files are only added or updated. Each target is an explicit subfolder.
           for dir in themes/thr-theme plugins/thr-core plugins/thr-importer; do
-            rsync -az --delete -e "$RSH" "wp-content/$dir/" "$SSH_USER@$SSH_HOST:$WP_PATH/wp-content/$dir/"
+            rsync -rlz --chmod=D755,F644 -e "$RSH" "wp-content/$dir/" "$DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH/wp-content/$dir/"
           done
 
       - name: Flush rewrites and purge cache
         if: env.HAS_SECRETS == 'true'
-        env:
-          SSH_HOST: ${{ secrets.HOSTINGER_SSH_HOST }}
-          SSH_PORT: ${{ secrets.HOSTINGER_SSH_PORT }}
-          SSH_USER: ${{ secrets.HOSTINGER_SSH_USER }}
-          WP_PATH: ${{ secrets.HOSTINGER_WP_PATH }}
         run: |
-          ssh -i ~/.ssh/id_deploy -p "${SSH_PORT:-65002}" "$SSH_USER@$SSH_HOST" \
-            "cd '$WP_PATH' && wp rewrite flush && (wp litespeed-purge all || true)"
+          ssh -i ~/.ssh/id_deploy -p "$DEPLOY_PORT" "$DEPLOY_USER@$DEPLOY_HOST" \
+            "cd '$DEPLOY_PATH' && wp rewrite flush && (wp litespeed-purge all || true)"
