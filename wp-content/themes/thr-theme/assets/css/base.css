@@ -12,6 +12,11 @@ html {
 	scroll-behavior: smooth;
 }
 
+html,
+body {
+	overflow-x: clip;
+}
+
 body {
 	margin: 0;
 	padding: 0;
@@ -42,10 +47,10 @@ a:hover {
 
 h1, h2, h3, h4, h5, h6 {
 	margin: 0 0 0.5em 0;
-	font-family: var(--font-serif);
-	font-weight: 700;
-	line-height: 1.15;
-	letter-spacing: -0.015em;
+	font-family: var(--font-display);
+	font-weight: var(--fw-display);
+	line-height: 1.12;
+	letter-spacing: -0.01em;
 	color: var(--black);
 }
 
@@ -65,7 +70,7 @@ p {
 .u-kicker {
 	font-family: var(--font-sans);
 	font-size: var(--scale-accent-s);
-	font-weight: 800;
+	font-weight: var(--fw-accent);
 	color: var(--brand-primary);
 	text-transform: uppercase;
 	letter-spacing: 0.05em;
@@ -117,4 +122,19 @@ p {
 	position: absolute;
 	width: 1px;
 	word-wrap: normal !important;
+}
+
+body.thr-menu-open {
+	overflow: hidden;
+}
+
+.thr-icon {
+	display: block;
+	flex-shrink: 0;
+}
+
+.thr-empty {
+	font-family: var(--font-sans);
+	color: var(--grey-dark);
+	padding: 40px 0;
 }

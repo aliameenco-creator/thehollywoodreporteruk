@@ -52,7 +52,7 @@ $latest_rail_query = class_exists( 'THR_Query' )
 
 				<aside class="thr-rail">
 					<div class="thr-rail-widget">
-						<h3 style="font-family:var(--font-serif); font-size:20px; font-weight:900; text-transform:uppercase; letter-spacing:0.04em; border-top:2px solid var(--black); padding-top:10px; margin-bottom:12px;">
+						<h3 class="thr-rail-title">
 							<?php esc_html_e( 'Latest News', 'thr-theme' ); ?>
 						</h3>
 						<div class="thr-latest-rail-list">
@@ -66,29 +66,22 @@ $latest_rail_query = class_exists( 'THR_Query' )
 							endif;
 							?>
 						</div>
-						<a href="<?php echo esc_url( home_url( '/c/news/' ) ); ?>" style="display:inline-block; margin-top:14px; font-family:var(--font-sans); font-size:12px; font-weight:800; color:var(--brand-primary); text-transform:uppercase; letter-spacing:0.05em;">
+						<a href="<?php echo esc_url( home_url( '/c/news/' ) ); ?>" class="thr-more-link">
 							<?php esc_html_e( 'More News', 'thr-theme' ); ?> &rarr;
 						</a>
 					</div>
 
-					<div style="margin-top:30px;">
+					<div class="thr-rail-block">
 						<?php get_template_part( 'template-parts/rail/magazine-promo' ); ?>
 					</div>
 				</aside>
 			</div>
 		</div>
 
-		<div class="thr-ad-slot" style="background:var(--grey-lightest); padding:20px 0; text-align:center; margin:30px 0; border:1px solid var(--grey-light);">
-			<div class="thr-ad-slot__label"><?php esc_html_e( 'Advertisement', 'thr-theme' ); ?></div>
-			<div style="min-height:90px; display:flex; align-items:center; justify-content:center; color:var(--grey); font-family:var(--font-sans); font-size:12px;">
-				<?php esc_html_e( 'Responsive Banner (728×90 / 970×250)', 'thr-theme' ); ?>
-			</div>
-		</div>
-
 		<div class="thr-layout-main">
 			<div class="thr-layout-grid">
 				<div class="thr-content-area">
-					<h2 style="font-family:var(--font-serif); font-size:26px; font-weight:900; text-transform:uppercase; letter-spacing:0.03em; border-top:2px solid var(--black); padding-top:10px; margin-bottom:20px;">
+					<h2 class="thr-block-title">
 						<?php esc_html_e( 'Featured Reporting & Analysis', 'thr-theme' ); ?>
 					</h2>
 					<?php

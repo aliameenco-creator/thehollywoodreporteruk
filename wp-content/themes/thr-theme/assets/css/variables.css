@@ -27,8 +27,21 @@
 	--vert-fien-print: #4B6A88;
 	--vert-behind-screen: #008000;
 
+	--font-display: 'Newsreader', 'Kepler Std', Georgia, serif;
 	--font-serif: 'Newsreader', 'Kepler Std', Georgia, serif;
 	--font-sans: 'Karla', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+	/* THR headlines are a medium-weight display cut, not bold. */
+	--fw-display: 500;
+	--fw-heading: 600;
+	--fw-accent: 700;
+	--fw-body: 400;
+
+	--header-height: 56px;
+	--footer-bg: var(--black);
+	--footer-muted: #B4B4B4;
+	--footer-rule: #3C3C3C;
+	--overlay: rgba(0, 0, 0, 0.55);
 
 	--container-max: 1260px;
 	--content-width: 660px;

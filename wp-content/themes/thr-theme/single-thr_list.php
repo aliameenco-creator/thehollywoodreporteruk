@@ -17,7 +17,7 @@ while ( have_posts() ) :
 	<main id="primary" class="site-main">
 		<article id="post-<?php the_ID(); ?>" <?php post_class( 'thr-list-article' ); ?> data-post-id="<?php echo esc_attr( $post_id ); ?>">
 			<div class="thr-container">
-				<nav class="thr-breadcrumbs" style="padding:16px 0 8px; font-family:var(--font-sans); font-size:12px; font-weight:800; text-transform:uppercase; letter-spacing:0.06em; color:var(--brand-primary);">
+				<nav class="thr-breadcrumbs" style="padding:16px 0 8px; font-family:var(--font-sans); font-size:12px; font-weight: var(--fw-accent); text-transform:uppercase; letter-spacing:0.06em; color:var(--brand-primary);">
 					<a href="<?php echo esc_url( home_url( '/' ) ); ?>" style="color:var(--brand-primary);"><?php esc_html_e( 'Home', 'thr-theme' ); ?></a>
 					<span style="color:var(--grey); margin:0 6px;">&gt;</span>
 					<a href="<?php echo esc_url( home_url( '/lists/' ) ); ?>" style="color:var(--brand-primary);"><?php esc_html_e( 'Lists', 'thr-theme' ); ?></a>

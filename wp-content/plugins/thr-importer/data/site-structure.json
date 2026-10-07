@@ -6,10 +6,10 @@
     "category_parents": 6,
     "category_children": 20,
     "categories": 26,
-    "topics": 25,
+    "topics": 29,
     "verticals": 7,
     "video_categories": 12,
-    "taxonomy_terms": 70,
+    "taxonomy_terms": 74,
     "pages": 11
   },
   "settings": {
@@ -455,6 +455,38 @@
       "url": "/t/golden-globes/",
       "heading": "Golden Globes",
       "subtitle": ""
+    },
+    {
+      "name": "Premiere Dates",
+      "slug": "premiere-dates",
+      "key": "post_tag:premiere-dates",
+      "url": "/t/premiere-dates/",
+      "heading": "Premiere Dates",
+      "subtitle": ""
+    },
+    {
+      "name": "Next Big Thing",
+      "slug": "next-big-thing",
+      "key": "post_tag:next-big-thing",
+      "url": "/t/next-big-thing/",
+      "heading": "Next Big Thing",
+      "subtitle": ""
+    },
+    {
+      "name": "THR Podcasts",
+      "slug": "thr-podcasts",
+      "key": "post_tag:thr-podcasts",
+      "url": "/t/thr-podcasts/",
+      "heading": "THR Podcasts",
+      "subtitle": ""
+    },
+    {
+      "name": "Featured Voices",
+      "slug": "featured-voices",
+      "key": "post_tag:featured-voices",
+      "url": "/t/featured-voices/",
+      "heading": "Featured Voices",
+      "subtitle": ""
     }
   ],
   "verticals": [
@@ -464,7 +496,9 @@
       "key": "vertical:heat-vision",
       "url": "/e/heat-vision/",
       "heading": "Heat Vision",
-      "subtitle": ""
+      "subtitle": "",
+      "color": "#6442AC",
+      "tagline_1": "THR's voice in the geek sphere"
     },
     {
       "name": "Live Feed",
@@ -472,7 +506,9 @@
       "key": "vertical:live-feed",
       "url": "/e/live-feed/",
       "heading": "Live Feed",
-      "subtitle": ""
+      "subtitle": "",
+      "color": "#008080",
+      "tagline_1": "Inside the show and biz of TV"
     },
     {
       "name": "The Race",
@@ -480,7 +516,9 @@
       "key": "vertical:the-race",
       "url": "/e/the-race/",
       "heading": "The Race",
-      "subtitle": ""
+      "subtitle": "",
+      "color": "#956E37",
+      "tagline_1": "The road to the Oscars"
     },
     {
       "name": "THR Esq",
@@ -488,7 +526,9 @@
       "key": "vertical:thr-esq",
       "url": "/e/thr-esq/",
       "heading": "THR Esq",
-      "subtitle": ""
+      "subtitle": "",
+      "color": "#3454DB",
+      "tagline_1": "Entertainment, media and the law"
     },
     {
       "name": "The Fien Print",
@@ -496,7 +536,9 @@
       "key": "vertical:the-fien-print",
       "url": "/e/the-fien-print/",
       "heading": "The Fien Print",
-      "subtitle": ""
+      "subtitle": "",
+      "color": "#4B6A88",
+      "tagline_1": "TV criticism and analysis"
     },
     {
       "name": "Rambling Reporter",
@@ -504,7 +546,9 @@
       "key": "vertical:rambling-reporter",
       "url": "/e/rambling-reporter/",
       "heading": "Rambling Reporter",
-      "subtitle": ""
+      "subtitle": "",
+      "color": "#A74165",
+      "tagline_1": "Hollywood after hours"
     },
     {
       "name": "Behind the Screen",
@@ -512,7 +556,9 @@
       "key": "vertical:behind-the-screen",
       "url": "/e/behind-the-screen/",
       "heading": "Behind the Screen",
-      "subtitle": ""
+      "subtitle": "",
+      "color": "#008000",
+      "tagline_1": "Below-the-line craft"
     }
   ],
   "video_categories": [

@@ -19,10 +19,10 @@ $tagline_2    = get_term_meta( $vert_id, 'thr_vertical_tagline_2', true );
 <main id="primary" class="site-main">
 	<div class="thr-container">
 		<header class="thr-vertical-header" style="text-align:center; padding:40px 0 30px; border-bottom:3px solid <?php echo esc_attr( $color ); ?>; margin-bottom:35px;">
-			<div style="font-family:var(--font-sans); font-size:12px; font-weight:800; letter-spacing:0.2em; text-transform:uppercase; color:<?php echo esc_attr( $color ); ?>; margin-bottom:10px;">
+			<div style="font-family:var(--font-sans); font-size:12px; font-weight: var(--fw-accent); letter-spacing:0.2em; text-transform:uppercase; color:<?php echo esc_attr( $color ); ?>; margin-bottom:10px;">
 				<?php esc_html_e( 'A THR Channel', 'thr-theme' ); ?>
 			</div>
-			<h1 style="font-family:var(--font-sans); font-size:48px; font-weight:900; letter-spacing:0.12em; text-transform:uppercase; color:<?php echo esc_attr( $color ); ?>; margin:0 0 12px; line-height:1;">
+			<h1 style="font-family:var(--font-sans); font-size:48px; font-weight: var(--fw-heading); letter-spacing:0.12em; text-transform:uppercase; color:<?php echo esc_attr( $color ); ?>; margin:0 0 12px; line-height:1;">
 				<?php single_term_title(); ?>
 			</h1>
 			<?php if ( ! empty( $tagline_1 ) || ! empty( $tagline_2 ) ) : ?>

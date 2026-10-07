@@ -27,7 +27,6 @@ function thr_register_settings_fields() {
 	register_setting( 'thr_settings_group', 'thr_newsletter_url', array( 'sanitize_callback' => 'esc_url_raw' ) );
 	register_setting( 'thr_settings_group', 'thr_magazine_url', array( 'sanitize_callback' => 'esc_url_raw' ) );
 	register_setting( 'thr_settings_group', 'thr_magazine_cover_url', array( 'sanitize_callback' => 'esc_url_raw' ) );
-	register_setting( 'thr_settings_group', 'thr_ads_enabled', array( 'sanitize_callback' => 'rest_sanitize_boolean', 'default' => 0 ) );
 
 	$socials = array( 'facebook', 'instagram', 'linkedin', 'threads', 'tiktok', 'twitter', 'youtube' );
 	foreach ( $socials as $soc ) {

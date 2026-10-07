@@ -21,8 +21,9 @@ function thr_handle_tip_submission() {
 		exit;
 	}
 
+	// The IP is only hashed for rate limiting; it is never stored or emailed, to protect sources.
 	$ip         = isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) : '0.0.0.0';
-	$transient  = 'thr_tip_rate_' . md5( $ip );
+	$transient  = 'thr_tip_rate_' . md5( wp_salt() . $ip );
 	$rate_count = (int) get_transient( $transient );
 
 	if ( $rate_count >= 5 ) {
@@ -45,7 +46,6 @@ function thr_handle_tip_submission() {
 	$email_body  = "A news tip was submitted via the THR UK Tip Line:\n\n";
 	$email_body .= "From: " . ( $name ?: 'Anonymous' ) . "\n";
 	$email_body .= "Email: " . ( $email ?: 'Not provided' ) . "\n";
-	$email_body .= "IP Address: " . $ip . "\n";
 	$email_body .= "Date/Time: " . current_time( 'mysql' ) . "\n\n";
 	$email_body .= "--- TIP MESSAGE ---\n\n";
 	$email_body .= $message . "\n";
@@ -69,42 +69,42 @@ function thr_render_tip_form() {
 	?>
 	<div class="thr-tip-form-container">
 		<?php if ( 'success' === $status ) : ?>
-			<div class="thr-tip-alert thr-tip-alert--success" style="background:#e6f4ea; color:#137333; padding:15px; margin-bottom:20px; border-left:4px solid #137333;">
+			<div class="thr-tip-alert thr-tip-alert--success" role="status">
 				<strong><?php esc_html_e( 'Thank you.', 'thr-core' ); ?></strong> <?php esc_html_e( 'Your tip has been securely and confidentially delivered to our newsroom editors.', 'thr-core' ); ?>
 			</div>
 		<?php endif; ?>
 
-		<form method="post" action="" class="thr-tip-form" style="display:flex; flex-direction:column; gap:16px;">
+		<form method="post" action="" class="thr-tip-form">
 			<?php wp_nonce_field( 'thr_submit_tip_nonce', 'thr_tip_nonce' ); ?>
 			<input type="hidden" name="thr_tip_action" value="submit_tip" />
 			
-			<div style="display:none;" aria-hidden="true">
+			<div class="thr-tip-form__hp" aria-hidden="true">
 				<label for="thr_hp_website">Leave this field blank</label>
 				<input type="text" name="thr_hp_website" id="thr_hp_website" autocomplete="off" tabindex="-1" />
 			</div>
 
-			<div>
-				<label for="tip_name" style="font-weight:bold; display:block; margin-bottom:4px;"><?php esc_html_e( 'Your Name (Optional)', 'thr-core' ); ?></label>
-				<input type="text" name="tip_name" id="tip_name" placeholder="<?php esc_attr_e( 'Leave blank to remain completely anonymous', 'thr-core' ); ?>" style="width:100%; padding:10px; border:1px solid #ccc;" />
+			<div class="thr-tip-form__field">
+				<label for="tip_name" class="thr-tip-form__label"><?php esc_html_e( 'Your Name (Optional)', 'thr-core' ); ?></label>
+				<input type="text" name="tip_name" id="tip_name" placeholder="<?php esc_attr_e( 'Leave blank to remain completely anonymous', 'thr-core' ); ?>" class="thr-tip-form__input" />
 			</div>
 
-			<div>
-				<label for="tip_email" style="font-weight:bold; display:block; margin-bottom:4px;"><?php esc_html_e( 'Contact Email (Optional)', 'thr-core' ); ?></label>
-				<input type="email" name="tip_email" id="tip_email" placeholder="<?php esc_attr_e( 'If you would like us to follow up with you', 'thr-core' ); ?>" style="width:100%; padding:10px; border:1px solid #ccc;" />
+			<div class="thr-tip-form__field">
+				<label for="tip_email" class="thr-tip-form__label"><?php esc_html_e( 'Contact Email (Optional)', 'thr-core' ); ?></label>
+				<input type="email" name="tip_email" id="tip_email" placeholder="<?php esc_attr_e( 'If you would like us to follow up with you', 'thr-core' ); ?>" class="thr-tip-form__input" />
 			</div>
 
-			<div>
-				<label for="tip_subject" style="font-weight:bold; display:block; margin-bottom:4px;"><?php esc_html_e( 'Subject / Story Topic *', 'thr-core' ); ?></label>
-				<input type="text" name="tip_subject" id="tip_subject" required style="width:100%; padding:10px; border:1px solid #ccc;" />
+			<div class="thr-tip-form__field">
+				<label for="tip_subject" class="thr-tip-form__label"><?php esc_html_e( 'Subject / Story Topic *', 'thr-core' ); ?></label>
+				<input type="text" name="tip_subject" id="tip_subject" required class="thr-tip-form__input" />
 			</div>
 
-			<div>
-				<label for="tip_message" style="font-weight:bold; display:block; margin-bottom:4px;"><?php esc_html_e( 'Tip Details / Information *', 'thr-core' ); ?></label>
-				<textarea name="tip_message" id="tip_message" rows="6" required placeholder="<?php esc_attr_e( 'Provide as much specific information as possible...', 'thr-core' ); ?>" style="width:100%; padding:10px; border:1px solid #ccc;"></textarea>
+			<div class="thr-tip-form__field">
+				<label for="tip_message" class="thr-tip-form__label"><?php esc_html_e( 'Tip Details / Information *', 'thr-core' ); ?></label>
+				<textarea name="tip_message" id="tip_message" rows="6" required placeholder="<?php esc_attr_e( 'Provide as much specific information as possible...', 'thr-core' ); ?>" class="thr-tip-form__input"></textarea>
 			</div>
 
-			<div>
-				<button type="submit" class="thr-button" style="background:#D92128; color:#fff; padding:12px 28px; border:none; font-weight:bold; text-transform:uppercase; cursor:pointer; letter-spacing:0.05em;">
+			<div class="thr-tip-form__field">
+				<button type="submit" class="thr-button">
 					<?php esc_html_e( 'Submit Confidential Tip', 'thr-core' ); ?>
 				</button>
 			</div>

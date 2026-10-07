@@ -44,7 +44,8 @@ function thr_register_post_meta() {
 					'single'            => true,
 					'type'              => $config['type'],
 					'sanitize_callback' => $config['sanitize'],
-					'default'           => isset( $config['default'] ) ? $config['default'] : '',
+					// Defaults must match the declared type or register_meta() rejects the field.
+					'default'           => isset( $config['default'] ) ? $config['default'] : ( 'boolean' === $config['type'] ? false : '' ),
 					'auth_callback'     => function() {
 						return current_user_can( 'edit_posts' );
 					},

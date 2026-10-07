@@ -20,7 +20,14 @@ function thr_the_kicker( $post_id = null ) {
 
 	$categories = get_the_category( $post_id );
 	if ( ! empty( $categories ) ) {
+		// THR kickers name the subsection (MOVIE NEWS, TV FEATURES), so prefer a child category.
 		$cat = $categories[0];
+		foreach ( $categories as $candidate ) {
+			if ( $candidate->parent ) {
+				$cat = $candidate;
+				break;
+			}
+		}
 		echo '<span class="u-kicker"><a href="' . esc_url( get_category_link( $cat->term_id ) ) . '">' . esc_html( $cat->name ) . '</a></span>';
 	}
 }

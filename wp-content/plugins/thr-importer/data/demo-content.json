@@ -1,0 +1,399 @@
+{
+  "schema_version": 1,
+  "description": "Fictional test articles for layout testing. Every company, person and title is invented. Remove with Tools > THR Importer > Delete demo content.",
+  "image_source": "https://picsum.photos/seed/{key}/1600/900",
+  "posts": [
+    {
+      "key": "albion-riverline-slate",
+      "title": "Albion Studios and Riverline Pictures Strike £120 Million Slate Deal for British Drama",
+      "dek": "The five-year pact covers eight scripted series and two features, with production split between Bristol and Glasgow.",
+      "category": "business-news",
+      "tags": [
+        "international",
+        "film-tv-tax-credits"
+      ],
+      "vertical": "",
+      "article_type": "standard",
+      "body": [
+        "The five-year pact covers eight scripted series and two features, with production split between Bristol and Glasgow. The move comes as producers across the UK weigh rising costs against strong international demand for British-made content. Several executives contacted for this story described the past twelve months as the busiest they can remember.",
+        "“There is more work than there are crews to do it,” one producer said. “Everyone is trying to lock in stages, talent and post-production capacity at the same time.”",
+        "Industry bodies have called for more investment in training, arguing that growth will stall without a deeper pool of skilled technicians outside London and the South East."
+      ],
+      "featured": true
+    },
+    {
+      "key": "marlowe-street-expansion",
+      "title": "Marlowe Street Studios Expansion Approved, Adding 12 Sound Stages West of London",
+      "dek": "Planners signed off on the long-delayed project, which the studio says will create 1,800 permanent jobs.",
+      "category": "general-news",
+      "tags": [
+        "international"
+      ],
+      "vertical": "",
+      "article_type": "standard",
+      "body": [
+        "Planners signed off on the long-delayed project, which the studio says will create 1,800 permanent jobs. The move comes as producers across the UK weigh rising costs against strong international demand for British-made content. Several executives contacted for this story described the past twelve months as the busiest they can remember.",
+        "“There is more work than there are crews to do it,” one producer said. “Everyone is trying to lock in stages, talent and post-production capacity at the same time.”",
+        "Industry bodies have called for more investment in training, arguing that growth will stall without a deeper pool of skilled technicians outside London and the South East."
+      ],
+      "breaking": true
+    },
+    {
+      "key": "quiet-tide-review",
+      "title": "‘The Quiet Tide’ Review: A Cornish Fishing Village Holds Its Breath in a Haunting Debut",
+      "dek": "Maren Holt’s first feature is a patient, atmospheric study of grief that earns every one of its silences.",
+      "category": "movie-reviews",
+      "tags": [
+        "awards"
+      ],
+      "vertical": "",
+      "article_type": "review",
+      "body": [
+        "Maren Holt’s first feature is a patient, atmospheric study of grief that earns every one of its silences. The project has been in development for several years and attracted interest from distributors after early footage screened privately in London this summer.",
+        "“We wanted something that felt handmade,” the director said. “Audiences can tell when a world has been built rather than generated.”",
+        "A release date has not been confirmed, though the producers say they are targeting a festival premiere before a wider theatrical rollout."
+      ],
+      "review": {
+        "subject": "The Quiet Tide",
+        "bottom_line": "A patient, atmospheric first feature that earns every silence.",
+        "director": "Maren Holt",
+        "cast": "Owen Pryce, Lila Achebe, Tom Garrow",
+        "venue": "London Film Festival",
+        "rating": "Rated 15, 1 hour 52 minutes"
+      }
+    },
+    {
+      "key": "northern-line-review",
+      "title": "‘Northern Line’ Review: Sharp Writing Keeps Halcyon TV’s Commuter Comedy on Track",
+      "dek": "The six-part series finds big laughs in the small indignities of the morning rush hour.",
+      "category": "tv-reviews",
+      "tags": [
+        "premiere-dates"
+      ],
+      "vertical": "",
+      "article_type": "review",
+      "body": [
+        "The six-part series finds big laughs in the small indignities of the morning rush hour. The series has quickly become one of the most discussed dramas of the year, helped by strong word of mouth and a cast of familiar faces alongside newcomers.",
+        "“We never expected it to travel the way it has,” the showrunner said. “It is a very specific, very local story, but people recognise themselves in it.”",
+        "The network has not announced a premiere date for the next run, but production is expected to begin early next year."
+      ],
+      "review": {
+        "subject": "Northern Line",
+        "bottom_line": "A quick, warm comedy with a terrific ensemble.",
+        "director": "Priya Sandhu",
+        "cast": "Danny Rowe, Effie Clarke, Sol Mensah",
+        "venue": "Halcyon TV (Thursdays)",
+        "rating": "6 episodes, 30 minutes each"
+      }
+    },
+    {
+      "key": "starfall-box-office",
+      "title": "Box Office: ‘Starfall Protocol’ Rockets to £9.4 Million UK Opening",
+      "dek": "The sci-fi sequel delivered the biggest debut of the autumn, comfortably ahead of industry projections.",
+      "category": "movie-news",
+      "tags": [
+        "box-office"
+      ],
+      "vertical": "heat-vision",
+      "article_type": "standard",
+      "body": [
+        "The sci-fi sequel delivered the biggest debut of the autumn, comfortably ahead of industry projections. The project has been in development for several years and attracted interest from distributors after early footage screened privately in London this summer.",
+        "“We wanted something that felt handmade,” the director said. “Audiences can tell when a world has been built rather than generated.”",
+        "A release date has not been confirmed, though the producers say they are targeting a festival premiere before a wider theatrical rollout."
+      ]
+    },
+    {
+      "key": "ironwood-creature-shop",
+      "title": "Inside the Workshop Building the Creatures for ‘Ironwood’",
+      "dek": "A team of 60 sculptors, painters and puppeteers spent two years on the fantasy epic’s practical effects.",
+      "category": "movie-features",
+      "tags": [
+        "featured-voices"
+      ],
+      "vertical": "heat-vision",
+      "article_type": "feature",
+      "body": [
+        "A team of 60 sculptors, painters and puppeteers spent two years on the fantasy epic’s practical effects. The project has been in development for several years and attracted interest from distributors after early footage screened privately in London this summer.",
+        "“We wanted something that felt handmade,” the director said. “Audiences can tell when a world has been built rather than generated.”",
+        "A release date has not been confirmed, though the producers say they are targeting a festival premiere before a wider theatrical rollout."
+      ]
+    },
+    {
+      "key": "harbourmaster-ratings",
+      "title": "Streaming Ratings: ‘The Harbourmaster’ Tops UK Charts for a Third Week",
+      "dek": "The coastal thriller drew an estimated 4.1 million viewers in its first 28 days on StreamBox UK.",
+      "category": "tv-news",
+      "tags": [
+        "tv-ratings"
+      ],
+      "vertical": "live-feed",
+      "article_type": "standard",
+      "body": [
+        "The coastal thriller drew an estimated 4.1 million viewers in its first 28 days on StreamBox UK. The series has quickly become one of the most discussed dramas of the year, helped by strong word of mouth and a cast of familiar faces alongside newcomers.",
+        "“We never expected it to travel the way it has,” the showrunner said. “It is a very specific, very local story, but people recognise themselves in it.”",
+        "The network has not announced a premiere date for the next run, but production is expected to begin early next year."
+      ]
+    },
+    {
+      "key": "coldwater-season-two",
+      "title": "Halcyon TV Orders Second Season of Hit Thriller ‘Coldwater’",
+      "dek": "Production on the six new episodes will begin in Northern Ireland in the spring.",
+      "category": "tv-news",
+      "tags": [
+        "premiere-dates"
+      ],
+      "vertical": "live-feed",
+      "article_type": "standard",
+      "body": [
+        "Production on the six new episodes will begin in Northern Ireland in the spring. The series has quickly become one of the most discussed dramas of the year, helped by strong word of mouth and a cast of familiar faces alongside newcomers.",
+        "“We never expected it to travel the way it has,” the showrunner said. “It is a very specific, very local story, but people recognise themselves in it.”",
+        "The network has not announced a premiere date for the next run, but production is expected to begin early next year."
+      ]
+    },
+    {
+      "key": "kingsway-production-design",
+      "title": "How ‘Kingsway’ Rebuilt 1970s Birmingham on a Budget",
+      "dek": "The period drama’s designers explain the tricks behind its convincing city streets.",
+      "category": "tv-features",
+      "tags": [],
+      "vertical": "",
+      "article_type": "feature",
+      "body": [
+        "The period drama’s designers explain the tricks behind its convincing city streets. The series has quickly become one of the most discussed dramas of the year, helped by strong word of mouth and a cast of familiar faces alongside newcomers.",
+        "“We never expected it to travel the way it has,” the showrunner said. “It is a very specific, very local story, but people recognise themselves in it.”",
+        "The network has not announced a premiere date for the next run, but production is expected to begin early next year."
+      ]
+    },
+    {
+      "key": "northern-light-prize-shortlist",
+      "title": "Northern Light Music Prize Shortlist Leans Into Folk and Grime",
+      "dek": "First-time nominees make up more than half of this year’s list of twelve albums.",
+      "category": "music-news",
+      "tags": [
+        "awards"
+      ],
+      "vertical": "",
+      "article_type": "standard",
+      "body": [
+        "First-time nominees make up more than half of this year’s list of twelve albums. The announcement reflects a broader shift in the UK music business, where independent artists are finding audiences without the traditional route through major labels.",
+        "“The audience decides now,” one manager said. “Our job is to make sure the right people hear the record at the right time.”",
+        "Live dates are expected to follow, with venues across the country reporting strong early demand."
+      ]
+    },
+    {
+      "key": "northlight-records-deal",
+      "title": "Indie Label Northlight Records Signs Global Distribution Pact",
+      "dek": "The Manchester-based label will keep ownership of its masters under the new agreement.",
+      "category": "music-industry-news",
+      "tags": [
+        "representation"
+      ],
+      "vertical": "",
+      "article_type": "standard",
+      "body": [
+        "The Manchester-based label will keep ownership of its masters under the new agreement. The announcement reflects a broader shift in the UK music business, where independent artists are finding audiences without the traditional route through major labels.",
+        "“The audience decides now,” one manager said. “Our job is to make sure the right people hear the record at the right time.”",
+        "Live dates are expected to follow, with venues across the country reporting strong early demand."
+      ]
+    },
+    {
+      "key": "ana-ferreira-score",
+      "title": "Composer Ana Ferreira on Scoring ‘The Quiet Tide’ With Strings and Sea Recordings",
+      "dek": "The Lisbon-born composer recorded waves at dawn for six weeks to build the film’s soundscape.",
+      "category": "film-tv-music-news",
+      "tags": [],
+      "vertical": "",
+      "article_type": "interview",
+      "body": [
+        "The Lisbon-born composer recorded waves at dawn for six weeks to build the film’s soundscape. The announcement reflects a broader shift in the UK music business, where independent artists are finding audiences without the traditional route through major labels.",
+        "“The audience decides now,” one manager said. “Our job is to make sure the right people hear the record at the right time.”",
+        "Live dates are expected to follow, with venues across the country reporting strong early demand."
+      ]
+    },
+    {
+      "key": "british-awards-contenders",
+      "title": "The Race: Five British Performances Building Awards Momentum",
+      "dek": "Strong festival receptions have put several homegrown actors firmly in the conversation.",
+      "category": "movie-news",
+      "tags": [
+        "awards",
+        "oscars"
+      ],
+      "vertical": "the-race",
+      "article_type": "standard",
+      "body": [
+        "Strong festival receptions have put several homegrown actors firmly in the conversation. The project has been in development for several years and attracted interest from distributors after early footage screened privately in London this summer.",
+        "“We wanted something that felt handmade,” the director said. “Audiences can tell when a world has been built rather than generated.”",
+        "A release date has not been confirmed, though the producers say they are targeting a festival premiere before a wider theatrical rollout."
+      ]
+    },
+    {
+      "key": "ai-likeness-agreement",
+      "title": "Performers and Producers Reach Agreement on AI Likeness Protections",
+      "dek": "The deal requires explicit consent and payment for any digital replica of a performer.",
+      "category": "business-news",
+      "tags": [
+        "labor"
+      ],
+      "vertical": "thr-esq",
+      "article_type": "standard",
+      "body": [
+        "The deal requires explicit consent and payment for any digital replica of a performer. The move comes as producers across the UK weigh rising costs against strong international demand for British-made content. Several executives contacted for this story described the past twelve months as the busiest they can remember.",
+        "“There is more work than there are crews to do it,” one producer said. “Everyone is trying to lock in stages, talent and post-production capacity at the same time.”",
+        "Industry bodies have called for more investment in training, arguing that growth will stall without a deeper pool of skilled technicians outside London and the South East."
+      ]
+    },
+    {
+      "key": "agency-merger",
+      "title": "Agency Merger Creates London’s Largest Independent Talent Firm",
+      "dek": "The combined company will represent more than 400 actors, writers and directors.",
+      "category": "business-news",
+      "tags": [
+        "representation"
+      ],
+      "vertical": "",
+      "article_type": "standard",
+      "body": [
+        "The combined company will represent more than 400 actors, writers and directors. The move comes as producers across the UK weigh rising costs against strong international demand for British-made content. Several executives contacted for this story described the past twelve months as the busiest they can remember.",
+        "“There is more work than there are crews to do it,” one producer said. “Everyone is trying to lock in stages, talent and post-production capacity at the same time.”",
+        "Industry bodies have called for more investment in training, arguing that growth will stall without a deeper pool of skilled technicians outside London and the South East."
+      ]
+    },
+    {
+      "key": "costume-exhibition",
+      "title": "Kensington Arts Gallery Unveils a Century of British Screen Costume",
+      "dek": "More than 200 pieces, many never displayed publicly, go on show from next month.",
+      "category": "arts",
+      "tags": [
+        "beyond-the-book"
+      ],
+      "vertical": "",
+      "article_type": "standard",
+      "body": [
+        "More than 200 pieces, many never displayed publicly, go on show from next month. The appeal is part of a wider appetite for experiences that feel personal and considered, rather than mass-produced.",
+        "“People want to know the story behind what they are buying, wearing or visiting,” one curator said.",
+        "Prices and availability vary, and readers are advised to check details directly before planning a visit or purchase."
+      ]
+    },
+    {
+      "key": "front-row-edit",
+      "title": "The Red Carpet Edit: The Best Looks From Fashion Week’s Front Row",
+      "dek": "Tailoring dominated, with a handful of bold colour choices stealing the show.",
+      "category": "style",
+      "tags": [],
+      "vertical": "",
+      "article_type": "standard",
+      "body": [
+        "Tailoring dominated, with a handful of bold colour choices stealing the show. The appeal is part of a wider appetite for experiences that feel personal and considered, rather than mass-produced.",
+        "“People want to know the story behind what they are buying, wearing or visiting,” one curator said.",
+        "Prices and availability vary, and readers are advised to check details directly before planning a visit or purchase."
+      ]
+    },
+    {
+      "key": "georgian-townhouse",
+      "title": "Inside a Restored Georgian Townhouse Owned by a West End Producer",
+      "dek": "The five-storey Islington home blends original features with a screening room in the basement.",
+      "category": "real-estate",
+      "tags": [],
+      "vertical": "rambling-reporter",
+      "article_type": "standard",
+      "body": [
+        "The five-storey Islington home blends original features with a screening room in the basement. The appeal is part of a wider appetite for experiences that feel personal and considered, rather than mass-produced.",
+        "“People want to know the story behind what they are buying, wearing or visiting,” one curator said.",
+        "Prices and availability vary, and readers are advised to check details directly before planning a visit or purchase."
+      ]
+    },
+    {
+      "key": "film-lover-gift-guide",
+      "title": "Gift Guide: 14 Picks for the Film Lover Who Has Everything",
+      "dek": "From restored classics on 4K to a director’s chair you will actually want in your living room.",
+      "category": "shopping",
+      "tags": [],
+      "vertical": "",
+      "article_type": "standard",
+      "body": [
+        "From restored classics on 4K to a director’s chair you will actually want in your living room. The appeal is part of a wider appetite for experiences that feel personal and considered, rather than mass-produced.",
+        "“People want to know the story behind what they are buying, wearing or visiting,” one curator said.",
+        "Prices and availability vary, and readers are advised to check details directly before planning a visit or purchase."
+      ]
+    },
+    {
+      "key": "next-big-thing-glasgow",
+      "title": "Next Big Thing: The Glaswegian Actor Fronting a New Crime Series",
+      "dek": "After a decade on stage, she landed her first screen lead on the strength of a single self-tape.",
+      "category": "lifestyle-news",
+      "tags": [
+        "next-big-thing"
+      ],
+      "vertical": "",
+      "article_type": "interview",
+      "body": [
+        "After a decade on stage, she landed her first screen lead on the strength of a single self-tape. The appeal is part of a wider appetite for experiences that feel personal and considered, rather than mass-produced.",
+        "“People want to know the story behind what they are buying, wearing or visiting,” one curator said.",
+        "Prices and availability vary, and readers are advised to check details directly before planning a visit or purchase."
+      ]
+    },
+    {
+      "key": "margaret-ellis-obituary",
+      "title": "Margaret Ellis, Pioneering Casting Director, Dies at 84",
+      "dek": "Ellis cast more than 90 films and championed a generation of British character actors.",
+      "category": "general-news",
+      "tags": [
+        "obituaries"
+      ],
+      "vertical": "",
+      "article_type": "standard",
+      "body": [
+        "Ellis cast more than 90 films and championed a generation of British character actors. The move comes as producers across the UK weigh rising costs against strong international demand for British-made content. Several executives contacted for this story described the past twelve months as the busiest they can remember.",
+        "“There is more work than there are crews to do it,” one producer said. “Everyone is trying to lock in stages, talent and post-production capacity at the same time.”",
+        "Industry bodies have called for more investment in training, arguing that growth will stall without a deeper pool of skilled technicians outside London and the South East."
+      ]
+    },
+    {
+      "key": "coastline-location-costs",
+      "title": "THR Investigates: The Hidden Cost of Location Shoots on Britain’s Coastline",
+      "dek": "Councils say they are struggling to balance tourism, residents and a boom in filming requests.",
+      "category": "general-news",
+      "tags": [
+        "thr-investigates"
+      ],
+      "vertical": "",
+      "article_type": "feature",
+      "body": [
+        "Councils say they are struggling to balance tourism, residents and a boom in filming requests. The move comes as producers across the UK weigh rising costs against strong international demand for British-made content. Several executives contacted for this story described the past twelve months as the busiest they can remember.",
+        "“There is more work than there are crews to do it,” one producer said. “Everyone is trying to lock in stages, talent and post-production capacity at the same time.”",
+        "Industry bodies have called for more investment in training, arguing that growth will stall without a deeper pool of skilled technicians outside London and the South East."
+      ]
+    },
+    {
+      "key": "screen-tax-relief-review",
+      "title": "Culture Department Signals Review of Screen Tax Relief",
+      "dek": "Producers warn that uncertainty alone could push productions abroad.",
+      "category": "culture-politics",
+      "tags": [
+        "film-tv-tax-credits"
+      ],
+      "vertical": "",
+      "article_type": "standard",
+      "body": [
+        "Producers warn that uncertainty alone could push productions abroad. The move comes as producers across the UK weigh rising costs against strong international demand for British-made content. Several executives contacted for this story described the past twelve months as the busiest they can remember.",
+        "“There is more work than there are crews to do it,” one producer said. “Everyone is trying to lock in stages, talent and post-production capacity at the same time.”",
+        "Industry bodies have called for more investment in training, arguing that growth will stall without a deeper pool of skilled technicians outside London and the South East."
+      ]
+    },
+    {
+      "key": "supper-club-afterparty",
+      "title": "Supper Clubs Are the New Premiere Afterparty",
+      "dek": "Intimate dinners are replacing nightclub takeovers as studios rethink how they celebrate.",
+      "category": "lifestyle-news",
+      "tags": [],
+      "vertical": "",
+      "article_type": "standard",
+      "body": [
+        "Intimate dinners are replacing nightclub takeovers as studios rethink how they celebrate. The appeal is part of a wider appetite for experiences that feel personal and considered, rather than mass-produced.",
+        "“People want to know the story behind what they are buying, wearing or visiting,” one curator said.",
+        "Prices and availability vary, and readers are advised to check details directly before planning a visit or purchase."
+      ]
+    }
+  ]
+}

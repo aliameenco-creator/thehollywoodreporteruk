@@ -6,54 +6,87 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
+
+$cover_url = get_option( 'thr_magazine_cover_url' );
+$mag_url   = get_option( 'thr_magazine_url' ) ?: home_url( '/newsletters/' );
 ?>
 	</div><!-- #content -->
 
 	<footer id="colophon" class="thr-footer">
-		<div class="thr-container">
-			<div class="thr-footer__grid">
-				<div>
-					<h4 class="thr-footer__title"><?php esc_html_e( 'Subscriber Support', 'thr-theme' ); ?></h4>
-					<ul class="thr-footer__list">
-						<li class="thr-footer__item"><a href="<?php echo esc_url( get_option( 'thr_magazine_url', '#' ) ); ?>" class="thr-footer__link"><?php esc_html_e( 'Get the Magazine', 'thr-theme' ); ?></a></li>
-						<li class="thr-footer__item"><a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>" class="thr-footer__link"><?php esc_html_e( 'Customer Service', 'thr-theme' ); ?></a></li>
-						<li class="thr-footer__item"><a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>" class="thr-footer__link"><?php esc_html_e( 'Back Issues', 'thr-theme' ); ?></a></li>
-					</ul>
-				</div>
-
-				<div>
-					<h4 class="thr-footer__title"><?php esc_html_e( 'The Hollywood Reporter', 'thr-theme' ); ?></h4>
-					<ul class="thr-footer__list">
-						<li class="thr-footer__item"><a href="<?php echo esc_url( home_url( '/about-us/' ) ); ?>" class="thr-footer__link"><?php esc_html_e( 'About Us', 'thr-theme' ); ?></a></li>
-						<li class="thr-footer__item"><a href="<?php echo esc_url( home_url( '/masthead/' ) ); ?>" class="thr-footer__link"><?php esc_html_e( 'Masthead', 'thr-theme' ); ?></a></li>
-						<li class="thr-footer__item"><a href="<?php echo esc_url( home_url( '/careers/' ) ); ?>" class="thr-footer__link"><?php esc_html_e( 'Careers', 'thr-theme' ); ?></a></li>
-						<li class="thr-footer__item"><a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>" class="thr-footer__link"><?php esc_html_e( 'Contact Us', 'thr-theme' ); ?></a></li>
-						<li class="thr-footer__item"><a href="<?php echo esc_url( home_url( '/accessibility/' ) ); ?>" class="thr-footer__link"><?php esc_html_e( 'Accessibility', 'thr-theme' ); ?></a></li>
-					</ul>
-				</div>
-
-				<div>
-					<h4 class="thr-footer__title"><?php esc_html_e( 'Legal', 'thr-theme' ); ?></h4>
-					<ul class="thr-footer__list">
-						<li class="thr-footer__item"><a href="<?php echo esc_url( home_url( '/terms-of-use/' ) ); ?>" class="thr-footer__link"><?php esc_html_e( 'Terms of Use', 'thr-theme' ); ?></a></li>
-						<li class="thr-footer__item"><a href="<?php echo esc_url( home_url( '/privacy-policy/' ) ); ?>" class="thr-footer__link"><?php esc_html_e( 'Privacy Policy', 'thr-theme' ); ?></a></li>
-						<li class="thr-footer__item"><a href="<?php echo esc_url( home_url( '/cookie-policy/' ) ); ?>" class="thr-footer__link"><?php esc_html_e( 'Cookie Policy (UK)', 'thr-theme' ); ?></a></li>
-					</ul>
-				</div>
-
-				<div>
-					<h4 class="thr-footer__title"><?php esc_html_e( 'Have a News Tip?', 'thr-theme' ); ?></h4>
-					<p style="font-family:var(--font-sans); font-size:13px; color:var(--grey); line-height:1.4; margin-bottom:14px;">
-						<?php esc_html_e( 'Send us a confidential scoop or story tip through our encrypted tipline.', 'thr-theme' ); ?>
-					</p>
-					<a href="<?php echo esc_url( home_url( '/tip-line/' ) ); ?>" style="display:inline-block; background:var(--brand-primary); color:#fff; padding:8px 16px; font-family:var(--font-sans); font-weight:800; font-size:11px; text-transform:uppercase; letter-spacing:0.06em;">
-						<?php esc_html_e( 'Send Us a Tip', 'thr-theme' ); ?> &rarr;
-					</a>
-				</div>
+		<div class="thr-container thr-footer__inner">
+			<div class="thr-footer__cover<?php echo $cover_url ? '' : ' thr-footer__cover--placeholder'; ?>">
+				<a href="<?php echo esc_url( $mag_url ); ?>" class="thr-footer__cover-link">
+					<?php if ( $cover_url ) : ?>
+						<img src="<?php echo esc_url( $cover_url ); ?>" alt="<?php esc_attr_e( 'Latest issue of The Hollywood Reporter', 'thr-theme' ); ?>" loading="lazy" />
+					<?php else : ?>
+						<span class="thr-footer__cover-placeholder">
+							<span class="thr-logo thr-logo--footer"><?php thr_the_wordmark(); ?></span>
+							<span class="thr-footer__cover-cta"><?php esc_html_e( 'Get the Magazine', 'thr-theme' ); ?></span>
+						</span>
+					<?php endif; ?>
+				</a>
 			</div>
 
-			<div class="thr-footer__bottom">
-				<p>&copy; <?php echo esc_html( gmdate( 'Y' ) ); ?> <?php bloginfo( 'name' ); ?>. <?php esc_html_e( 'All Rights Reserved.', 'thr-theme' ); ?></p>
+			<div class="thr-footer__main">
+				<div class="thr-footer__menus">
+					<?php foreach ( thr_get_footer_columns() as $col ) : ?>
+						<div class="thr-footer__col">
+							<h2 class="thr-footer__title"><?php echo esc_html( $col['label'] ); ?></h2>
+							<ul class="thr-footer__list">
+								<?php foreach ( $col['children'] as $link ) : ?>
+									<li><a href="<?php echo esc_url( thr_menu_url( $link[1] ) ); ?>"><?php echo esc_html( $link[0] ); ?></a></li>
+								<?php endforeach; ?>
+							</ul>
+						</div>
+					<?php endforeach; ?>
+
+					<div class="thr-footer__col thr-footer__col--social">
+						<h2 class="thr-footer__title"><?php esc_html_e( 'Follow Us', 'thr-theme' ); ?></h2>
+						<ul class="thr-social thr-social--labelled">
+							<?php foreach ( thr_get_social_links() as $social ) : ?>
+								<li>
+									<a href="<?php echo esc_url( $social[2] ); ?>" target="_blank" rel="noopener">
+										<?php echo thr_icon( $social[0], 16 ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+										<span><?php echo esc_html( $social[1] ); ?></span>
+									</a>
+								</li>
+							<?php endforeach; ?>
+						</ul>
+					</div>
+				</div>
+
+				<div class="thr-footer__actions">
+					<form class="thr-footer__newsletter" action="<?php echo esc_url( thr_newsletter_action() ); ?>" method="post">
+						<h2 class="thr-footer__action-title"><?php esc_html_e( 'Newsletter Sign Up', 'thr-theme' ); ?></h2>
+						<div class="thr-footer__newsletter-row">
+							<label for="thrFooterEmail" class="screen-reader-text"><?php esc_html_e( 'Email address', 'thr-theme' ); ?></label>
+							<input type="email" id="thrFooterEmail" name="email" required placeholder="<?php esc_attr_e( 'Enter Your Email', 'thr-theme' ); ?>" />
+							<button type="submit" class="thr-arrow-link"><?php esc_html_e( 'Subscribe', 'thr-theme' ); ?> <?php echo thr_icon( 'arrow', 16 ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></button>
+						</div>
+						<p class="thr-footer__fineprint">
+							<?php
+							printf(
+								/* translators: 1: Terms of Use link, 2: Privacy Policy link. */
+								esc_html__( 'By providing your information, you agree to our %1$s and our %2$s.', 'thr-theme' ),
+								'<a href="' . esc_url( home_url( '/terms-of-use/' ) ) . '">' . esc_html__( 'Terms of Use', 'thr-theme' ) . '</a>',
+								'<a href="' . esc_url( home_url( '/privacy-policy/' ) ) . '">' . esc_html__( 'Privacy Policy', 'thr-theme' ) . '</a>'
+							);
+							?>
+						</p>
+					</form>
+
+					<div class="thr-footer__tip">
+						<h2 class="thr-footer__action-title"><?php esc_html_e( 'Have a Tip?', 'thr-theme' ); ?></h2>
+						<p><?php esc_html_e( 'Send us a tip using our anonymous form.', 'thr-theme' ); ?></p>
+						<a href="<?php echo esc_url( home_url( '/tip-line/' ) ); ?>" class="thr-arrow-link"><?php esc_html_e( 'Send Us a Tip', 'thr-theme' ); ?> <?php echo thr_icon( 'arrow', 16 ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></a>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="thr-footer__bottom">
+			<div class="thr-container">
+				<p>&copy; <?php echo esc_html( gmdate( 'Y' ) ); ?> <?php esc_html_e( 'The Hollywood Reporter UK. All Rights Reserved.', 'thr-theme' ); ?></p>
 			</div>
 		</div>
 	</footer>

@@ -38,6 +38,7 @@ class THR_Query {
 			'post_status'         => 'publish',
 			'posts_per_page'      => (int) $parsed['posts_per_page'],
 			'ignore_sticky_posts' => true,
+			'no_found_rows'       => true,
 		);
 
 		if ( ! empty( $parsed['offset'] ) ) {

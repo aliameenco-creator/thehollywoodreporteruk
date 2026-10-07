@@ -7,57 +7,37 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-function thr_custom_post_link( $permalink, $post ) {
-	if ( 'post' !== $post->post_type ) {
-		return $permalink;
-	}
-
-	if ( false !== strpos( $permalink, '%category%' ) ) {
-		$primary_cat_id = 0;
-
-		if ( class_exists( 'WPSEO_Primary_Term' ) ) {
-			$wpseo_primary_term = new WPSEO_Primary_Term( 'category', $post->ID );
-			$primary_cat_id     = $wpseo_primary_term->get_primary_term();
-		}
-
-		if ( ! $primary_cat_id ) {
-			$categories = get_the_category( $post->ID );
-			if ( ! empty( $categories ) ) {
-				$chosen = $categories[0];
-				foreach ( $categories as $cat ) {
-					if ( 0 !== $cat->parent ) {
-						$chosen = $cat;
-						break;
-					}
-				}
-				$primary_cat_id = $chosen->term_id;
+/**
+ * Choose the category WordPress uses for %category% in article permalinks.
+ *
+ * Core picks the lowest term ID, which is usually the parent section. THR URLs
+ * use the subsection (/movies/movie-news/slug-123/), so prefer Yoast's primary
+ * category, then the first child category, then core's choice.
+ *
+ * @param WP_Term   $category Category core selected.
+ * @param WP_Term[] $cats     All categories on the post, sorted by term ID.
+ * @param WP_Post   $post     The post.
+ * @return WP_Term
+ */
+function thr_primary_permalink_category( $category, $cats, $post ) {
+	if ( class_exists( 'WPSEO_Primary_Term' ) ) {
+		$primary_id = ( new WPSEO_Primary_Term( 'category', $post->ID ) )->get_primary_term();
+		foreach ( $cats as $cat ) {
+			if ( (int) $cat->term_id === (int) $primary_id ) {
+				return $cat;
 			}
 		}
+	}
 
-		if ( $primary_cat_id ) {
-			$category_term = get_term( $primary_cat_id, 'category' );
-			if ( $category_term && ! is_wp_error( $category_term ) ) {
-				$cat_path = $category_term->slug;
-				if ( 0 !== $category_term->parent ) {
-					$parent_term = get_term( $category_term->parent, 'category' );
-					if ( $parent_term && ! is_wp_error( $parent_term ) ) {
-						$cat_path = $parent_term->slug . '/' . $cat_path;
-					}
-				}
-				$permalink = str_replace( '%category%', $cat_path, $permalink );
-			}
-		} else {
-			$permalink = str_replace( '%category%', 'news', $permalink );
+	foreach ( $cats as $cat ) {
+		if ( 0 !== (int) $cat->parent ) {
+			return $cat;
 		}
 	}
 
-	if ( false !== strpos( $permalink, '%post_id%' ) ) {
-		$permalink = str_replace( '%post_id%', $post->ID, $permalink );
-	}
-
-	return $permalink;
+	return $category;
 }
-add_filter( 'post_link', 'thr_custom_post_link', 10, 2 );
+add_filter( 'post_link_category', 'thr_primary_permalink_category', 10, 3 );
 
 function thr_custom_gallery_link( $post_link, $post ) {
 	if ( 'thr_gallery' === $post->post_type ) {

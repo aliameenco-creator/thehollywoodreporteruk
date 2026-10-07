@@ -31,6 +31,37 @@ class THR_CLI_Command {
 			WP_CLI::error( $result['message'] );
 		}
 	}
+
+	/**
+	 * Add or remove the fictional demo articles.
+	 *
+	 * ## OPTIONS
+	 *
+	 * [--no-images]
+	 * : Skip downloading placeholder featured images.
+	 *
+	 * [--delete]
+	 * : Permanently delete all demo articles and images instead.
+	 *
+	 * ## EXAMPLES
+	 *
+	 *     wp thr demo
+	 *     wp thr demo --delete
+	 */
+	public function demo( $args, $assoc_args ) {
+		if ( ! empty( $assoc_args['delete'] ) ) {
+			$result = THR_Demo_Seeder::purge();
+		} else {
+			// No web request time limit on the CLI, so allow a generous budget.
+			$result = THR_Demo_Seeder::seed( WP_CLI\Utils\get_flag_value( $assoc_args, 'images', true ), 600 );
+		}
+
+		if ( $result['success'] ) {
+			WP_CLI::success( $result['message'] );
+		} else {
+			WP_CLI::error( $result['message'] );
+		}
+	}
 }
 
 WP_CLI::add_command( 'thr', 'THR_CLI_Command' );

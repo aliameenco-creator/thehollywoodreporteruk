@@ -20,7 +20,7 @@ while ( have_posts() ) :
 	<main id="primary" class="site-main">
 		<article id="post-<?php the_ID(); ?>" <?php post_class( 'thr-article' ); ?> data-post-id="<?php echo esc_attr( $post_id ); ?>">
 			<div class="thr-container">
-				<nav class="thr-breadcrumbs" style="padding:16px 0 8px; font-family:var(--font-sans); font-size:12px; font-weight:800; text-transform:uppercase; letter-spacing:0.06em; color:var(--brand-primary);">
+				<nav class="thr-breadcrumbs" style="padding:16px 0 8px; font-family:var(--font-sans); font-size:12px; font-weight: var(--fw-accent); text-transform:uppercase; letter-spacing:0.06em; color:var(--brand-primary);">
 					<a href="<?php echo esc_url( home_url( '/' ) ); ?>" style="color:var(--brand-primary);"><?php esc_html_e( 'Home', 'thr-theme' ); ?></a>
 					<?php if ( ! empty( $categories ) ) : ?>
 						<span style="color:var(--grey); margin:0 6px;">&gt;</span>
@@ -75,7 +75,7 @@ while ( have_posts() ) :
 
 							<?php if ( 'review' === $article_type && ! empty( $credits ) ) : ?>
 								<div class="thr-article__full-credits" style="margin:30px 0; padding:20px; background:var(--grey-lightest); border-left:4px solid var(--black); font-family:var(--font-sans); font-size:13px; line-height:1.6;">
-									<h4 style="font-size:14px; text-transform:uppercase; font-weight:800; margin-top:0;"><?php esc_html_e( 'Full Credits', 'thr-theme' ); ?></h4>
+									<h4 style="font-size:14px; text-transform:uppercase; font-weight: var(--fw-accent); margin-top:0;"><?php esc_html_e( 'Full Credits', 'thr-theme' ); ?></h4>
 									<?php echo wp_kses_post( $credits ); ?>
 								</div>
 							<?php endif; ?>
@@ -101,7 +101,7 @@ while ( have_posts() ) :
 							if ( ! empty( $related ) ) :
 								?>
 								<div class="thr-related-stories" style="margin:40px 0;">
-									<h3 style="font-family:var(--font-sans); font-size:16px; font-weight:800; text-transform:uppercase; letter-spacing:0.06em; border-top:2px solid var(--black); padding-top:10px; margin-bottom:16px;">
+									<h3 style="font-family:var(--font-sans); font-size:16px; font-weight: var(--fw-accent); text-transform:uppercase; letter-spacing:0.06em; border-top:2px solid var(--black); padding-top:10px; margin-bottom:16px;">
 										<?php esc_html_e( 'Related Stories', 'thr-theme' ); ?>
 									</h3>
 									<div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:20px;">

@@ -1,0 +1,89 @@
+name: Deploy to Hostinger
+
+# Push to main (or run manually from the Actions tab) to lint, then sync the
+# theme and both plugins to the Hostinger site.
+#
+# Required repository secrets (Settings > Secrets and variables > Actions):
+#   HOSTINGER_SSH_HOST  e.g. 123.45.67.89            (hPanel > Advanced > SSH Access)
+#   HOSTINGER_SSH_PORT  e.g. 65002
+#   HOSTINGER_SSH_USER  e.g. u123456789
+#   HOSTINGER_SSH_KEY   private key whose public half is added in hPanel > SSH Access
+#   HOSTINGER_WP_PATH   WordPress root, e.g. /home/u123456789/domains/<domain>/public_html
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-hostinger
+  cancel-in-progress: false
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          tools: none
+
+      - name: PHP syntax check
+        run: find wp-content -name '*.php' -print0 | xargs -0 -n1 php -l > /dev/null
+
+      - name: JS syntax check
+        run: node --check wp-content/themes/thr-theme/assets/js/main.js
+
+  deploy:
+    needs: lint
+    runs-on: ubuntu-latest
+    env:
+      # Secrets can't be tested in an `if` directly; expose whether they are set.
+      HAS_SECRETS: ${{ secrets.HOSTINGER_SSH_KEY != '' && secrets.HOSTINGER_WP_PATH != '' }}
+    steps:
+      - name: Skip when Hostinger secrets are not configured
+        if: env.HAS_SECRETS != 'true'
+        run: echo "::notice::Hostinger secrets not set yet; skipping deploy. See the comment at the top of deploy.yml."
+
+      - uses: actions/checkout@v4
+        if: env.HAS_SECRETS == 'true'
+
+      - name: Configure SSH
+        if: env.HAS_SECRETS == 'true'
+        env:
+          SSH_KEY: ${{ secrets.HOSTINGER_SSH_KEY }}
+          SSH_HOST: ${{ secrets.HOSTINGER_SSH_HOST }}
+          SSH_PORT: ${{ secrets.HOSTINGER_SSH_PORT }}
+        run: |
+          mkdir -p ~/.ssh
+          printf '%s\n' "$SSH_KEY" > ~/.ssh/id_deploy
+          chmod 600 ~/.ssh/id_deploy
+          ssh-keyscan -p "${SSH_PORT:-65002}" "$SSH_HOST" >> ~/.ssh/known_hosts
+
+      - name: Sync theme and plugins
+        if: env.HAS_SECRETS == 'true'
+        env:
+          SSH_HOST: ${{ secrets.HOSTINGER_SSH_HOST }}
+          SSH_PORT: ${{ secrets.HOSTINGER_SSH_PORT }}
+          SSH_USER: ${{ secrets.HOSTINGER_SSH_USER }}
+          WP_PATH: ${{ secrets.HOSTINGER_WP_PATH }}
+        run: |
+          RSH="ssh -i ~/.ssh/id_deploy -p ${SSH_PORT:-65002}"
+          # --delete is scoped to each of our own folders; other plugins on the server are untouched.
+          for dir in themes/thr-theme plugins/thr-core plugins/thr-importer; do
+            rsync -az --delete -e "$RSH" "wp-content/$dir/" "$SSH_USER@$SSH_HOST:$WP_PATH/wp-content/$dir/"
+          done
+
+      - name: Flush rewrites and purge cache
+        if: env.HAS_SECRETS == 'true'
+        env:
+          SSH_HOST: ${{ secrets.HOSTINGER_SSH_HOST }}
+          SSH_PORT: ${{ secrets.HOSTINGER_SSH_PORT }}
+          SSH_USER: ${{ secrets.HOSTINGER_SSH_USER }}
+          WP_PATH: ${{ secrets.HOSTINGER_WP_PATH }}
+        run: |
+          ssh -i ~/.ssh/id_deploy -p "${SSH_PORT:-65002}" "$SSH_USER@$SSH_HOST" \
+            "cd '$WP_PATH' && wp rewrite flush && (wp litespeed-purge all || true)"

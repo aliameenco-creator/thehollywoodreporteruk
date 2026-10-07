@@ -23,8 +23,8 @@ if ( ! empty( $popular_ids ) ) :
 	if ( $pop_query->have_posts() ) :
 		$count = 1;
 		?>
-		<div class="thr-rail-widget thr-rail-widget--popular" style="margin-bottom:30px;">
-			<h3 style="font-family:var(--font-serif); font-size:18px; font-weight:900; text-transform:uppercase; letter-spacing:0.04em; border-top:2px solid var(--black); padding-top:10px; margin-bottom:16px;">
+		<div class="thr-rail-widget thr-rail-widget--popular thr-rail-block">
+			<h3 class="thr-rail-title">
 				<?php esc_html_e( 'Most Popular', 'thr-theme' ); ?>
 			</h3>
 			<div class="thr-rail-popular__list">

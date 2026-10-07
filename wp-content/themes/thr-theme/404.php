@@ -13,7 +13,7 @@ get_header();
 <main id="primary" class="site-main">
 	<div class="thr-container">
 		<header class="thr-404-header" style="text-align:center; padding:60px 0 30px; border-bottom:1px solid var(--grey-light);">
-			<div style="font-family:var(--font-sans); font-size:16px; font-weight:800; color:var(--brand-primary); text-transform:uppercase; letter-spacing:0.1em; margin-bottom:8px;">
+			<div style="font-family:var(--font-sans); font-size:16px; font-weight: var(--fw-accent); color:var(--brand-primary); text-transform:uppercase; letter-spacing:0.1em; margin-bottom:8px;">
 				404 ERROR
 			</div>
 			<h1 style="font-size:var(--scale-primary-xxl); margin-bottom:16px;">
@@ -32,7 +32,7 @@ get_header();
 		</header>
 
 		<div style="padding:40px 0;">
-			<h2 style="font-family:var(--font-serif); font-size:24px; font-weight:900; text-transform:uppercase; margin-bottom:24px; text-align:center;">
+			<h2 style="font-family:var(--font-serif); font-size:24px; font-weight: var(--fw-heading); text-transform:uppercase; margin-bottom:24px; text-align:center;">
 				<?php esc_html_e( 'Latest Stories', 'thr-theme' ); ?>
 			</h2>
 			<div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:24px;">

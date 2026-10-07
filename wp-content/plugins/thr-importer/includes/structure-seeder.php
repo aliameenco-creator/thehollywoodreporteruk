@@ -10,6 +10,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 class THR_Structure_Seeder {
 
 	public static function seed_structure() {
+		if ( ! taxonomy_exists( 'vertical' ) || ! taxonomy_exists( 'vcategory' ) ) {
+			return array(
+				'success' => false,
+				'message' => 'Activate the THR Core plugin first: verticals and video categories are registered there.',
+			);
+		}
+
 		$json_file = THR_IMPORTER_PATH . 'data/site-structure.json';
 		if ( ! file_exists( $json_file ) ) {
 			return array(
@@ -40,14 +47,12 @@ class THR_Structure_Seeder {
 		);
 
 		if ( isset( $data['settings'] ) ) {
-			if ( ! empty( $data['settings']['permalink_structure'] ) ) {
-				update_option( 'permalink_structure', $data['settings']['permalink_structure'] );
-			}
-			if ( ! empty( $data['settings']['category_base'] ) ) {
-				update_option( 'category_base', $data['settings']['category_base'] );
-			}
-			if ( ! empty( $data['settings']['tag_base'] ) ) {
-				update_option( 'tag_base', $data['settings']['tag_base'] );
+			if ( ! empty( $data['settings']['permalink_structure'] ) && function_exists( 'thr_apply_permalink_settings' ) ) {
+				thr_apply_permalink_settings(
+					$data['settings']['permalink_structure'],
+					isset( $data['settings']['category_base'] ) ? $data['settings']['category_base'] : 'c',
+					isset( $data['settings']['tag_base'] ) ? $data['settings']['tag_base'] : 't'
+				);
 			}
 			if ( ! empty( $data['settings']['timezone_string'] ) ) {
 				update_option( 'timezone_string', $data['settings']['timezone_string'] );
@@ -125,23 +130,30 @@ class THR_Structure_Seeder {
 		if ( ! empty( $data['verticals'] ) ) {
 			foreach ( $data['verticals'] as $vert ) {
 				$existing = get_term_by( 'slug', $vert['slug'], 'vertical' );
+				$term_id  = 0;
 				if ( ! $existing ) {
 					$res = wp_insert_term( $vert['name'], 'vertical', array( 'slug' => $vert['slug'] ) );
 					if ( ! is_wp_error( $res ) ) {
 						$term_id = $res['term_id'];
 						$report['verticals_created']++;
-						if ( ! empty( $vert['color'] ) ) {
-							update_term_meta( $term_id, 'thr_vertical_color', sanitize_hex_color( $vert['color'] ) );
-						}
-						if ( ! empty( $vert['tagline_1'] ) ) {
-							update_term_meta( $term_id, 'thr_vertical_tagline_1', sanitize_text_field( $vert['tagline_1'] ) );
-						}
-						if ( ! empty( $vert['tagline_2'] ) ) {
-							update_term_meta( $term_id, 'thr_vertical_tagline_2', sanitize_text_field( $vert['tagline_2'] ) );
-						}
 					}
 				} else {
+					$term_id = $existing->term_id;
 					$report['verticals_skipped']++;
+				}
+
+				// Fill brand fields only where empty, so editor changes are never overwritten.
+				if ( $term_id ) {
+					$fields = array(
+						'thr_vertical_color'     => ! empty( $vert['color'] ) ? sanitize_hex_color( $vert['color'] ) : '',
+						'thr_vertical_tagline_1' => ! empty( $vert['tagline_1'] ) ? sanitize_text_field( $vert['tagline_1'] ) : '',
+						'thr_vertical_tagline_2' => ! empty( $vert['tagline_2'] ) ? sanitize_text_field( $vert['tagline_2'] ) : '',
+					);
+					foreach ( $fields as $meta_key => $value ) {
+						if ( $value && ! get_term_meta( $term_id, $meta_key, true ) ) {
+							update_term_meta( $term_id, $meta_key, $value );
+						}
+					}
 				}
 			}
 		}
@@ -163,17 +175,25 @@ class THR_Structure_Seeder {
 		if ( ! empty( $data['pages'] ) ) {
 			foreach ( $data['pages'] as $pg ) {
 				$existing = get_page_by_path( $pg['slug'] );
+				$title    = isset( $pg['name'] ) ? $pg['name'] : ( isset( $pg['title'] ) ? $pg['title'] : '' );
 				if ( ! $existing ) {
-					$status = ( 'home' === $pg['slug'] ) ? 'publish' : 'draft';
+					// Home and Tip Line are linked from every page, so they go live; the rest stay drafts for editors.
+					$status = in_array( $pg['slug'], array( 'home', 'tip-line' ), true ) ? 'publish' : 'draft';
 					$content = '';
 					if ( 'tip-line' === $pg['slug'] ) {
 						$content = "<!-- wp:paragraph -->\n<p>Have a scoop, inside document, or breaking entertainment story? Send it securely and confidentially to our investigative editorial desk.</p>\n<!-- /wp:paragraph -->\n\n<!-- wp:shortcode -->\n[thr_tip_form]\n<!-- /wp:shortcode -->";
 					} elseif ( 'masthead' === $pg['slug'] ) {
-						$content = "<!-- wp:heading -->\n<h2>Editorial & Publishing Leadership</h2>\n<!-- /wp:heading -->\n<p><strong>Chief Executive Officer & Editorial Director:</strong> Ali Amin</p><p><strong>Chief Film Critic:</strong> David Rooney</p><p><strong>Executive Editor, Television:</strong> Daniel Fienberg</p>";
+						$content = "<!-- wp:heading -->
+<h2>Editorial & Publishing Leadership</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Add the UK editorial team here.</p>
+<!-- /wp:paragraph -->";
 					}
 
 					$page_id = wp_insert_post( array(
-						'post_title'   => $pg['title'],
+						'post_title'   => $title,
 						'post_name'    => $pg['slug'],
 						'post_type'    => 'page',
 						'post_status'  => $status,
@@ -189,12 +209,26 @@ class THR_Structure_Seeder {
 						}
 					}
 				} else {
+					// Earlier versions inserted pages without titles and left the Tip Line as a draft; repair both.
+					$repair = array();
+					if ( '' === $existing->post_title && '' !== $title ) {
+						$repair['post_title'] = $title;
+					}
+					if ( 'tip-line' === $pg['slug'] && 'draft' === $existing->post_status ) {
+						$repair['post_status'] = 'publish';
+					}
+					if ( $repair ) {
+						$repair['ID'] = $existing->ID;
+						wp_update_post( $repair );
+					}
 					$report['pages_skipped']++;
 				}
 			}
 		}
 
-		flush_rewrite_rules();
+		if ( ! function_exists( 'thr_apply_permalink_settings' ) ) {
+			flush_rewrite_rules();
+		}
 
 		return array(
 			'success' => true,
