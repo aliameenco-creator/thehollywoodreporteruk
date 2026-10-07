@@ -1,0 +1,33 @@
+# Operating System Files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE & Editor Settings
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Claude settings
+.claude/
+
+# Logs and Runtime Files
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Build & Dependency Artifacts
+node_modules/
+
+# WordPress Media & Caches (Should not be in Git)
+wp-content/uploads/
+wp-content/cache/
+wp-content/upgrade/
+wp-content/litespeed/
+
+# Backups & Database Dumps
+*.sql
+*.tar.gz
+*.zip

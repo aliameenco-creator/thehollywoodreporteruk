@@ -1,0 +1,508 @@
+I am building a WordPress website based closely on the structure, design, editorial workflow, and frontend experience of TheHollywoodReporter.com.
+
+Before giving me a development plan, I want you to research the live website yourself in detail. Do not rely only on the information I provide below. Visit TheHollywoodReporter.com and inspect its current desktop and mobile website, navigation, templates, URL structure, content organization, typography, article structure, SEO structure, and responsive behavior.
+
+Here is what I already know / what we have decided:
+
+PROJECT GOAL
+
+- Build a publication/news website similar to TheHollywoodReporter.com.
+- WordPress will be the CMS.
+- We will build our own custom WordPress theme.
+- We do NOT want to use Elementor or Elementor Pro.
+- Editors should still have an easy WordPress editing experience.
+- We want the main website completed in approximately 2–4 days using AI/Codex-assisted development.
+- GitHub should be the source of truth for the code.
+- Theme/plugin changes should be pushed through GitHub rather than manually uploading ZIP files every time.
+- The website must be highly responsive and optimized for mobile.
+- We want as little manual setup as possible.
+
+CURRENT TECHNICAL IDEA
+
+Use:
+
+WordPress
++
+Custom Theme
++
+Custom Core Plugin
++
+Importer/Demo Content Plugin
++
+GitHub
++
+Codex / AI-assisted development
+
+Potential structure:
+
+wp-content/
+    themes/
+        thr-theme/
+
+    plugins/
+        thr-core/
+        thr-importer/
+
+The responsibilities should ideally be separated:
+
+thr-theme:
+- frontend design
+- typography
+- layouts
+- header
+- mega menu
+- homepage
+- article layouts
+- category layouts
+- responsive CSS
+- reusable story cards/components
+
+thr-core:
+- editorial functionality
+- custom fields
+- custom taxonomies
+- homepage settings
+- article types
+- rewrite rules
+- image sizes
+- editorial flags
+- query functionality
+
+thr-importer:
+- create/import categories automatically
+- create subcategories
+- create topics/subjects
+- create dummy/test posts
+- import authors
+- import metadata
+- optionally import authorized/reference content from JSON/CSV
+
+We want to avoid manually creating dozens of categories, tags, posts, authors, etc.
+
+CONTENT STRUCTURE
+
+We believe the website will need major sections such as:
+
+- News
+- Film
+- TV
+- Music
+- Awards
+- Lifestyle
+- Business
+- Video
+- Covers / Features
+- possibly additional sections discovered during your research
+
+Sections can have subcategories.
+
+Example:
+
+Film
+    Movie News
+    Movie Reviews
+    Box Office
+    Features
+
+TV
+    TV News
+    TV Reviews
+    Ratings
+    Features
+
+Lifestyle
+    Arts
+    Style
+    Shopping
+    Real Estate
+
+There should also be subjects/topics such as:
+
+- Netflix
+- Disney
+- Warner Bros.
+- Oscars
+- Emmys
+- Marvel
+- HBO
+- etc.
+
+Please research how THR actually handles categories, topics, tags, franchises, special sections, and editorial groupings and recommend how we should model them in WordPress.
+
+AUTHORS
+
+Authors need proper profile/archive pages.
+
+We may need:
+
+- author name
+- photo
+- job title
+- biography
+- social links
+- list of articles
+- possibly multiple authors per article
+- guest/freelance authors
+
+Research how the actual THR website handles authors and recommend the simplest scalable WordPress implementation.
+
+ARTICLE EDITOR
+
+Editors should be able to create an article using fields such as:
+
+- Title
+- Kicker
+- Dek / subtitle
+- Article type
+- Primary section
+- Subsection
+- Subjects/topics
+- Author(s)
+- Featured image
+- Image caption
+- Image credit
+- Published/updated date
+- Article body using Gutenberg
+- Homepage featured option
+- Breaking news option
+- SEO title
+- Meta description
+- Canonical URL
+- Social image
+
+Research the live THR article pages and identify any additional fields we need.
+
+ARTICLE TYPES
+
+We currently expect:
+
+- Standard News Article
+- Feature / Long-form
+- Review
+
+Research whether we should support additional layouts such as:
+
+- Cover Story
+- Lists
+- Galleries
+- Videos
+- Interviews
+- Shopping articles
+- Sponsored content
+- Podcasts
+- Special Issues
+
+Do not create separate systems unnecessarily. Recommend which can share the same WordPress post type with different templates/fields.
+
+HOMEPAGE
+
+The homepage should be editorially dynamic.
+
+Editors should be able to control sections without modifying code.
+
+For example:
+
+Top Story:
+Manual article selection
+
+Latest News:
+Automatically pull latest articles
+
+Film:
+Pull latest articles from Film
+
+TV:
+Pull articles from TV
+
+Featured Section:
+Manually select articles
+
+Author section:
+Pull latest posts from a selected author
+
+Topic section:
+Pull posts associated with a particular subject
+
+We want query controls similar to Elementor's dynamic post widgets, but built specifically into our theme/plugin.
+
+A homepage section should potentially have controls like:
+
+Heading
+Content Source:
+    Latest
+    Category
+    Author
+    Subject
+    Manual Selection
+
+Number of Posts
+Layout
+Order
+Show/Hide metadata
+
+Research exactly how the THR homepage is currently structured and list every major homepage component.
+
+TEMPLATES
+
+We currently think we need approximately:
+
+1. Homepage
+2. Section/category archive
+3. Standard article
+4. Feature article
+5. Review article
+6. Author archive
+7. Topic/subject archive
+8. Search results
+9. Static page
+10. 404
+
+Research the live site and determine the actual minimum template set required.
+
+Do not suggest creating separate templates when one reusable template can dynamically handle multiple sections.
+
+HEADER / MEGA MENU
+
+THR has a major publication-style header and large hamburger/mega menu.
+
+We need:
+
+- logo
+- primary navigation
+- hamburger
+- search
+- desktop mega menu
+- mobile navigation
+- possibly newsletter/subscription links
+- responsive behavior
+
+Research the current website and document the exact hierarchy.
+
+FOOTER
+
+Research and document the current footer architecture and recommend what should be replicated/adapted.
+
+TYPOGRAPHY
+
+Typography is extremely important.
+
+We want the new website to visually match the reference publication closely.
+
+Research:
+
+- actual CSS font-family declarations
+- headline fonts
+- body fonts
+- navigation fonts
+- metadata fonts
+- weights
+- sizes
+- line heights
+- letter spacing
+- responsive typography
+
+Do NOT illegally download or copy proprietary font files.
+
+If THR uses licensed/proprietary fonts, identify them and explain what font files/licences we should request from the client or what appropriate alternatives exist.
+
+URL STRUCTURE
+
+We have discussed structures such as:
+
+/film/
+/film/movie-news/
+
+/film/movie-news/article-name/
+
+/author/john-smith/
+
+/topic/netflix/
+
+We do not automatically want to copy THR's /c/ and /t/ prefixes unless there is a good reason.
+
+Research THR's current URL architecture and then recommend the cleanest structure for our site considering:
+
+- SEO
+- scalability
+- WordPress routing
+- duplicate URLs
+- category hierarchy
+- topic archives
+- authors
+- articles
+
+Explain why you recommend each decision.
+
+SEARCH
+
+The live site appears to have advanced filtering.
+
+Research its search experience.
+
+For the first version, we want something achievable in 2–4 days using WordPress rather than immediately introducing Elasticsearch/OpenSearch.
+
+Recommend:
+
+- search architecture
+- author filters
+- section filters
+- subject filters
+- sorting
+- pagination
+
+RIGHT SIDEBAR / RELATED CONTENT
+
+Research article pages carefully.
+
+Document what appears alongside the article, including:
+
+- Latest News
+- Most Popular
+- Related Stories
+- More From Section
+- Ads
+- newsletters
+- other modules
+
+We want these modules to be automatically generated from WordPress queries rather than manually selected on every article.
+
+SEO
+
+Research THR's technical SEO patterns including:
+
+- title structure
+- canonical URLs
+- NewsArticle schema
+- Person schema
+- Organization schema
+- breadcrumbs
+- XML sitemaps
+- news sitemap
+- category archives
+- author archives
+- topic archives
+- pagination
+- internal links
+- Open Graph
+- social metadata
+
+We are not trying to copy their individual SEO descriptions/content. We want to reproduce a strong technical publishing architecture.
+
+MOBILE
+
+Mobile is extremely important.
+
+Research the live site at approximately:
+
+390px
+430px
+768px
+1024px
+1440px
+
+Document:
+
+- mobile header
+- menu
+- homepage
+- story cards
+- category pages
+- article layouts
+- typography
+- image behavior
+- sidebar stacking
+- footer
+- search
+- advertisements
+
+REFERENCE CONTENT / SCRAPING
+
+During development, we may scrape a small representative sample from TheHollywoodReporter.com purely to understand/import the structure and test templates.
+
+We do NOT need to scrape the entire website.
+
+Something like:
+
+- homepage
+- several section pages
+- 20–30 standard articles
+- several reviews
+- several features
+- author pages
+- topic pages
+- search page
+
+For content we are not authorized to republish, we can use dummy text/images while retaining the structural metadata needed for development.
+
+Recommend a scraper/data format such as JSON that our importer plugin can consume.
+
+GITHUB / DEPLOYMENT
+
+We want:
+
+ai to write the code of the theme, plugins that will import custom data and then we may delte the plugins.
+→ pull the theme code from GitHub
+→ Staging WordPress
+
+and eventually:
+
+main branch
+→ production WordPress
+
+Do not recommend building our own custom theme updater unless it provides a strong advantage.
+
+FINAL REQUEST
+
+After doing your own research, give me a COMPLETE STEP-BY-STEP BUILD PLAN.
+
+Organize it into:
+
+DAY 1
+DAY 2
+DAY 3
+DAY 4
+
+For each day provide:
+
+1. exact tasks
+2. what gets built
+3. folder/file structure
+4. dependencies
+5. what Codex should work on
+6. what I need to configure manually
+7. what should be automated
+8. testing checklist
+9. expected output at the end of the day
+
+Also provide:
+
+- final WordPress architecture
+- complete template list
+- reusable component list
+- final taxonomy/content model
+- article field list
+- recommended URL structure
+- plugin list (we dont want paid, we can use yoast and cache plugins and what is required not making the site heavy)
+- theme folder structure (according to wordpress requirements)
+- core plugin structure
+- importer structure
+- GitHub workflow
+- deployment workflow
+- editor workflow
+- launch checklist
+
+IMPORTANT:
+
+Do your own research on the CURRENT live TheHollywoodReporter.com website before finalizing the architecture. (we want the exact layout for the web and phone it must be fully responsive)
+
+Challenge any of my assumptions if you find a better implementation.
+
+Prioritize:
+1. completing the project in 2–4 days,
+2. minimizing manual work,
+3. making the editor experience simple,
+4. matching the reference website closely,
+5. keeping the code maintainable,
+6. good mobile performance,
+7. strong SEO, (very important for the project)
+8. avoiding unnecessary plugins and complexity.

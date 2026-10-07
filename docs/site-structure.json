@@ -1,0 +1,743 @@
+{
+  "schema_version": 1,
+  "profile": "thr-uk",
+  "description": "Proposed initial inventory from the approved build plan; not an exhaustive live THR taxonomy export.",
+  "counts": {
+    "category_parents": 6,
+    "category_children": 20,
+    "categories": 26,
+    "topics": 25,
+    "verticals": 7,
+    "video_categories": 12,
+    "taxonomy_terms": 70,
+    "pages": 11
+  },
+  "settings": {
+    "permalink_structure": "/%category%/%postname%-%post_id%/",
+    "category_base": "c",
+    "tag_base": "t",
+    "timezone_string": "Europe/London",
+    "front_page_key": "page:home"
+  },
+  "categories": [
+    {
+      "key": "category:news",
+      "name": "News",
+      "slug": "news",
+      "parent": null,
+      "url": "/c/news/",
+      "heading": "News",
+      "subtitle": ""
+    },
+    {
+      "key": "category:general-news",
+      "name": "General News",
+      "slug": "general-news",
+      "parent": "category:news",
+      "url": "/c/news/general-news/",
+      "heading": "General News",
+      "subtitle": ""
+    },
+    {
+      "key": "category:culture-politics",
+      "name": "Culture & Politics",
+      "slug": "culture-politics",
+      "parent": "category:news",
+      "url": "/c/news/culture-politics/",
+      "heading": "Culture & Politics",
+      "subtitle": ""
+    },
+    {
+      "key": "category:la-local",
+      "name": "LA / Local",
+      "slug": "la-local",
+      "parent": "category:news",
+      "url": "/c/news/la-local/",
+      "heading": "LA / Local",
+      "subtitle": ""
+    },
+    {
+      "key": "category:movies",
+      "name": "Movies",
+      "slug": "movies",
+      "parent": null,
+      "url": "/c/movies/",
+      "heading": "Movies",
+      "subtitle": ""
+    },
+    {
+      "key": "category:movie-news",
+      "name": "Movie News",
+      "slug": "movie-news",
+      "parent": "category:movies",
+      "url": "/c/movies/movie-news/",
+      "heading": "Movie News",
+      "subtitle": ""
+    },
+    {
+      "key": "category:movie-features",
+      "name": "Movie Features",
+      "slug": "movie-features",
+      "parent": "category:movies",
+      "url": "/c/movies/movie-features/",
+      "heading": "Movie Features",
+      "subtitle": ""
+    },
+    {
+      "key": "category:movie-reviews",
+      "name": "Movie Reviews",
+      "slug": "movie-reviews",
+      "parent": "category:movies",
+      "url": "/c/movies/movie-reviews/",
+      "heading": "Movie Reviews",
+      "subtitle": ""
+    },
+    {
+      "key": "category:movie-videos",
+      "name": "Movie Videos",
+      "slug": "movie-videos",
+      "parent": "category:movies",
+      "url": "/c/movies/movie-videos/",
+      "heading": "Movie Videos",
+      "subtitle": ""
+    },
+    {
+      "key": "category:tv",
+      "name": "TV",
+      "slug": "tv",
+      "parent": null,
+      "url": "/c/tv/",
+      "heading": "TV",
+      "subtitle": ""
+    },
+    {
+      "key": "category:tv-news",
+      "name": "TV News",
+      "slug": "tv-news",
+      "parent": "category:tv",
+      "url": "/c/tv/tv-news/",
+      "heading": "TV News",
+      "subtitle": ""
+    },
+    {
+      "key": "category:tv-features",
+      "name": "TV Features",
+      "slug": "tv-features",
+      "parent": "category:tv",
+      "url": "/c/tv/tv-features/",
+      "heading": "TV Features",
+      "subtitle": ""
+    },
+    {
+      "key": "category:tv-reviews",
+      "name": "TV Reviews",
+      "slug": "tv-reviews",
+      "parent": "category:tv",
+      "url": "/c/tv/tv-reviews/",
+      "heading": "TV Reviews",
+      "subtitle": ""
+    },
+    {
+      "key": "category:music",
+      "name": "Music",
+      "slug": "music",
+      "parent": null,
+      "url": "/c/music/",
+      "heading": "Music",
+      "subtitle": ""
+    },
+    {
+      "key": "category:music-news",
+      "name": "Music News",
+      "slug": "music-news",
+      "parent": "category:music",
+      "url": "/c/music/music-news/",
+      "heading": "Music News",
+      "subtitle": ""
+    },
+    {
+      "key": "category:music-industry-news",
+      "name": "Music Industry News",
+      "slug": "music-industry-news",
+      "parent": "category:music",
+      "url": "/c/music/music-industry-news/",
+      "heading": "Music Industry News",
+      "subtitle": ""
+    },
+    {
+      "key": "category:music-features",
+      "name": "Music Features",
+      "slug": "music-features",
+      "parent": "category:music",
+      "url": "/c/music/music-features/",
+      "heading": "Music Features",
+      "subtitle": ""
+    },
+    {
+      "key": "category:film-tv-music-news",
+      "name": "Film and TV Music News",
+      "slug": "film-tv-music-news",
+      "parent": "category:music",
+      "url": "/c/music/film-tv-music-news/",
+      "heading": "Film and TV Music News",
+      "subtitle": ""
+    },
+    {
+      "key": "category:lifestyle",
+      "name": "Lifestyle",
+      "slug": "lifestyle",
+      "parent": null,
+      "url": "/c/lifestyle/",
+      "heading": "Lifestyle",
+      "subtitle": ""
+    },
+    {
+      "key": "category:lifestyle-news",
+      "name": "Lifestyle News",
+      "slug": "lifestyle-news",
+      "parent": "category:lifestyle",
+      "url": "/c/lifestyle/lifestyle-news/",
+      "heading": "Lifestyle News",
+      "subtitle": ""
+    },
+    {
+      "key": "category:arts",
+      "name": "Arts",
+      "slug": "arts",
+      "parent": "category:lifestyle",
+      "url": "/c/lifestyle/arts/",
+      "heading": "Arts",
+      "subtitle": ""
+    },
+    {
+      "key": "category:style",
+      "name": "Style",
+      "slug": "style",
+      "parent": "category:lifestyle",
+      "url": "/c/lifestyle/style/",
+      "heading": "Style",
+      "subtitle": ""
+    },
+    {
+      "key": "category:shopping",
+      "name": "Shopping",
+      "slug": "shopping",
+      "parent": "category:lifestyle",
+      "url": "/c/lifestyle/shopping/",
+      "heading": "Shopping",
+      "subtitle": ""
+    },
+    {
+      "key": "category:real-estate",
+      "name": "Real Estate",
+      "slug": "real-estate",
+      "parent": "category:lifestyle",
+      "url": "/c/lifestyle/real-estate/",
+      "heading": "Real Estate",
+      "subtitle": ""
+    },
+    {
+      "key": "category:business",
+      "name": "Business",
+      "slug": "business",
+      "parent": null,
+      "url": "/c/business/",
+      "heading": "Business",
+      "subtitle": ""
+    },
+    {
+      "key": "category:business-news",
+      "name": "Business News",
+      "slug": "business-news",
+      "parent": "category:business",
+      "url": "/c/business/business-news/",
+      "heading": "Business News",
+      "subtitle": ""
+    }
+  ],
+  "topics": [
+    {
+      "name": "Awards",
+      "slug": "awards",
+      "key": "post_tag:awards",
+      "url": "/t/awards/",
+      "heading": "Awards",
+      "subtitle": ""
+    },
+    {
+      "name": "International",
+      "slug": "international",
+      "key": "post_tag:international",
+      "url": "/t/international/",
+      "heading": "International",
+      "subtitle": ""
+    },
+    {
+      "name": "THR Cover Story",
+      "slug": "thr-cover-story",
+      "key": "post_tag:thr-cover-story",
+      "url": "/t/thr-cover-story/",
+      "heading": "THR Cover Story",
+      "subtitle": ""
+    },
+    {
+      "name": "THR Investigates",
+      "slug": "thr-investigates",
+      "key": "post_tag:thr-investigates",
+      "url": "/t/thr-investigates/",
+      "heading": "THR Investigates",
+      "subtitle": ""
+    },
+    {
+      "name": "Obituaries",
+      "slug": "obituaries",
+      "key": "post_tag:obituaries",
+      "url": "/t/obituaries/",
+      "heading": "Obituaries",
+      "subtitle": ""
+    },
+    {
+      "name": "Box Office",
+      "slug": "box-office",
+      "key": "post_tag:box-office",
+      "url": "/t/box-office/",
+      "heading": "Box Office",
+      "subtitle": ""
+    },
+    {
+      "name": "TV Ratings",
+      "slug": "tv-ratings",
+      "key": "post_tag:tv-ratings",
+      "url": "/t/tv-ratings/",
+      "heading": "TV Ratings",
+      "subtitle": ""
+    },
+    {
+      "name": "Grammys",
+      "slug": "grammys",
+      "key": "post_tag:grammys",
+      "url": "/t/grammys/",
+      "heading": "Grammys",
+      "subtitle": ""
+    },
+    {
+      "name": "K-Pop",
+      "slug": "k-pop",
+      "key": "post_tag:k-pop",
+      "url": "/t/k-pop/",
+      "heading": "K-Pop",
+      "subtitle": ""
+    },
+    {
+      "name": "Country Music",
+      "slug": "country-music",
+      "key": "post_tag:country-music",
+      "url": "/t/country-music/",
+      "heading": "Country Music",
+      "subtitle": ""
+    },
+    {
+      "name": "Feinberg Forecast",
+      "slug": "feinberg-forecast",
+      "key": "post_tag:feinberg-forecast",
+      "url": "/t/feinberg-forecast/",
+      "heading": "Feinberg Forecast",
+      "subtitle": ""
+    },
+    {
+      "name": "Awards Chatter Podcast",
+      "slug": "awards-chatter-podcast",
+      "key": "post_tag:awards-chatter-podcast",
+      "url": "/t/awards-chatter-podcast/",
+      "heading": "Awards Chatter Podcast",
+      "subtitle": ""
+    },
+    {
+      "name": "Beyond the Book",
+      "slug": "beyond-the-book",
+      "key": "post_tag:beyond-the-book",
+      "url": "/t/beyond-the-book/",
+      "heading": "Beyond the Book",
+      "subtitle": ""
+    },
+    {
+      "name": "Labor",
+      "slug": "labor",
+      "key": "post_tag:labor",
+      "url": "/t/labor/",
+      "heading": "Labor",
+      "subtitle": ""
+    },
+    {
+      "name": "Representation",
+      "slug": "representation",
+      "key": "post_tag:representation",
+      "url": "/t/representation/",
+      "heading": "Representation",
+      "subtitle": ""
+    },
+    {
+      "name": "Film & TV Tax Credits",
+      "slug": "film-tv-tax-credits",
+      "key": "post_tag:film-tv-tax-credits",
+      "url": "/t/film-tv-tax-credits/",
+      "heading": "Film & TV Tax Credits",
+      "subtitle": ""
+    },
+    {
+      "name": "Broadway Grosses",
+      "slug": "broadway-grosses",
+      "key": "post_tag:broadway-grosses",
+      "url": "/t/broadway-grosses/",
+      "heading": "Broadway Grosses",
+      "subtitle": ""
+    },
+    {
+      "name": "Netflix",
+      "slug": "netflix",
+      "key": "post_tag:netflix",
+      "url": "/t/netflix/",
+      "heading": "Netflix",
+      "subtitle": ""
+    },
+    {
+      "name": "Disney",
+      "slug": "disney",
+      "key": "post_tag:disney",
+      "url": "/t/disney/",
+      "heading": "Disney",
+      "subtitle": ""
+    },
+    {
+      "name": "Warner Bros.",
+      "slug": "warner-bros",
+      "key": "post_tag:warner-bros",
+      "url": "/t/warner-bros/",
+      "heading": "Warner Bros.",
+      "subtitle": ""
+    },
+    {
+      "name": "Oscars",
+      "slug": "oscars",
+      "key": "post_tag:oscars",
+      "url": "/t/oscars/",
+      "heading": "Oscars",
+      "subtitle": ""
+    },
+    {
+      "name": "Emmys",
+      "slug": "emmys",
+      "key": "post_tag:emmys",
+      "url": "/t/emmys/",
+      "heading": "Emmys",
+      "subtitle": ""
+    },
+    {
+      "name": "Marvel",
+      "slug": "marvel",
+      "key": "post_tag:marvel",
+      "url": "/t/marvel/",
+      "heading": "Marvel",
+      "subtitle": ""
+    },
+    {
+      "name": "HBO",
+      "slug": "hbo",
+      "key": "post_tag:hbo",
+      "url": "/t/hbo/",
+      "heading": "HBO",
+      "subtitle": ""
+    },
+    {
+      "name": "Golden Globes",
+      "slug": "golden-globes",
+      "key": "post_tag:golden-globes",
+      "url": "/t/golden-globes/",
+      "heading": "Golden Globes",
+      "subtitle": ""
+    }
+  ],
+  "verticals": [
+    {
+      "name": "Heat Vision",
+      "slug": "heat-vision",
+      "key": "vertical:heat-vision",
+      "url": "/e/heat-vision/",
+      "heading": "Heat Vision",
+      "subtitle": ""
+    },
+    {
+      "name": "Live Feed",
+      "slug": "live-feed",
+      "key": "vertical:live-feed",
+      "url": "/e/live-feed/",
+      "heading": "Live Feed",
+      "subtitle": ""
+    },
+    {
+      "name": "The Race",
+      "slug": "the-race",
+      "key": "vertical:the-race",
+      "url": "/e/the-race/",
+      "heading": "The Race",
+      "subtitle": ""
+    },
+    {
+      "name": "THR Esq",
+      "slug": "thr-esq",
+      "key": "vertical:thr-esq",
+      "url": "/e/thr-esq/",
+      "heading": "THR Esq",
+      "subtitle": ""
+    },
+    {
+      "name": "The Fien Print",
+      "slug": "the-fien-print",
+      "key": "vertical:the-fien-print",
+      "url": "/e/the-fien-print/",
+      "heading": "The Fien Print",
+      "subtitle": ""
+    },
+    {
+      "name": "Rambling Reporter",
+      "slug": "rambling-reporter",
+      "key": "vertical:rambling-reporter",
+      "url": "/e/rambling-reporter/",
+      "heading": "Rambling Reporter",
+      "subtitle": ""
+    },
+    {
+      "name": "Behind the Screen",
+      "slug": "behind-the-screen",
+      "key": "vertical:behind-the-screen",
+      "url": "/e/behind-the-screen/",
+      "heading": "Behind the Screen",
+      "subtitle": ""
+    }
+  ],
+  "video_categories": [
+    {
+      "name": "THR News",
+      "slug": "thr-news",
+      "key": "vcategory:thr-news",
+      "url": "/vcategory/thr-news/",
+      "heading": "THR News",
+      "subtitle": ""
+    },
+    {
+      "name": "Roundtables",
+      "slug": "roundtables",
+      "key": "vcategory:roundtables",
+      "url": "/vcategory/roundtables/",
+      "heading": "Roundtables",
+      "subtitle": ""
+    },
+    {
+      "name": "THR On The Cover",
+      "slug": "thr-on-the-cover",
+      "key": "vcategory:thr-on-the-cover",
+      "url": "/vcategory/thr-on-the-cover/",
+      "heading": "THR On The Cover",
+      "subtitle": ""
+    },
+    {
+      "name": "Hollywood Firsts",
+      "slug": "hollywood-firsts",
+      "key": "vcategory:hollywood-firsts",
+      "url": "/vcategory/hollywood-firsts/",
+      "heading": "Hollywood Firsts",
+      "subtitle": ""
+    },
+    {
+      "name": "Heat Vision Breakdown",
+      "slug": "heat-vision-breakdown",
+      "key": "vcategory:heat-vision-breakdown",
+      "url": "/vcategory/heat-vision-breakdown/",
+      "heading": "Heat Vision Breakdown",
+      "subtitle": ""
+    },
+    {
+      "name": "Women in Entertainment",
+      "slug": "women-in-entertainment",
+      "key": "vcategory:women-in-entertainment",
+      "url": "/vcategory/women-in-entertainment/",
+      "heading": "Women in Entertainment",
+      "subtitle": ""
+    },
+    {
+      "name": "Red Carpet",
+      "slug": "red-carpet",
+      "key": "vcategory:red-carpet",
+      "url": "/vcategory/red-carpet/",
+      "heading": "Red Carpet",
+      "subtitle": ""
+    },
+    {
+      "name": "Oscars",
+      "slug": "oscars",
+      "key": "vcategory:oscars",
+      "url": "/vcategory/oscars/",
+      "heading": "Oscars",
+      "subtitle": ""
+    },
+    {
+      "name": "Emmys",
+      "slug": "emmys",
+      "key": "vcategory:emmys",
+      "url": "/vcategory/emmys/",
+      "heading": "Emmys",
+      "subtitle": ""
+    },
+    {
+      "name": "Golden Globes",
+      "slug": "golden-globes",
+      "key": "vcategory:golden-globes",
+      "url": "/vcategory/golden-globes/",
+      "heading": "Golden Globes",
+      "subtitle": ""
+    },
+    {
+      "name": "Social Impact Summit",
+      "slug": "social-impact-summit",
+      "key": "vcategory:social-impact-summit",
+      "url": "/vcategory/social-impact-summit/",
+      "heading": "Social Impact Summit",
+      "subtitle": ""
+    },
+    {
+      "name": "Closer Look",
+      "slug": "closer-look",
+      "key": "vcategory:closer-look",
+      "url": "/vcategory/closer-look/",
+      "heading": "Closer Look",
+      "subtitle": ""
+    }
+  ],
+  "pages": [
+    {
+      "name": "Home",
+      "slug": "home",
+      "key": "page:home",
+      "url": "/",
+      "heading": "Home",
+      "subtitle": "",
+      "status": "draft",
+      "is_container": false
+    },
+    {
+      "name": "Masthead",
+      "slug": "masthead",
+      "key": "page:masthead",
+      "url": "/masthead/",
+      "heading": "Masthead",
+      "subtitle": "",
+      "status": "draft",
+      "is_container": false
+    },
+    {
+      "name": "Contact",
+      "slug": "contact",
+      "key": "page:contact",
+      "url": "/contact/",
+      "heading": "Contact",
+      "subtitle": "",
+      "status": "draft",
+      "is_container": false
+    },
+    {
+      "name": "Tip Line",
+      "slug": "tip-line",
+      "key": "page:tip-line",
+      "url": "/tip-line/",
+      "heading": "Tip Line",
+      "subtitle": "",
+      "status": "draft",
+      "is_container": false
+    },
+    {
+      "name": "Accessibility",
+      "slug": "accessibility",
+      "key": "page:accessibility",
+      "url": "/accessibility/",
+      "heading": "Accessibility",
+      "subtitle": "",
+      "status": "draft",
+      "is_container": false
+    },
+    {
+      "name": "Privacy Policy",
+      "slug": "privacy-policy",
+      "key": "page:privacy-policy",
+      "url": "/privacy-policy/",
+      "heading": "Privacy Policy",
+      "subtitle": "",
+      "status": "draft",
+      "is_container": false
+    },
+    {
+      "name": "Terms of Use",
+      "slug": "terms-of-use",
+      "key": "page:terms-of-use",
+      "url": "/terms-of-use/",
+      "heading": "Terms of Use",
+      "subtitle": "",
+      "status": "draft",
+      "is_container": false
+    },
+    {
+      "name": "Cookie Policy",
+      "slug": "cookie-policy",
+      "key": "page:cookie-policy",
+      "url": "/cookie-policy/",
+      "heading": "Cookie Policy",
+      "subtitle": "",
+      "status": "draft",
+      "is_container": false
+    },
+    {
+      "name": "Newsletters",
+      "slug": "newsletters",
+      "key": "page:newsletters",
+      "url": "/newsletters/",
+      "heading": "Newsletters",
+      "subtitle": "",
+      "status": "draft",
+      "is_container": false
+    },
+    {
+      "name": "Special Issues",
+      "slug": "p",
+      "key": "page:p",
+      "url": "/p/",
+      "heading": "Special Issues",
+      "subtitle": "",
+      "status": "draft",
+      "is_container": true
+    },
+    {
+      "name": "Hubs",
+      "slug": "h",
+      "key": "page:h",
+      "url": "/h/",
+      "heading": "Hubs",
+      "subtitle": "",
+      "status": "draft",
+      "is_container": true
+    }
+  ],
+  "article_types": [
+    "standard",
+    "feature",
+    "review",
+    "cover-story",
+    "interview",
+    "podcast"
+  ],
+  "seed_policy": {
+    "default_mode": "structure",
+    "create_demo_content": false,
+    "create_authors": false,
+    "update_existing_editor_values": false,
+    "publish_pages": false
+  }
+}
