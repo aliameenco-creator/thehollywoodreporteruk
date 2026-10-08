@@ -65,7 +65,9 @@ function thr_add_editorial_meta_boxes() {
 			'thr_render_editorial_meta_box',
 			$screen,
 			'normal',
-			'high'
+			'high',
+			// Block editor users get the sidebar panels instead (editor-panel.js); the box stays for the Classic Editor.
+			array( '__back_compat_meta_box' => true )
 		);
 	}
 }
@@ -198,3 +200,88 @@ function thr_save_editorial_meta_box( $post_id ) {
 	update_post_meta( $post_id, 'thr_breaking', $breaking );
 }
 add_action( 'save_post', 'thr_save_editorial_meta_box' );
+
+/**
+ * Story sidebar in the block editor: checklist, story settings, review details.
+ */
+function thr_enqueue_editor_panel() {
+	$screen = get_current_screen();
+	if ( ! $screen || ! in_array( $screen->post_type, array( 'post', 'thr_list', 'thr_gallery', 'thr_video' ), true ) ) {
+		return;
+	}
+
+	wp_enqueue_script(
+		'thr-editor-panel',
+		THR_CORE_URL . 'assets/js/editor-panel.js',
+		array( 'wp-plugins', 'wp-editor', 'wp-edit-post', 'wp-element', 'wp-components', 'wp-data', 'wp-core-data', 'wp-i18n' ),
+		THR_CORE_VERSION,
+		true
+	);
+
+	wp_register_style( 'thr-editor-panel', false, array(), THR_CORE_VERSION );
+	wp_enqueue_style( 'thr-editor-panel' );
+	wp_add_inline_style(
+		'thr-editor-panel',
+		'.thr-checklist{margin:0}.thr-check{display:flex;gap:8px;margin:0 0 10px;color:#757575}.thr-check.is-done{color:#1e1e1e}'
+		. '.thr-check__mark{width:16px;font-weight:700;color:#cc1818}.thr-check.is-done .thr-check__mark{color:#008a20}'
+		. '.thr-check small{display:block;color:#757575}.edit-post-sidebar .components-base-control+.components-base-control,'
+		. '.editor-sidebar .components-base-control+.components-base-control{margin-top:16px}'
+	);
+}
+add_action( 'enqueue_block_editor_assets', 'thr_enqueue_editor_panel' );
+
+/**
+ * "Story" column on the posts list: type, top story and breaking flags at a glance.
+ *
+ * @param string[] $columns List table columns.
+ * @return string[]
+ */
+function thr_story_column( $columns ) {
+	$new = array();
+	foreach ( $columns as $key => $label ) {
+		$new[ $key ] = $label;
+		if ( 'title' === $key ) {
+			$new['thr_story'] = __( 'Story', 'thr-core' );
+		}
+	}
+	return $new;
+}
+add_filter( 'manage_post_posts_columns', 'thr_story_column' );
+
+/**
+ * Render the Story column.
+ *
+ * @param string $column  Column key.
+ * @param int    $post_id Post ID.
+ */
+function thr_render_story_column( $column, $post_id ) {
+	if ( 'thr_story' !== $column ) {
+		return;
+	}
+
+	$type   = get_post_meta( $post_id, 'thr_article_type', true ) ?: 'standard';
+	$labels = array(
+		'standard'    => __( 'News', 'thr-core' ),
+		'review'      => __( 'Review', 'thr-core' ),
+		'feature'     => __( 'Feature', 'thr-core' ),
+		'cover-story' => __( 'Cover story', 'thr-core' ),
+		'interview'   => __( 'Interview', 'thr-core' ),
+		'podcast'     => __( 'Podcast', 'thr-core' ),
+	);
+	$parts  = array( isset( $labels[ $type ] ) ? $labels[ $type ] : $type );
+
+	if ( get_post_meta( $post_id, 'thr_featured', true ) ) {
+		$parts[] = '<strong>' . esc_html__( 'Top story', 'thr-core' ) . '</strong>';
+	}
+	if ( get_post_meta( $post_id, 'thr_breaking', true ) ) {
+		$parts[] = '<strong style="color:#d63638">' . esc_html__( 'Breaking', 'thr-core' ) . '</strong>';
+	}
+	if ( ! has_post_thumbnail( $post_id ) ) {
+		$parts[] = '<span style="color:#996800">' . esc_html__( 'No image', 'thr-core' ) . '</span>';
+	}
+
+	echo wp_kses_post( implode( '<br>', array_map( function ( $part ) {
+		return 0 === strpos( $part, '<' ) ? $part : esc_html( $part );
+	}, $parts ) ) );
+}
+add_action( 'manage_post_posts_custom_column', 'thr_render_story_column', 10, 2 );

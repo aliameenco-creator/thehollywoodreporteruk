@@ -4,6 +4,8 @@
 
 document.addEventListener('DOMContentLoaded', () => {
 	initBreakingBar();
+	initStickyHeader();
+	initTabbar();
 	initMegaMenu();
 	initLiveSearch();
 	initSubnav();
@@ -44,6 +46,41 @@ function initBreakingBar() {
 			storageSet(key, '1');
 		});
 	}
+}
+
+function initStickyHeader() {
+	// Desktop only (CSS hides the bar below 1000px): show the compact bar once the masthead scrolls out.
+	const bar = document.querySelector('.js-thr-sticky');
+	const masthead = document.getElementById('masthead');
+	if (!bar || !masthead || !('IntersectionObserver' in window)) return;
+
+	new IntersectionObserver(([entry]) => {
+		const show = !entry.isIntersecting;
+		bar.classList.toggle('is-visible', show);
+		bar.inert = !show;
+	}).observe(masthead);
+}
+
+function initTabbar() {
+	// Slide the mobile tab bar away while scrolling down to read, back on scroll up.
+	const bar = document.querySelector('.js-thr-tabbar');
+	if (!bar) return;
+
+	let lastY = window.scrollY;
+	let ticking = false;
+
+	window.addEventListener('scroll', () => {
+		if (ticking) return;
+		ticking = true;
+		requestAnimationFrame(() => {
+			const y = window.scrollY;
+			if (Math.abs(y - lastY) > 8) {
+				bar.classList.toggle('is-hidden', y > lastY && y > 200);
+				lastY = y;
+			}
+			ticking = false;
+		});
+	}, { passive: true });
 }
 
 function initMegaMenu() {

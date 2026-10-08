@@ -53,6 +53,25 @@ if ( ! defined( 'ABSPATH' ) ) {
 		</nav>
 	</header>
 
+	<div class="thr-sticky js-thr-sticky" inert>
+		<button type="button" class="thr-header__icon-btn thr-sticky__menu js-thr-menu-open" aria-controls="thrMegaMenu" aria-expanded="false">
+			<?php echo thr_icon( 'menu', 22 ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+			<span><?php esc_html_e( 'Menu', 'thr-theme' ); ?></span>
+		</button>
+		<button type="button" class="thr-header__icon-btn js-thr-menu-open" data-thr-focus-search aria-controls="thrMegaMenu" aria-expanded="false" aria-label="<?php esc_attr_e( 'Search', 'thr-theme' ); ?>">
+			<?php echo thr_icon( 'search', 20 ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+		</button>
+		<?php thr_the_logo( 'sticky' ); ?>
+		<nav class="thr-sticky__nav" aria-label="<?php esc_attr_e( 'Sections', 'thr-theme' ); ?>">
+			<ul class="thr-sticky__list">
+				<?php foreach ( thr_get_section_bar() as $link ) : ?>
+					<li><a href="<?php echo esc_url( thr_menu_url( $link[1] ) ); ?>" class="thr-section-bar__link"><?php echo esc_html( $link[0] ); ?></a></li>
+				<?php endforeach; ?>
+			</ul>
+		</nav>
+		<a href="<?php echo esc_url( get_option( 'thr_magazine_url' ) ?: home_url( '/newsletters/' ) ); ?>" class="thr-sticky__subscribe"><?php esc_html_e( 'Subscribe', 'thr-theme' ); ?></a>
+	</div>
+
 	<?php get_template_part( 'template-parts/header/breaking-bar' ); ?>
 	<?php get_template_part( 'template-parts/header/mega-menu' ); ?>
 

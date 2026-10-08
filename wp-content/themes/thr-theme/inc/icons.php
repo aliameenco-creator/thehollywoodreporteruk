@@ -30,6 +30,10 @@ function thr_icon( $name, $size = 16 ) {
 		'close'    => 'M5 5l14 14M19 5L5 19',
 		'chevron'  => 'M6 9l6 6 6-6',
 		'arrow'    => 'M9 5l7 7-7 7',
+		'home'     => 'M3 11l9-7 9 7M5 10v10h5v-6h4v6h5V10',
+		'grid'     => 'M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z',
+		'play'     => 'M3 5h18v14H3zM10 9l5 3-5 3z',
+		'mail'     => 'M3 5h18v14H3zM3 6l9 7 9-7',
 	);
 
 	if ( isset( $paths[ $name ] ) ) {

@@ -11,6 +11,7 @@ $post_id     = get_the_ID();
 $subject     = get_post_meta( $post_id, 'thr_review_subject', true ) ?: get_the_title();
 $bottom_line = get_post_meta( $post_id, 'thr_review_bottom_line', true );
 $director    = get_post_meta( $post_id, 'thr_review_director', true );
+$writer      = get_post_meta( $post_id, 'thr_review_screenwriter', true );
 $cast        = get_post_meta( $post_id, 'thr_review_cast', true );
 $venue       = get_post_meta( $post_id, 'thr_review_venue', true );
 $rating_time = get_post_meta( $post_id, 'thr_review_rating_time', true );
@@ -19,9 +20,7 @@ $rating_time = get_post_meta( $post_id, 'thr_review_rating_time', true );
 	<div class="thr-review-box__left">
 		<div class="thr-review-box__subject"><?php echo esc_html( $subject ); ?></div>
 		<?php if ( ! empty( $rating_time ) ) : ?>
-			<div style="font-family:var(--font-sans); font-size:12px; color:var(--grey-dark); font-weight:700;">
-				<?php echo esc_html( $rating_time ); ?>
-			</div>
+			<div class="thr-review-box__meta"><?php echo esc_html( $rating_time ); ?></div>
 		<?php endif; ?>
 	</div>
 
@@ -35,6 +34,9 @@ $rating_time = get_post_meta( $post_id, 'thr_review_rating_time', true );
 		<ul class="thr-review-box__details">
 			<?php if ( ! empty( $director ) ) : ?>
 				<li><strong><?php esc_html_e( 'Director:', 'thr-theme' ); ?></strong> <?php echo esc_html( $director ); ?></li>
+			<?php endif; ?>
+			<?php if ( ! empty( $writer ) ) : ?>
+				<li><strong><?php esc_html_e( 'Writer:', 'thr-theme' ); ?></strong> <?php echo esc_html( $writer ); ?></li>
 			<?php endif; ?>
 			<?php if ( ! empty( $cast ) ) : ?>
 				<li><strong><?php esc_html_e( 'Cast:', 'thr-theme' ); ?></strong> <?php echo esc_html( $cast ); ?></li>

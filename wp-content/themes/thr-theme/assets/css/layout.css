@@ -8,7 +8,8 @@
 .thr-header {
 	background: var(--white);
 	border-bottom: 1px solid var(--grey-light);
-	position: relative;
+	position: sticky;
+	top: 0;
 	z-index: 100;
 }
 
@@ -54,9 +55,9 @@
 
 .thr-header__text-link {
 	font-family: var(--font-sans);
-	font-size: 11px;
+	font-size: 14px;
 	font-weight: var(--fw-accent);
-	letter-spacing: 0.08em;
+	letter-spacing: 0.05em;
 	text-transform: uppercase;
 	color: var(--black);
 }
@@ -119,17 +120,19 @@
 }
 
 @media (min-width: 1000px) {
+	/* Desktop: the full header scrolls away and the compact .thr-sticky bar takes over. */
 	.thr-header {
+		position: relative;
 		border-bottom: 0;
 	}
 
 	.thr-header__bar {
-		min-height: 88px;
+		min-height: 104px;
 	}
 
 	.thr-header__left,
 	.thr-header__right {
-		gap: 22px;
+		gap: 24px;
 	}
 
 	.thr-header__search-btn,
@@ -138,19 +141,19 @@
 	}
 
 	.thr-logo__the {
-		font-size: 10px;
+		font-size: 13px;
 	}
 
 	.thr-logo__main {
-		font-size: 44px;
+		font-size: 60px;
 	}
 
 	.thr-logo__reporter {
-		font-size: 12px;
+		font-size: 15px;
 	}
 
 	.thr-logo__img {
-		height: 56px;
+		height: 80px;
 	}
 
 	.thr-section-bar {
@@ -167,18 +170,185 @@
 		display: flex;
 		justify-content: center;
 		flex-wrap: wrap;
-		gap: 4px 28px;
+		gap: 4px 36px;
 	}
 
 	.thr-section-bar__link {
 		display: block;
-		padding: 11px 0;
+		padding: 14px 0;
 		font-family: var(--font-sans);
-		font-size: 11px;
+		font-size: 14px;
 		font-weight: var(--fw-accent);
-		letter-spacing: 0.1em;
+		letter-spacing: 0.05em;
 		text-transform: uppercase;
 		color: var(--black);
+	}
+}
+
+/* WordPress pins its admin bar at 32px from 783px up. */
+@media (min-width: 783px) and (max-width: 999px) {
+	.admin-bar .thr-header {
+		top: 32px;
+	}
+}
+
+/* ---------- Compact sticky header (desktop, after scrolling past the masthead) ---------- */
+
+.thr-sticky {
+	display: none;
+}
+
+@media (min-width: 1000px) {
+	.thr-sticky {
+		display: flex;
+		align-items: center;
+		gap: 20px;
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+		z-index: 110;
+		height: var(--sticky-height);
+		padding: 0 16px;
+		background: var(--white);
+		border-bottom: 1px solid var(--grey-light);
+		transform: translateY(-100%);
+		visibility: hidden;
+		transition: transform 0.2s ease, visibility 0s linear 0.2s;
+	}
+
+	.thr-sticky.is-visible {
+		transform: none;
+		visibility: visible;
+		transition: transform 0.2s ease;
+	}
+
+	.admin-bar .thr-sticky {
+		top: 32px;
+	}
+
+	.thr-sticky__menu {
+		display: inline-flex;
+		align-items: center;
+		gap: 8px;
+		margin-left: 0;
+		font-family: var(--font-sans);
+		font-size: 14px;
+		font-weight: var(--fw-accent);
+		letter-spacing: 0.05em;
+		text-transform: uppercase;
+	}
+
+	.thr-sticky .thr-logo__the {
+		font-size: 6px;
+	}
+
+	.thr-sticky .thr-logo__main {
+		font-size: 28px;
+	}
+
+	.thr-sticky .thr-logo__reporter {
+		font-size: 7px;
+	}
+
+	.thr-sticky .thr-logo__img {
+		height: 34px;
+	}
+
+	.thr-sticky__nav {
+		flex: 1;
+		min-width: 0;
+		overflow: hidden;
+	}
+
+	.thr-sticky__list {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: flex;
+		justify-content: flex-end;
+		gap: 32px;
+		white-space: nowrap;
+	}
+
+	.thr-sticky .thr-section-bar__link {
+		padding: 0;
+	}
+
+	.thr-sticky__subscribe {
+		font-family: var(--font-sans);
+		font-size: 14px;
+		font-weight: var(--fw-accent);
+		letter-spacing: 0.05em;
+		text-transform: uppercase;
+		color: var(--brand-primary);
+		white-space: nowrap;
+	}
+}
+
+/* ---------- Mobile tab bar (sections, home, search; hidden on article pages) ---------- */
+
+.thr-tabbar {
+	position: fixed;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	z-index: 120;
+	display: grid;
+	grid-template-columns: repeat(5, 1fr);
+	height: calc(var(--tabbar-height) + env(safe-area-inset-bottom, 0px));
+	padding-bottom: env(safe-area-inset-bottom, 0px);
+	background: var(--white);
+	border-top: 1px solid var(--grey-light);
+	box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.06);
+	transition: transform 0.2s ease;
+}
+
+.thr-tabbar.is-hidden {
+	transform: translateY(100%);
+}
+
+.thr-tabbar__item {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 4px;
+	background: none;
+	border: 0;
+	padding: 0;
+	color: var(--black);
+	font-family: var(--font-sans);
+	font-size: 10px;
+	font-weight: var(--fw-accent);
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+	cursor: pointer;
+	min-width: 0;
+}
+
+.thr-tabbar__item span {
+	max-width: 100%;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.thr-tabbar__item.is-current {
+	color: var(--brand-primary);
+}
+
+body.has-tabbar {
+	padding-bottom: calc(var(--tabbar-height) + env(safe-area-inset-bottom, 0px));
+}
+
+@media (min-width: 1000px) {
+	.thr-tabbar {
+		display: none;
+	}
+
+	body.has-tabbar {
+		padding-bottom: 0;
 	}
 }
 
@@ -858,6 +1028,17 @@
 		display: block;
 	}
 
+	.thr-rail-title {
+		font-size: 29px;
+		line-height: 28px;
+	}
+
+	/* THR's Latest News rail has no rule above its heading. */
+	.thr-rail-widget > .thr-rail-title {
+		border-top: 0;
+		padding-top: 0;
+	}
+
 	.thr-rail--sticky {
 		position: sticky;
 		top: 20px;
@@ -923,12 +1104,8 @@
 	font-size: 44px;
 }
 
-.thr-footer__cover-cta {
-	font-size: 11px;
-	font-weight: var(--fw-accent);
-	letter-spacing: 0.1em;
-	text-transform: uppercase;
-	color: var(--white);
+.thr-footer a.thr-footer__cover-link:hover {
+	text-decoration: none;
 }
 
 .thr-footer__menus {

@@ -17,11 +17,11 @@ $mag_url   = get_option( 'thr_magazine_url' ) ?: home_url( '/newsletters/' );
 			<div class="thr-footer__cover<?php echo $cover_url ? '' : ' thr-footer__cover--placeholder'; ?>">
 				<a href="<?php echo esc_url( $mag_url ); ?>" class="thr-footer__cover-link">
 					<?php if ( $cover_url ) : ?>
-						<img src="<?php echo esc_url( $cover_url ); ?>" alt="<?php esc_attr_e( 'Latest issue of The Hollywood Reporter', 'thr-theme' ); ?>" loading="lazy" />
+						<img src="<?php echo esc_url( $cover_url ); ?>" alt="<?php esc_attr_e( 'Latest issue of The Hollywood Reporter UK', 'thr-theme' ); ?>" loading="lazy" />
 					<?php else : ?>
 						<span class="thr-footer__cover-placeholder">
 							<span class="thr-logo thr-logo--footer"><?php thr_the_wordmark(); ?></span>
-							<span class="thr-footer__cover-cta"><?php esc_html_e( 'Get the Magazine', 'thr-theme' ); ?></span>
+							<span class="screen-reader-text"><?php esc_html_e( 'The Hollywood Reporter UK magazine', 'thr-theme' ); ?></span>
 						</span>
 					<?php endif; ?>
 				</a>
@@ -56,7 +56,7 @@ $mag_url   = get_option( 'thr_magazine_url' ) ?: home_url( '/newsletters/' );
 				</div>
 
 				<div class="thr-footer__actions">
-					<form class="thr-footer__newsletter" action="<?php echo esc_url( thr_newsletter_action() ); ?>" method="post">
+					<form class="thr-footer__newsletter" action="<?php echo esc_url( thr_newsletter_action() ); ?>" method="<?php echo esc_attr( thr_newsletter_method() ); ?>">
 						<h2 class="thr-footer__action-title"><?php esc_html_e( 'Newsletter Sign Up', 'thr-theme' ); ?></h2>
 						<div class="thr-footer__newsletter-row">
 							<label for="thrFooterEmail" class="screen-reader-text"><?php esc_html_e( 'Email address', 'thr-theme' ); ?></label>
@@ -90,6 +90,31 @@ $mag_url   = get_option( 'thr_magazine_url' ) ?: home_url( '/newsletters/' );
 			</div>
 		</div>
 	</footer>
+
+	<?php if ( thr_show_tabbar() ) : ?>
+		<nav class="thr-tabbar js-thr-tabbar" aria-label="<?php esc_attr_e( 'Quick navigation', 'thr-theme' ); ?>">
+			<a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="thr-tabbar__item<?php echo is_front_page() ? ' is-current' : ''; ?>"<?php echo is_front_page() ? ' aria-current="page"' : ''; ?>>
+				<?php echo thr_icon( 'home', 22 ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+				<span><?php esc_html_e( 'Home', 'thr-theme' ); ?></span>
+			</a>
+			<button type="button" class="thr-tabbar__item js-thr-menu-open" aria-controls="thrMegaMenu" aria-expanded="false">
+				<?php echo thr_icon( 'grid', 22 ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+				<span><?php esc_html_e( 'Sections', 'thr-theme' ); ?></span>
+			</button>
+			<button type="button" class="thr-tabbar__item js-thr-menu-open" data-thr-focus-search aria-controls="thrMegaMenu" aria-expanded="false">
+				<?php echo thr_icon( 'search', 22 ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+				<span><?php esc_html_e( 'Search', 'thr-theme' ); ?></span>
+			</button>
+			<a href="<?php echo esc_url( home_url( '/video/' ) ); ?>" class="thr-tabbar__item<?php echo is_post_type_archive( 'thr_video' ) ? ' is-current' : ''; ?>">
+				<?php echo thr_icon( 'play', 22 ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+				<span><?php esc_html_e( 'Video', 'thr-theme' ); ?></span>
+			</a>
+			<a href="<?php echo esc_url( home_url( '/newsletters/' ) ); ?>" class="thr-tabbar__item">
+				<?php echo thr_icon( 'mail', 22 ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+				<span><?php esc_html_e( 'Newsletters', 'thr-theme' ); ?></span>
+			</a>
+		</nav>
+	<?php endif; ?>
 </div><!-- #page -->
 
 <?php wp_footer(); ?>

@@ -7,7 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'THR_THEME_VERSION', '1.1.0' );
+define( 'THR_THEME_VERSION', '1.2.1' );
 
 require_once get_template_directory() . '/inc/template-tags.php';
 require_once get_template_directory() . '/inc/icons.php';
@@ -130,12 +130,39 @@ function thr_the_logo( $context = 'header' ) {
 }
 
 /**
+ * Whether to show the mobile tab bar. It helps browsing (home, sections, search)
+ * but would only cover text while reading, so single articles and pages skip it.
+ *
+ * @return bool
+ */
+function thr_show_tabbar() {
+	$enabled = '1' === (string) get_option( 'thr_mobile_tabbar', '1' );
+	// The homepage is a static Page, so it counts as singular; keep the bar there.
+	$reading = is_singular() && ! is_front_page();
+	return (bool) apply_filters( 'thr_show_tabbar', $enabled && ! $reading );
+}
+
+/**
+ * Body classes for layout features.
+ *
+ * @param string[] $classes Body classes.
+ * @return string[]
+ */
+function thr_body_classes( $classes ) {
+	if ( thr_show_tabbar() ) {
+		$classes[] = 'has-tabbar';
+	}
+	return $classes;
+}
+add_filter( 'body_class', 'thr_body_classes' );
+
+/**
  * Typeset wordmark spans, for use inside a .thr-logo element (no link).
  */
 function thr_the_wordmark() {
 	?>
 	<span class="thr-logo__the" aria-hidden="true">The</span>
 	<span class="thr-logo__main" aria-hidden="true">Hollywood</span>
-	<span class="thr-logo__reporter" aria-hidden="true">Reporter</span>
+	<span class="thr-logo__reporter" aria-hidden="true">Reporter UK</span>
 	<?php
 }

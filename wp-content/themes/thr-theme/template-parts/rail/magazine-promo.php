@@ -16,7 +16,7 @@ $cover_url = get_option( 'thr_magazine_cover_url', '' );
 		<?php esc_html_e( 'The definitive voice of entertainment news and culture.', 'thr-theme' ); ?>
 	</p>
 	<?php if ( ! empty( $cover_url ) ) : ?>
-		<img src="<?php echo esc_url( $cover_url ); ?>" alt="<?php esc_attr_e( 'The Hollywood Reporter Magazine Cover', 'thr-theme' ); ?>" class="thr-promo-box__cover" />
+		<img src="<?php echo esc_url( $cover_url ); ?>" alt="<?php esc_attr_e( 'The Hollywood Reporter UK Magazine Cover', 'thr-theme' ); ?>" class="thr-promo-box__cover" />
 	<?php endif; ?>
 	<a href="<?php echo esc_url( $mag_url ); ?>" class="thr-promo-box__btn">
 		<?php esc_html_e( 'See My Options', 'thr-theme' ); ?> &rarr;

@@ -1,0 +1,47 @@
+name: Release
+
+# Tag a version (git tag v1.2.0 && git push origin v1.2.0) to lint, package the
+# theme and both plugins, and publish them as a GitHub release. WordPress then
+# offers the update under Dashboard > Updates. No connection to the host is made.
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          tools: none
+
+      - name: PHP syntax check
+        run: find wp-content -name '*.php' -print0 | xargs -0 -n1 php -l > /dev/null
+
+      - name: JS syntax check
+        run: node --check wp-content/themes/thr-theme/assets/js/main.js
+
+      - name: Check versions match the tag
+        run: |
+          set -euo pipefail
+          TAG="${GITHUB_REF_NAME#v}"
+          for f in wp-content/themes/thr-theme/style.css wp-content/plugins/thr-core/thr-core.php wp-content/plugins/thr-importer/thr-importer.php; do
+            V="$(grep -m1 -E '^[ *]*Version:' "$f" | sed -E 's/.*Version:[[:space:]]*//' | tr -d '[:space:]')"
+            [ "$V" = "$TAG" ] || { echo "::error::$f is version '$V' but the tag is '$TAG'"; exit 1; }
+          done
+
+      - name: Package zips
+        run: python3 bin/package.py
+
+      - name: Publish release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "$GITHUB_REF_NAME" thr-theme.zip thr-core.zip thr-importer.zip --title "$GITHUB_REF_NAME" --generate-notes

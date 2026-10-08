@@ -43,10 +43,13 @@
 	--footer-rule: #3C3C3C;
 	--overlay: rgba(0, 0, 0, 0.55);
 
-	--container-max: 1260px;
-	--content-width: 660px;
+	/* THR desktop grid (measured): 1128px of content = 796 main + 32 gap + 300 rail. */
+	--container-max: 1168px;
+	--content-width: 796px;
 	--rail-width: 300px;
-	--gap-main: 40px;
+	--gap-main: 32px;
+	--sticky-height: 52px;
+	--tabbar-height: 58px;
 
 	--scale-primary-xxl: 34px;
 	--line-primary-xxl: 36px;
@@ -66,6 +69,11 @@
 
 	--scale-body-m: 20px;
 	--line-body-m: 25px;
+
+	--scale-article-title: 34px;
+	--line-article-title: 36px;
+	--scale-article-dek: 20px;
+	--line-article-dek: 24px;
 
 	--scale-accent-xl: 18px;
 	--scale-accent-m: 15px;
@@ -93,5 +101,10 @@
 
 		--scale-body-m: 22px;
 		--line-body-m: 28px;
+
+		--scale-article-title: 64px;
+		--line-article-title: 60px;
+		--scale-article-dek: 26px;
+		--line-article-dek: 29px;
 	}
 }

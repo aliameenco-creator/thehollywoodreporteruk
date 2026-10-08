@@ -8,6 +8,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 function thr_output_topic_canonical() {
+	// Yoast and friends print their own canonical; never output two.
+	if ( function_exists( 'thr_has_seo_plugin' ) && thr_has_seo_plugin() ) {
+		return;
+	}
 	if ( is_tag() ) {
 		$term = get_queried_object();
 		if ( $term ) {
@@ -70,6 +74,8 @@ function thr_output_schema_json_ld() {
 			);
 		}
 
+		$seo_plugin = function_exists( 'thr_has_seo_plugin' ) && thr_has_seo_plugin();
+
 		if ( 'review' === $article_type ) {
 			$subject = get_post_meta( $post->ID, 'thr_review_subject', true ) ?: get_the_title( $post->ID );
 			$article_schema['itemReviewed'] = array(
@@ -85,7 +91,23 @@ function thr_output_schema_json_ld() {
 			}
 		}
 
-		$data[] = $article_schema;
+		if ( ! $seo_plugin ) {
+			$data[] = $article_schema;
+		} elseif ( 'review' === $article_type ) {
+			// The SEO plugin already describes the article; add only the review, which it doesn't know about.
+			$data[] = array(
+				'@context'     => 'https://schema.org',
+				'@type'        => 'Review',
+				'url'          => get_permalink( $post->ID ),
+				'name'         => get_the_title( $post->ID ),
+				'author'       => $article_schema['author'],
+				'publisher'    => array(
+					'@type' => 'NewsMediaOrganization',
+					'name'  => get_bloginfo( 'name' ),
+				),
+				'itemReviewed' => $article_schema['itemReviewed'],
+			);
+		}
 	}
 
 	if ( ! empty( $data ) ) {

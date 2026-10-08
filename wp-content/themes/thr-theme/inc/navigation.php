@@ -247,7 +247,7 @@ function thr_get_footer_columns() {
 			),
 		),
 		array(
-			'label'    => __( 'The Hollywood Reporter', 'thr-theme' ),
+			'label'    => __( 'The Hollywood Reporter UK', 'thr-theme' ),
 			'children' => array(
 				array( __( 'About Us', 'thr-theme' ), '/masthead/' ),
 				array( __( 'Careers', 'thr-theme' ), '/contact/' ),
@@ -296,4 +296,15 @@ function thr_get_social_links() {
  */
 function thr_newsletter_action() {
 	return get_option( 'thr_newsletter_url' ) ?: home_url( '/newsletters/' );
+}
+
+/**
+ * Newsletter form method. Without an external provider the footer/menu boxes
+ * hand the email to the Newsletters page (GET, pre-filled), where readers pick
+ * newsletters and consent; that keeps nonces off cached pages.
+ *
+ * @return string
+ */
+function thr_newsletter_method() {
+	return get_option( 'thr_newsletter_url' ) ? 'post' : 'get';
 }

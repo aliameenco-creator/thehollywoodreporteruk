@@ -18,7 +18,7 @@ This repository contains the complete custom theme and plugins for **The Hollywo
 ├── docs/                              # Project reference and site specifications
 ├── .github/
 │   └── workflows/
-│       └── deploy-staging.yml         # GitHub Actions deployment to Hostinger
+│       └── release.yml                # Tag vX.Y.Z -> zips on a GitHub release (WordPress pulls updates)
 ├── .gitignore
 ├── README.md
 └── AGENTS.md                          # Coding guidelines and security standards
@@ -90,3 +90,22 @@ This repository contains the complete custom theme and plugins for **The Hollywo
 4. Settings:
    - Verify **Settings → Permalinks** is set to Custom Structure `/%category%/%postname%-%post_id%/`, Category base `c`, Tag base `t`.
    - Configure brand options under **Settings → THR**.
+
+---
+
+## Using the site
+
+Editors and site owners: see [docs/SITE-GUIDE.md](docs/SITE-GUIDE.md) for publishing, newsletters, forms, SEO (Yoast) and cookies.
+
+---
+
+## Updating the live site (no SSH)
+
+The host is never contacted from GitHub. Instead WordPress pulls updates itself:
+
+1. Bump `Version:` in `style.css`, `thr-core.php`, `thr-importer.php` (and the `*_VERSION` constants).
+2. Commit, push, then tag: `git tag v1.2.2 && git push origin v1.2.2`.
+3. The **Release** workflow lints, packages `thr-theme.zip`, `thr-core.zip`, `thr-importer.zip` and publishes a GitHub release.
+4. In WordPress open **Dashboard > Updates** (click *Check again*) and update the theme/plugins.
+
+If the repository is private, add `define( 'THR_GITHUB_TOKEN', '<read-only token>' );` to `wp-config.php`.

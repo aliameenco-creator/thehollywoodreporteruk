@@ -70,7 +70,7 @@ $columns = thr_get_mega_menu();
 				</ul>
 			</div>
 
-			<form class="thr-mega__newsletter" action="<?php echo esc_url( thr_newsletter_action() ); ?>" method="post">
+			<form class="thr-mega__newsletter" action="<?php echo esc_url( thr_newsletter_action() ); ?>" method="<?php echo esc_attr( thr_newsletter_method() ); ?>">
 				<label for="thrMegaEmail" class="thr-mega__foot-title"><?php esc_html_e( 'Alerts & Newsletters', 'thr-theme' ); ?></label>
 				<div class="thr-mega__newsletter-row">
 					<input type="email" id="thrMegaEmail" name="email" required placeholder="<?php esc_attr_e( 'Your e-mail', 'thr-theme' ); ?>" />

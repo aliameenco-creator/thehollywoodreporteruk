@@ -3,7 +3,7 @@
  * Plugin Name: THR Core
  * Plugin URI:  https://thehollywoodreporter.co.uk
  * Description: Editorial data model, custom post types, taxonomies, custom permalinks, and settings for The Hollywood Reporter UK.
- * Version:     1.1.0
+ * Version:     1.2.1
  * Author:      The Hollywood Reporter UK
  * Author URI:  https://thehollywoodreporter.co.uk
  * Text Domain: thr-core
@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'THR_CORE_VERSION', '1.1.0' );
+define( 'THR_CORE_VERSION', '1.2.1' );
 define( 'THR_CORE_PATH', plugin_dir_path( __FILE__ ) );
 define( 'THR_CORE_URL', plugin_dir_url( __FILE__ ) );
 
@@ -35,9 +35,14 @@ require_once THR_CORE_PATH . 'includes/query.php';
 require_once THR_CORE_PATH . 'includes/popular.php';
 require_once THR_CORE_PATH . 'includes/related.php';
 require_once THR_CORE_PATH . 'includes/search.php';
+require_once THR_CORE_PATH . 'includes/mail.php';
 require_once THR_CORE_PATH . 'includes/tip-form.php';
+require_once THR_CORE_PATH . 'includes/contact-form.php';
+require_once THR_CORE_PATH . 'includes/newsletter.php';
+require_once THR_CORE_PATH . 'includes/seo.php';
 require_once THR_CORE_PATH . 'includes/settings.php';
 require_once THR_CORE_PATH . 'includes/schema.php';
+require_once THR_CORE_PATH . 'includes/updater.php';
 
 /**
  * Plugin activation hook.

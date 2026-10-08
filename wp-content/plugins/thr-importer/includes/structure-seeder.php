@@ -173,13 +173,23 @@ class THR_Structure_Seeder {
 		}
 
 		if ( ! empty( $data['pages'] ) ) {
+			$live_pages = array( 'home', 'tip-line', 'contact', 'newsletters' );
+			// The theme adds each page's form automatically, so these only need an intro.
+			$intros = array(
+				'contact'     => "<!-- wp:paragraph -->
+<p>Questions, corrections, partnership enquiries or feedback: send us a message and the right team will reply. For confidential story tips, use our <a href=\"/tip-line/\">Tip Line</a>.</p>
+<!-- /wp:paragraph -->",
+				'newsletters' => "<!-- wp:paragraph -->
+<p>Get The Hollywood Reporter UK in your inbox. Pick the newsletters you want and sign up below.</p>
+<!-- /wp:paragraph -->",
+			);
 			foreach ( $data['pages'] as $pg ) {
 				$existing = get_page_by_path( $pg['slug'] );
 				$title    = isset( $pg['name'] ) ? $pg['name'] : ( isset( $pg['title'] ) ? $pg['title'] : '' );
 				if ( ! $existing ) {
-					// Home and Tip Line are linked from every page, so they go live; the rest stay drafts for editors.
-					$status = in_array( $pg['slug'], array( 'home', 'tip-line' ), true ) ? 'publish' : 'draft';
-					$content = '';
+					// Pages linked from every page go live; the rest stay drafts for editors.
+					$status = in_array( $pg['slug'], $live_pages, true ) ? 'publish' : 'draft';
+					$content = isset( $intros[ $pg['slug'] ] ) ? $intros[ $pg['slug'] ] : '';
 					if ( 'tip-line' === $pg['slug'] ) {
 						$content = "<!-- wp:paragraph -->\n<p>Have a scoop, inside document, or breaking entertainment story? Send it securely and confidentially to our investigative editorial desk.</p>\n<!-- /wp:paragraph -->\n\n<!-- wp:shortcode -->\n[thr_tip_form]\n<!-- /wp:shortcode -->";
 					} elseif ( 'masthead' === $pg['slug'] ) {
@@ -214,8 +224,11 @@ class THR_Structure_Seeder {
 					if ( '' === $existing->post_title && '' !== $title ) {
 						$repair['post_title'] = $title;
 					}
-					if ( 'tip-line' === $pg['slug'] && 'draft' === $existing->post_status ) {
+					if ( in_array( $pg['slug'], $live_pages, true ) && 'draft' === $existing->post_status ) {
 						$repair['post_status'] = 'publish';
+					}
+					if ( isset( $intros[ $pg['slug'] ] ) && '' === trim( $existing->post_content ) ) {
+						$repair['post_content'] = $intros[ $pg['slug'] ];
 					}
 					if ( $repair ) {
 						$repair['ID'] = $existing->ID;

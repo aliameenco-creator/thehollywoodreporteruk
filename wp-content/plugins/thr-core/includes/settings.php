@@ -24,7 +24,18 @@ function thr_register_settings_fields() {
 	register_setting( 'thr_settings_group', 'thr_logo_url', array( 'sanitize_callback' => 'esc_url_raw' ) );
 	register_setting( 'thr_settings_group', 'thr_white_logo_url', array( 'sanitize_callback' => 'esc_url_raw' ) );
 	register_setting( 'thr_settings_group', 'thr_tip_email', array( 'sanitize_callback' => 'sanitize_email' ) );
+	register_setting( 'thr_settings_group', 'thr_contact_email', array( 'sanitize_callback' => 'sanitize_email' ) );
 	register_setting( 'thr_settings_group', 'thr_newsletter_url', array( 'sanitize_callback' => 'esc_url_raw' ) );
+	register_setting(
+		'thr_settings_group',
+		'thr_mobile_tabbar',
+		array(
+			'sanitize_callback' => function ( $value ) {
+				return $value ? '1' : '0';
+			},
+			'default'           => '1',
+		)
+	);
 	register_setting( 'thr_settings_group', 'thr_magazine_url', array( 'sanitize_callback' => 'esc_url_raw' ) );
 	register_setting( 'thr_settings_group', 'thr_magazine_cover_url', array( 'sanitize_callback' => 'esc_url_raw' ) );
 
@@ -84,8 +95,30 @@ function thr_render_settings_page() {
 					<td><input type="email" name="thr_tip_email" id="thr_tip_email" value="<?php echo esc_attr( get_option( 'thr_tip_email', 'tips@thehollywoodreporter.co.uk' ) ); ?>" class="regular-text" /></td>
 				</tr>
 				<tr>
+					<th scope="row"><label for="thr_contact_email"><?php esc_html_e( 'Contact Form Email Recipient', 'thr-core' ); ?></label></th>
+					<td>
+						<input type="email" name="thr_contact_email" id="thr_contact_email" value="<?php echo esc_attr( get_option( 'thr_contact_email', get_option( 'admin_email' ) ) ); ?>" class="regular-text" />
+						<p class="description"><?php esc_html_e( 'Messages from the Contact Us page go here.', 'thr-core' ); ?></p>
+					</td>
+				</tr>
+				<tr>
 					<th scope="row"><label for="thr_newsletter_url"><?php esc_html_e( 'Newsletter Signup Action URL', 'thr-core' ); ?></label></th>
-					<td><input type="url" name="thr_newsletter_url" id="thr_newsletter_url" value="<?php echo esc_url( get_option( 'thr_newsletter_url' ) ); ?>" class="regular-text" /></td>
+					<td>
+						<input type="url" name="thr_newsletter_url" id="thr_newsletter_url" value="<?php echo esc_url( get_option( 'thr_newsletter_url' ) ); ?>" class="regular-text" />
+						<p class="description"><?php esc_html_e( 'Leave blank to collect sign-ups in WordPress (Newsletter Subscribers menu).', 'thr-core' ); ?></p>
+					</td>
+				</tr>
+			</table>
+
+			<h2 class="title"><?php esc_html_e( 'Mobile', 'thr-core' ); ?></h2>
+			<table class="form-table">
+				<tr>
+					<th scope="row"><?php esc_html_e( 'Bottom Tab Bar', 'thr-core' ); ?></th>
+					<td>
+						<input type="hidden" name="thr_mobile_tabbar" value="0" />
+						<label><input type="checkbox" name="thr_mobile_tabbar" value="1" <?php checked( get_option( 'thr_mobile_tabbar', '1' ), '1' ); ?> /> <?php esc_html_e( 'Show the Home / Sections / Search / Video / Newsletters bar on phones', 'thr-core' ); ?></label>
+						<p class="description"><?php esc_html_e( 'Shown on the homepage, section pages and search. Hidden while reading an article.', 'thr-core' ); ?></p>
+					</td>
 				</tr>
 			</table>
 

@@ -55,10 +55,12 @@ function thr_handle_tip_submission() {
 		$headers[] = 'Reply-To: ' . $email;
 	}
 
-	wp_mail( $tip_recipient, $email_subject, $email_body, $headers );
+	// Answer the visitor first; a slow mail server must not hold their request (504).
+	thr_redirect_and_continue( add_query_arg( 'tip_status', 'success', wp_get_referer() ?: home_url( '/tip-line/' ) ) );
 
-	$redirect = add_query_arg( 'tip_status', 'success', wp_get_referer() ?: home_url( '/tip-line/' ) );
-	wp_safe_redirect( $redirect );
+	if ( ! wp_mail( $tip_recipient, $email_subject, $email_body, $headers ) ) {
+		error_log( 'THR tip line: wp_mail() failed for a tip to ' . $tip_recipient ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
+	}
 	exit;
 }
 add_action( 'template_redirect', 'thr_handle_tip_submission' );
