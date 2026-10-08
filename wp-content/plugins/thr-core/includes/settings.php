@@ -66,7 +66,7 @@ function thr_render_settings_page() {
 					<th scope="row"><label for="thr_font_preset"><?php esc_html_e( 'Font Preset', 'thr-core' ); ?></label></th>
 					<td>
 						<select name="thr_font_preset" id="thr_font_preset">
-							<option value="free" <?php selected( $font_preset, 'free' ); ?>><?php esc_html_e( 'Free (Newsreader 700/400 + Karla) — Recommended & Self-Hosted', 'thr-core' ); ?></option>
+							<option value="free" <?php selected( $font_preset, 'free' ); ?>><?php esc_html_e( 'Free (Instrument Serif headlines + Newsreader + Karla)', 'thr-core' ); ?></option>
 							<option value="adobe" <?php selected( $font_preset, 'adobe' ); ?>><?php esc_html_e( 'Adobe Fonts (Kepler Std + Karla via Kit ID)', 'thr-core' ); ?></option>
 						</select>
 						<p class="description"><?php esc_html_e( 'Instantly swaps font variables across the entire design system.', 'thr-core' ); ?></p>
@@ -109,6 +109,8 @@ function thr_render_settings_page() {
 					</td>
 				</tr>
 			</table>
+
+			<?php thr_render_homepage_settings(); ?>
 
 			<h2 class="title"><?php esc_html_e( 'Mobile', 'thr-core' ); ?></h2>
 			<table class="form-table">

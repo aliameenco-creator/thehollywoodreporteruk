@@ -104,7 +104,7 @@ Editors and site owners: see [docs/SITE-GUIDE.md](docs/SITE-GUIDE.md) for publis
 The host is never contacted from GitHub. Instead WordPress pulls updates itself:
 
 1. Bump `Version:` in `style.css`, `thr-core.php`, `thr-importer.php` (and the `*_VERSION` constants).
-2. Commit, push, then tag: `git tag v1.2.2 && git push origin v1.2.2`.
+2. Commit, push, then tag: `git tag v1.2.3 && git push origin v1.2.3`.
 3. The **Release** workflow lints, packages `thr-theme.zip`, `thr-core.zip`, `thr-importer.zip` and publishes a GitHub release.
 4. In WordPress open **Dashboard > Updates** (click *Check again*) and update the theme/plugins.
 

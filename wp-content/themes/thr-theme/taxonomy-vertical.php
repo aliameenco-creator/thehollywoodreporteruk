@@ -1,6 +1,7 @@
 <?php
 /**
- * The template for displaying Vertical Hubs (/e/{slug}/).
+ * Vertical channel pages (/e/{slug}/), e.g. LIVE FEED or HEAT VISION:
+ * brand header, lead story + three cards, then "{Vertical}'s Latest News".
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -9,63 +10,62 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 get_header();
 
-$current_vert = get_queried_object();
-$vert_id      = $current_vert->term_id;
-$color        = get_term_meta( $vert_id, 'thr_vertical_color', true ) ?: '#D92128';
-$tagline_1    = get_term_meta( $vert_id, 'thr_vertical_tagline_1', true );
-$tagline_2    = get_term_meta( $vert_id, 'thr_vertical_tagline_2', true );
+$term      = get_queried_object();
+$color     = thr_vertical_color( $term );
+$tagline_1 = get_term_meta( $term->term_id, 'thr_vertical_tagline_1', true );
+$tagline_2 = get_term_meta( $term->term_id, 'thr_vertical_tagline_2', true );
+$logo      = get_term_meta( $term->term_id, 'thr_vertical_logo', true );
 ?>
 
-<main id="primary" class="site-main">
+<main id="primary" class="site-main thr-vertical" style="--vert-color: <?php echo esc_attr( $color ); ?>">
 	<div class="thr-container">
-		<header class="thr-vertical-header" style="text-align:center; padding:40px 0 30px; border-bottom:3px solid <?php echo esc_attr( $color ); ?>; margin-bottom:35px;">
-			<div style="font-family:var(--font-sans); font-size:12px; font-weight: var(--fw-accent); letter-spacing:0.2em; text-transform:uppercase; color:<?php echo esc_attr( $color ); ?>; margin-bottom:10px;">
-				<?php esc_html_e( 'A THR Channel', 'thr-theme' ); ?>
+		<header class="thr-vhead">
+			<div class="thr-vhead__rule">
+				<?php if ( $logo ) : ?>
+					<img class="thr-vhead__icon" src="<?php echo esc_url( $logo ); ?>" alt="" />
+				<?php endif; ?>
 			</div>
-			<h1 style="font-family:var(--font-sans); font-size:48px; font-weight: var(--fw-heading); letter-spacing:0.12em; text-transform:uppercase; color:<?php echo esc_attr( $color ); ?>; margin:0 0 12px; line-height:1;">
-				<?php single_term_title(); ?>
-			</h1>
-			<?php if ( ! empty( $tagline_1 ) || ! empty( $tagline_2 ) ) : ?>
-				<div style="font-family:var(--font-serif); font-style:italic; font-size:18px; color:var(--grey-dark);">
-					<?php echo esc_html( $tagline_1 ); ?>
-					<?php if ( ! empty( $tagline_1 ) && ! empty( $tagline_2 ) ) echo ' &bull; '; ?>
-					<?php echo esc_html( $tagline_2 ); ?>
-				</div>
-			<?php endif; ?>
+			<div class="thr-vhead__row">
+				<p class="thr-vhead__tagline"><?php echo esc_html( $tagline_1 ); ?></p>
+				<h1 class="thr-vhead__name"><?php single_term_title(); ?></h1>
+				<p class="thr-vhead__tagline"><?php echo esc_html( $tagline_2 ); ?></p>
+			</div>
 		</header>
 
-		<div class="thr-layout-main">
-			<div class="thr-layout-grid">
-				<div class="thr-content-area">
-					<?php if ( have_posts() ) : ?>
-						<div class="thr-archive-river">
-							<?php
-							while ( have_posts() ) :
-								the_post();
-								get_template_part( 'template-parts/cards/card', null, array( 'variant' => 'river' ) );
-							endwhile;
-							?>
-						</div>
-
-						<div class="thr-pagination" style="margin:40px 0; text-align:center;">
-							<?php
-							the_posts_pagination( array(
-								'mid_size'  => 2,
-								'prev_text' => __( '&larr; Previous', 'thr-theme' ),
-								'next_text' => __( 'More Stories &rarr;', 'thr-theme' ),
-							) );
-							?>
-						</div>
-					<?php else : ?>
-						<p><?php esc_html_e( 'No stories published in this vertical channel yet.', 'thr-theme' ); ?></p>
-					<?php endif; ?>
-				</div>
-
-				<aside class="thr-rail thr-rail--sticky">
-					<?php get_template_part( 'template-parts/rail/most-popular' ); ?>
-					<?php get_template_part( 'template-parts/rail/magazine-promo' ); ?>
-				</aside>
+		<div class="thr-layout-grid thr-vertical__grid">
+			<div class="thr-content-area">
+				<?php
+				get_template_part(
+					'template-parts/archive/stream',
+					null,
+					/* translators: %s: vertical name, e.g. Live Feed. */
+					array( 'river_title' => sprintf( __( '%s’s Latest News', 'thr-theme' ), $term->name ) )
+				);
+				?>
 			</div>
+
+			<aside class="thr-rail thr-rail--sticky">
+				<?php
+				$lists = function_exists( 'thr_newsletters' ) ? thr_newsletters() : array();
+				$list  = isset( $lists[ $term->slug ] ) ? $term->slug : '';
+				?>
+				<form class="thr-vnews" action="<?php echo esc_url( thr_newsletter_action() ); ?>" method="<?php echo esc_attr( thr_newsletter_method() ); ?>">
+					<p class="thr-vnews__kicker"><?php esc_html_e( 'Weekly Newsletter', 'thr-theme' ); ?></p>
+					<p class="thr-vnews__text">
+						<?php
+						/* translators: %s: vertical name. */
+						echo esc_html( $tagline_1 ?: sprintf( __( 'The best of %s, straight to your inbox.', 'thr-theme' ), $term->name ) );
+						?>
+					</p>
+					<?php if ( $list ) : ?>
+						<input type="hidden" name="list" value="<?php echo esc_attr( $list ); ?>" />
+					<?php endif; ?>
+					<label class="screen-reader-text" for="thrVnewsEmail"><?php esc_html_e( 'Email address', 'thr-theme' ); ?></label>
+					<input class="thr-vnews__input" type="email" id="thrVnewsEmail" name="email" required placeholder="<?php esc_attr_e( 'Email', 'thr-theme' ); ?>" />
+					<button type="submit" class="thr-vnews__btn"><?php esc_html_e( 'Subscribe Today', 'thr-theme' ); ?></button>
+				</form>
+				<?php get_template_part( 'template-parts/rail/most-popular' ); ?>
+			</aside>
 		</div>
 	</div>
 </main>

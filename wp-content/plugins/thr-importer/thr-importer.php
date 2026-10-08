@@ -3,7 +3,7 @@
  * Plugin Name: THR Importer & Structure Seeder
  * Plugin URI:  https://thehollywoodreporter.co.uk
  * Description: One-click structural setup and demonstration content seeder for The Hollywood Reporter UK.
- * Version:     1.2.1
+ * Version:     1.2.2
  * Author:      The Hollywood Reporter UK
  * Author URI:  https://thehollywoodreporter.co.uk
  * Text Domain: thr-importer
@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'THR_IMPORTER_VERSION', '1.2.1' );
+define( 'THR_IMPORTER_VERSION', '1.2.2' );
 define( 'THR_IMPORTER_PATH', plugin_dir_path( __FILE__ ) );
 define( 'THR_IMPORTER_URL', plugin_dir_url( __FILE__ ) );
 

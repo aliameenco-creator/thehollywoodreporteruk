@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	initMegaMenu();
 	initLiveSearch();
 	initSubnav();
+	initScrollers();
 	initVideoFacade();
 	initViewBeacon();
 });
@@ -217,6 +218,17 @@ function initSubnav() {
 	const active = nav && nav.querySelector('.is-active');
 	if (!active || nav.scrollWidth <= nav.clientWidth) return;
 	nav.scrollLeft = Math.max(0, active.offsetLeft - 20);
+}
+
+function initScrollers() {
+	// Prev/next buttons for sideways rows (Most Popular); the row itself scrolls natively.
+	document.querySelectorAll('.js-thr-scroll').forEach((btn) => {
+		const track = btn.closest('section') && btn.closest('section').querySelector('.js-thr-scroll-track');
+		if (!track) return;
+		btn.addEventListener('click', () => {
+			track.scrollBy({ left: track.clientWidth * parseInt(btn.dataset.dir, 10), behavior: 'smooth' });
+		});
+	});
 }
 
 function initVideoFacade() {

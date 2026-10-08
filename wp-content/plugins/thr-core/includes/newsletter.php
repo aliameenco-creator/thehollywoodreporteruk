@@ -169,6 +169,8 @@ add_action( 'template_redirect', 'thr_handle_newsletter_signup' );
 function thr_render_newsletter_signup() {
 	$status   = isset( $_GET['nl_status'] ) ? sanitize_key( $_GET['nl_status'] ) : '';
 	$prefill  = isset( $_GET['email'] ) ? sanitize_email( wp_unslash( $_GET['email'] ) ) : '';
+	// A channel's newsletter box links here with ?list=heat-vision; pre-tick that one.
+	$preset   = isset( $_GET['list'] ) ? sanitize_key( $_GET['list'] ) : 'today';
 	$messages = array(
 		'sent'    => __( 'You’re signed up. Thanks for subscribing!', 'thr-core' ),
 		'missing' => __( 'Please enter a valid email, choose at least one newsletter and tick the consent box.', 'thr-core' ),
@@ -195,7 +197,7 @@ function thr_render_newsletter_signup() {
 				<legend class="screen-reader-text"><?php esc_html_e( 'Choose newsletters', 'thr-core' ); ?></legend>
 				<?php foreach ( thr_newsletters() as $slug => $nl ) : ?>
 					<label class="thr-newsletter-card">
-						<input type="checkbox" name="nl_lists[]" value="<?php echo esc_attr( $slug ); ?>" class="thr-newsletter-card__check" <?php checked( 'today', $slug ); ?> />
+						<input type="checkbox" name="nl_lists[]" value="<?php echo esc_attr( $slug ); ?>" class="thr-newsletter-card__check" <?php checked( $preset, $slug ); ?> />
 						<span class="thr-newsletter-card__body">
 							<span class="thr-newsletter-card__freq"><?php echo esc_html( $nl[2] ); ?></span>
 							<span class="thr-newsletter-card__name"><?php echo esc_html( $nl[0] ); ?></span>

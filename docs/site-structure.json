@@ -464,7 +464,9 @@
       "key": "vertical:heat-vision",
       "url": "/e/heat-vision/",
       "heading": "Heat Vision",
-      "subtitle": ""
+      "subtitle": "",
+      "tagline_1": "THR's voice in the geek sphere",
+      "tagline_2": "Superheroes, sci-fi, fantasy and horror"
     },
     {
       "name": "Live Feed",
@@ -472,7 +474,9 @@
       "key": "vertical:live-feed",
       "url": "/e/live-feed/",
       "heading": "Live Feed",
-      "subtitle": ""
+      "subtitle": "",
+      "tagline_1": "Inside the business of television",
+      "tagline_2": "TV news and showrunner interviews"
     },
     {
       "name": "The Race",

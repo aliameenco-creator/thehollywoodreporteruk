@@ -97,7 +97,7 @@
 }
 
 .thr-logo__main {
-	font-family: var(--font-display);
+	font-family: var(--font-serif);
 	font-style: italic;
 	font-weight: var(--fw-heading);
 	font-size: 26px;
@@ -535,8 +535,8 @@ body.has-tabbar {
 .thr-mega__heading {
 	margin: 0;
 	font-family: var(--font-display);
-	font-size: 21px;
-	font-weight: var(--fw-heading);
+	font-size: 24px;
+	font-weight: var(--fw-body);
 	text-transform: uppercase;
 	letter-spacing: -0.01em;
 }
@@ -590,7 +590,7 @@ body.has-tabbar {
 	display: block;
 	padding: 8px 0;
 	font-family: var(--font-sans);
-	font-size: 15px;
+	font-size: 17px;
 	color: var(--black);
 }
 
@@ -754,10 +754,13 @@ body.has-tabbar {
 		border-bottom: 0;
 	}
 
+	/* THR: 28px condensed caps over a 2px rule; 18px links on a 40px rhythm. */
 	.thr-mega__heading {
-		border-bottom: 1px solid var(--black);
-		padding-bottom: 8px;
-		margin-bottom: 12px;
+		font-size: 28px;
+		line-height: 1;
+		border-bottom: 2px solid var(--black);
+		padding-bottom: 12px;
+		margin-bottom: 14px;
 	}
 
 	.thr-mega__heading .thr-mega__heading-link,
@@ -777,9 +780,9 @@ body.has-tabbar {
 	}
 
 	.thr-mega__links a {
-		padding: 5px 0;
-		font-size: 13px;
-		line-height: 1.35;
+		padding: 8px 0;
+		font-size: 18px;
+		line-height: 24px;
 	}
 
 	.thr-mega__foot {
@@ -881,10 +884,10 @@ body.has-tabbar {
 }
 
 .thr-section-head__title {
-	margin: 0 0 14px;
+	margin: 0 0 10px;
 	font-size: 40px;
 	line-height: 0.95;
-	font-weight: var(--fw-heading);
+	font-weight: var(--fw-body);
 	text-transform: uppercase;
 	letter-spacing: -0.01em;
 }
@@ -935,7 +938,7 @@ body.has-tabbar {
 	}
 
 	.thr-section-head__title {
-		font-size: 68px;
+		font-size: 56px;
 	}
 
 	.thr-subnav__list {

@@ -7,11 +7,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'THR_THEME_VERSION', '1.2.1' );
+define( 'THR_THEME_VERSION', '1.2.2' );
 
 require_once get_template_directory() . '/inc/template-tags.php';
 require_once get_template_directory() . '/inc/icons.php';
 require_once get_template_directory() . '/inc/navigation.php';
+require_once get_template_directory() . '/inc/cards.php';
 
 function thr_theme_setup() {
 	load_theme_textdomain( 'thr-theme', get_template_directory() . '/languages' );
@@ -53,8 +54,10 @@ function thr_theme_setup() {
 add_action( 'after_setup_theme', 'thr_theme_setup' );
 
 /**
- * Typography: free preset (Newsreader + Karla) by default, or Adobe Fonts
- * (Kepler Std Semicondensed Display, as THR uses) when chosen in Settings → THR Settings.
+ * Typography: free preset by default, or Adobe Fonts (Kepler Std Semicondensed
+ * Display, as THR uses) when chosen in Settings → THR Settings. The free preset pairs
+ * Instrument Serif (narrow display face; same line length as THR's headlines) with
+ * Newsreader (text serif) and Karla (labels).
  */
 function thr_theme_fonts() {
 	$preset = get_option( 'thr_font_preset', 'free' );
@@ -62,7 +65,7 @@ function thr_theme_fonts() {
 
 	wp_enqueue_style(
 		'thr-fonts',
-		'https://fonts.googleapis.com/css2?family=Karla:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&display=swap',
+		'https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Karla:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&display=swap',
 		array(),
 		null
 	);
@@ -83,6 +86,11 @@ function thr_theme_scripts() {
 	wp_enqueue_style( 'thr-base', $uri . 'base.css', array( 'thr-variables' ), THR_THEME_VERSION );
 	wp_enqueue_style( 'thr-layout', $uri . 'layout.css', array( 'thr-base' ), THR_THEME_VERSION );
 	wp_enqueue_style( 'thr-components', $uri . 'components.css', array( 'thr-layout' ), THR_THEME_VERSION );
+
+	// Homepage / channel modules only load where they are used.
+	if ( is_front_page() || is_tax( 'vertical' ) || is_category() ) {
+		wp_enqueue_style( 'thr-modules', $uri . 'modules.css', array( 'thr-components' ), THR_THEME_VERSION );
+	}
 
 	wp_enqueue_script(
 		'thr-main-js',

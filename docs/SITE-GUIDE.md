@@ -78,12 +78,26 @@ When you upload or select an image, fill in:
 
 ## 6. Homepage
 
-The homepage builds itself. There is nothing to arrange by hand.
-- **Lead story**: the newest post with *Top story on the homepage* switched on.
-- **Three cards under the lead and the Featured Reporting river**: the newest posts, never repeating a story already shown higher up the page.
-- **Latest News rail**: the six newest posts, including the lead (as on THR).
-- **Most Popular**: the most-read stories, counted automatically.
-- **Breaking bar**: the newest post with *Show in the red Breaking News bar* on. Readers can close it.
+The homepage follows THR's layout and fills itself from what you publish. Each module appears only when it has stories, so a new site starts short and grows as content arrives.
+
+| Module | Where its stories come from |
+|---|---|
+| **Top story** | The newest post with *Top story on the homepage* switched on |
+| **Three stories under it** (the centre one larger) | The newest posts, never repeating the top story |
+| **Latest News** (right-hand column) | The 16 newest posts |
+| **Two channel blocks** (e.g. HEAT VISION / LIVE FEED) | Posts in those **Verticals**; choose which two in THR Settings → Homepage |
+| **Labelled rows** (e.g. "What We're Watching") | Posts with a chosen **Topic**; set up to three rows (title, tagline, topic) in THR Settings → Homepage |
+| **Featured Videos** | The newest **Videos** |
+| **Most Popular** | The most-read stories, counted automatically |
+| **Reviews: Movies / TV** | The *Movie Reviews* and *TV Reviews* sections |
+| **Featured Voices** | Posts with the topic **Featured Voices**; the round photo is the author's **Gravatar** (free at gravatar.com, linked to their login email) |
+| **Shopping With THR** | The *Shopping* section |
+| **Lifestyle** | The *Lifestyle* section and its subsections |
+| **Podcasts** | Posts with story type **Podcast** (or the topic *Awards Chatter Podcast*) |
+| **Highlights from the Magazine** | Posts with the topic **THR Cover Story**; the cover and Subscribe button come from THR Settings → Get the Magazine |
+| **Breaking bar** | The newest post with *Show in the red Breaking News bar* on; readers can close it |
+
+**Channel pages** (`/e/live-feed/`) and **section pages** (`/c/movies/`) use THR's layout too: a lead story beside its image, three cards, then the latest stories. A channel page also shows a newsletter box in the channel's colour. Set each channel's colour and two taglines under **Posts → Verticals → Edit**. If you add a logo URL there, it appears as a small icon above the name.
 
 ## 7. Phones: the bottom tab bar
 

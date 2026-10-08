@@ -27,7 +27,8 @@
 	--vert-fien-print: #4B6A88;
 	--vert-behind-screen: #008000;
 
-	--font-display: 'Newsreader', 'Kepler Std', Georgia, serif;
+	/* Display = condensed headline face (THR: Kepler Std Semicondensed Display). */
+	--font-display: 'Instrument Serif', 'Kepler Std', Georgia, serif;
 	--font-serif: 'Newsreader', 'Kepler Std', Georgia, serif;
 	--font-sans: 'Karla', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 
@@ -84,7 +85,7 @@
 @media (min-width: 1000px) {
 	:root {
 		--scale-primary-xxl: 54px;
-		--line-primary-xxl: 46px;
+		--line-primary-xxl: 48px;
 		--scale-primary-xl: 54px;
 		--line-primary-xl: 48px;
 		--scale-primary-l: 48px;

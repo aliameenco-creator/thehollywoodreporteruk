@@ -498,7 +498,8 @@
       "heading": "Heat Vision",
       "subtitle": "",
       "color": "#6442AC",
-      "tagline_1": "THR's voice in the geek sphere"
+      "tagline_1": "THR's voice in the geek sphere",
+      "tagline_2": "Superheroes, sci-fi, fantasy and horror"
     },
     {
       "name": "Live Feed",
@@ -508,7 +509,8 @@
       "heading": "Live Feed",
       "subtitle": "",
       "color": "#008080",
-      "tagline_1": "Inside the show and biz of TV"
+      "tagline_1": "Inside the business of television",
+      "tagline_2": "TV news and showrunner interviews"
     },
     {
       "name": "The Race",

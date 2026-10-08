@@ -178,6 +178,8 @@
 }
 
 .thr-card--numbered__title {
+	font-family: var(--font-serif);
+	font-weight: var(--fw-body);
 	font-size: 16px;
 	line-height: 1.25;
 	margin-bottom: 6px;
