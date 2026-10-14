@@ -45,11 +45,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		</div>
 
 		<nav class="thr-section-bar" aria-label="<?php esc_attr_e( 'Sections', 'thr-theme' ); ?>">
-			<ul class="thr-section-bar__list">
-				<?php foreach ( thr_get_section_bar() as $link ) : ?>
-					<li><a href="<?php echo esc_url( thr_menu_url( $link[1] ) ); ?>" class="thr-section-bar__link"><?php echo esc_html( $link[0] ); ?></a></li>
-				<?php endforeach; ?>
-			</ul>
+			<?php get_template_part( 'template-parts/header/section-nav', null, array( 'context' => 'header' ) ); ?>
 		</nav>
 	</header>
 
@@ -63,11 +59,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		</button>
 		<?php thr_the_logo( 'sticky' ); ?>
 		<nav class="thr-sticky__nav" aria-label="<?php esc_attr_e( 'Sections', 'thr-theme' ); ?>">
-			<ul class="thr-sticky__list">
-				<?php foreach ( thr_get_section_bar() as $link ) : ?>
-					<li><a href="<?php echo esc_url( thr_menu_url( $link[1] ) ); ?>" class="thr-section-bar__link"><?php echo esc_html( $link[0] ); ?></a></li>
-				<?php endforeach; ?>
-			</ul>
+			<?php get_template_part( 'template-parts/header/section-nav', null, array( 'context' => 'sticky' ) ); ?>
 		</nav>
 		<a href="<?php echo esc_url( get_option( 'thr_magazine_url' ) ?: home_url( '/newsletters/' ) ); ?>" class="thr-sticky__subscribe"><?php esc_html_e( 'Subscribe', 'thr-theme' ); ?></a>
 	</div>

@@ -3,14 +3,15 @@
   "profile": "thr-uk",
   "description": "Proposed initial inventory from the approved build plan; not an exhaustive live THR taxonomy export.",
   "counts": {
-    "category_parents": 6,
-    "category_children": 20,
-    "categories": 26,
+    "category_parents": 9,
+    "category_children": 55,
+    "categories": 64,
     "topics": 29,
     "verticals": 7,
     "video_categories": 12,
-    "taxonomy_terms": 74,
-    "pages": 11
+    "taxonomy_terms": 112,
+    "pages": 11,
+    "menus": 2
   },
   "settings": {
     "permalink_structure": "/%category%/%postname%-%post_id%/",
@@ -39,6 +40,24 @@
       "subtitle": ""
     },
     {
+      "key": "category:uk",
+      "name": "UK",
+      "slug": "uk",
+      "parent": "category:news",
+      "url": "/c/news/uk/",
+      "heading": "UK",
+      "subtitle": ""
+    },
+    {
+      "key": "category:international",
+      "name": "International",
+      "slug": "international",
+      "parent": "category:news",
+      "url": "/c/news/international/",
+      "heading": "International",
+      "subtitle": ""
+    },
+    {
       "key": "category:culture-politics",
       "name": "Culture & Politics",
       "slug": "culture-politics",
@@ -48,57 +67,93 @@
       "subtitle": ""
     },
     {
-      "key": "category:la-local",
-      "name": "LA / Local",
-      "slug": "la-local",
+      "key": "category:investigations",
+      "name": "Investigations",
+      "slug": "investigations",
       "parent": "category:news",
-      "url": "/c/news/la-local/",
-      "heading": "LA / Local",
+      "url": "/c/news/investigations/",
+      "heading": "Investigations",
+      "subtitle": ""
+    },
+    {
+      "key": "category:obituaries",
+      "name": "Obituaries",
+      "slug": "obituaries",
+      "parent": "category:news",
+      "url": "/c/news/obituaries/",
+      "heading": "Obituaries",
       "subtitle": ""
     },
     {
       "key": "category:movies",
-      "name": "Movies",
+      "name": "Film",
       "slug": "movies",
       "parent": null,
       "url": "/c/movies/",
-      "heading": "Movies",
+      "heading": "Film",
       "subtitle": ""
     },
     {
       "key": "category:movie-news",
-      "name": "Movie News",
+      "name": "Film News",
       "slug": "movie-news",
       "parent": "category:movies",
       "url": "/c/movies/movie-news/",
-      "heading": "Movie News",
-      "subtitle": ""
-    },
-    {
-      "key": "category:movie-features",
-      "name": "Movie Features",
-      "slug": "movie-features",
-      "parent": "category:movies",
-      "url": "/c/movies/movie-features/",
-      "heading": "Movie Features",
+      "heading": "Film News",
       "subtitle": ""
     },
     {
       "key": "category:movie-reviews",
-      "name": "Movie Reviews",
+      "name": "Film Reviews",
       "slug": "movie-reviews",
       "parent": "category:movies",
       "url": "/c/movies/movie-reviews/",
-      "heading": "Movie Reviews",
+      "heading": "Film Reviews",
+      "subtitle": ""
+    },
+    {
+      "key": "category:movie-features",
+      "name": "Film Features",
+      "slug": "movie-features",
+      "parent": "category:movies",
+      "url": "/c/movies/movie-features/",
+      "heading": "Film Features",
+      "subtitle": ""
+    },
+    {
+      "key": "category:movie-interviews",
+      "name": "Film Interviews",
+      "slug": "movie-interviews",
+      "parent": "category:movies",
+      "url": "/c/movies/movie-interviews/",
+      "heading": "Film Interviews",
+      "subtitle": ""
+    },
+    {
+      "key": "category:box-office",
+      "name": "Box Office",
+      "slug": "box-office",
+      "parent": "category:movies",
+      "url": "/c/movies/box-office/",
+      "heading": "Box Office",
+      "subtitle": ""
+    },
+    {
+      "key": "category:film-festivals",
+      "name": "Film Festivals",
+      "slug": "film-festivals",
+      "parent": "category:movies",
+      "url": "/c/movies/film-festivals/",
+      "heading": "Film Festivals",
       "subtitle": ""
     },
     {
       "key": "category:movie-videos",
-      "name": "Movie Videos",
+      "name": "Film Videos",
       "slug": "movie-videos",
       "parent": "category:movies",
       "url": "/c/movies/movie-videos/",
-      "heading": "Movie Videos",
+      "heading": "Film Videos",
       "subtitle": ""
     },
     {
@@ -120,6 +175,15 @@
       "subtitle": ""
     },
     {
+      "key": "category:tv-reviews",
+      "name": "TV Reviews",
+      "slug": "tv-reviews",
+      "parent": "category:tv",
+      "url": "/c/tv/tv-reviews/",
+      "heading": "TV Reviews",
+      "subtitle": ""
+    },
+    {
       "key": "category:tv-features",
       "name": "TV Features",
       "slug": "tv-features",
@@ -129,12 +193,30 @@
       "subtitle": ""
     },
     {
-      "key": "category:tv-reviews",
-      "name": "TV Reviews",
-      "slug": "tv-reviews",
+      "key": "category:tv-streaming",
+      "name": "Streaming",
+      "slug": "tv-streaming",
       "parent": "category:tv",
-      "url": "/c/tv/tv-reviews/",
-      "heading": "TV Reviews",
+      "url": "/c/tv/tv-streaming/",
+      "heading": "Streaming",
+      "subtitle": ""
+    },
+    {
+      "key": "category:tv-ratings",
+      "name": "TV Ratings",
+      "slug": "tv-ratings",
+      "parent": "category:tv",
+      "url": "/c/tv/tv-ratings/",
+      "heading": "TV Ratings",
+      "subtitle": ""
+    },
+    {
+      "key": "category:premiere-dates",
+      "name": "Premiere Dates",
+      "slug": "premiere-dates",
+      "parent": "category:tv",
+      "url": "/c/tv/premiere-dates/",
+      "heading": "Premiere Dates",
       "subtitle": ""
     },
     {
@@ -156,12 +238,12 @@
       "subtitle": ""
     },
     {
-      "key": "category:music-industry-news",
-      "name": "Music Industry News",
-      "slug": "music-industry-news",
+      "key": "category:music-reviews",
+      "name": "Music Reviews",
+      "slug": "music-reviews",
       "parent": "category:music",
-      "url": "/c/music/music-industry-news/",
-      "heading": "Music Industry News",
+      "url": "/c/music/music-reviews/",
+      "heading": "Music Reviews",
       "subtitle": ""
     },
     {
@@ -174,12 +256,75 @@
       "subtitle": ""
     },
     {
+      "key": "category:music-festivals",
+      "name": "Music Festivals",
+      "slug": "music-festivals",
+      "parent": "category:music",
+      "url": "/c/music/music-festivals/",
+      "heading": "Music Festivals",
+      "subtitle": ""
+    },
+    {
+      "key": "category:music-industry-news",
+      "name": "Music Industry",
+      "slug": "music-industry-news",
+      "parent": "category:music",
+      "url": "/c/music/music-industry-news/",
+      "heading": "Music Industry",
+      "subtitle": ""
+    },
+    {
       "key": "category:film-tv-music-news",
       "name": "Film and TV Music News",
       "slug": "film-tv-music-news",
       "parent": "category:music",
       "url": "/c/music/film-tv-music-news/",
       "heading": "Film and TV Music News",
+      "subtitle": ""
+    },
+    {
+      "key": "category:culture",
+      "name": "Culture",
+      "slug": "culture",
+      "parent": null,
+      "url": "/c/culture/",
+      "heading": "Culture",
+      "subtitle": ""
+    },
+    {
+      "key": "category:theatre",
+      "name": "Theatre",
+      "slug": "theatre",
+      "parent": "category:culture",
+      "url": "/c/culture/theatre/",
+      "heading": "Theatre",
+      "subtitle": ""
+    },
+    {
+      "key": "category:arts-exhibitions",
+      "name": "Arts & Exhibitions",
+      "slug": "arts-exhibitions",
+      "parent": "category:culture",
+      "url": "/c/culture/arts-exhibitions/",
+      "heading": "Arts & Exhibitions",
+      "subtitle": ""
+    },
+    {
+      "key": "category:books",
+      "name": "Books",
+      "slug": "books",
+      "parent": "category:culture",
+      "url": "/c/culture/books/",
+      "heading": "Books",
+      "subtitle": ""
+    },
+    {
+      "key": "category:comedy",
+      "name": "Comedy",
+      "slug": "comedy",
+      "parent": "category:culture",
+      "url": "/c/culture/comedy/",
+      "heading": "Comedy",
       "subtitle": ""
     },
     {
@@ -192,21 +337,21 @@
       "subtitle": ""
     },
     {
-      "key": "category:lifestyle-news",
-      "name": "Lifestyle News",
-      "slug": "lifestyle-news",
+      "key": "category:wellness",
+      "name": "Wellness",
+      "slug": "wellness",
       "parent": "category:lifestyle",
-      "url": "/c/lifestyle/lifestyle-news/",
-      "heading": "Lifestyle News",
+      "url": "/c/lifestyle/wellness/",
+      "heading": "Wellness",
       "subtitle": ""
     },
     {
-      "key": "category:arts",
-      "name": "Arts",
-      "slug": "arts",
-      "parent": "category:lifestyle",
-      "url": "/c/lifestyle/arts/",
-      "heading": "Arts",
+      "key": "category:health",
+      "name": "Health",
+      "slug": "health",
+      "parent": "category:wellness",
+      "url": "/c/lifestyle/wellness/health/",
+      "heading": "Health",
       "subtitle": ""
     },
     {
@@ -216,6 +361,24 @@
       "parent": "category:lifestyle",
       "url": "/c/lifestyle/style/",
       "heading": "Style",
+      "subtitle": ""
+    },
+    {
+      "key": "category:travel",
+      "name": "Travel",
+      "slug": "travel",
+      "parent": "category:lifestyle",
+      "url": "/c/lifestyle/travel/",
+      "heading": "Travel",
+      "subtitle": ""
+    },
+    {
+      "key": "category:food-drink",
+      "name": "Food & Drink",
+      "slug": "food-drink",
+      "parent": "category:lifestyle",
+      "url": "/c/lifestyle/food-drink/",
+      "heading": "Food & Drink",
       "subtitle": ""
     },
     {
@@ -237,12 +400,129 @@
       "subtitle": ""
     },
     {
+      "key": "category:lifestyle-news",
+      "name": "Lifestyle News",
+      "slug": "lifestyle-news",
+      "parent": "category:lifestyle",
+      "url": "/c/lifestyle/lifestyle-news/",
+      "heading": "Lifestyle News",
+      "subtitle": ""
+    },
+    {
+      "key": "category:arts",
+      "name": "Arts",
+      "slug": "arts",
+      "parent": "category:lifestyle",
+      "url": "/c/lifestyle/arts/",
+      "heading": "Arts",
+      "subtitle": ""
+    },
+    {
+      "key": "category:tech-ai",
+      "name": "Tech & AI",
+      "slug": "tech-ai",
+      "parent": null,
+      "url": "/c/tech-ai/",
+      "heading": "Tech & AI",
+      "subtitle": ""
+    },
+    {
+      "key": "category:ai",
+      "name": "AI",
+      "slug": "ai",
+      "parent": "category:tech-ai",
+      "url": "/c/tech-ai/ai/",
+      "heading": "AI",
+      "subtitle": ""
+    },
+    {
+      "key": "category:tech",
+      "name": "Tech",
+      "slug": "tech",
+      "parent": "category:tech-ai",
+      "url": "/c/tech-ai/tech/",
+      "heading": "Tech",
+      "subtitle": ""
+    },
+    {
+      "key": "category:streaming-platforms",
+      "name": "Streaming Platforms",
+      "slug": "streaming-platforms",
+      "parent": "category:tech-ai",
+      "url": "/c/tech-ai/streaming-platforms/",
+      "heading": "Streaming Platforms",
+      "subtitle": ""
+    },
+    {
+      "key": "category:social-creators",
+      "name": "Social & Creators",
+      "slug": "social-creators",
+      "parent": "category:tech-ai",
+      "url": "/c/tech-ai/social-creators/",
+      "heading": "Social & Creators",
+      "subtitle": ""
+    },
+    {
+      "key": "category:podcasts",
+      "name": "Podcasts",
+      "slug": "podcasts",
+      "parent": "category:tech-ai",
+      "url": "/c/tech-ai/podcasts/",
+      "heading": "Podcasts",
+      "subtitle": ""
+    },
+    {
+      "key": "category:gaming",
+      "name": "Gaming",
+      "slug": "gaming",
+      "parent": "category:tech-ai",
+      "url": "/c/tech-ai/gaming/",
+      "heading": "Gaming",
+      "subtitle": ""
+    },
+    {
       "key": "category:business",
       "name": "Business",
       "slug": "business",
       "parent": null,
       "url": "/c/business/",
       "heading": "Business",
+      "subtitle": ""
+    },
+    {
+      "key": "category:studios-deals",
+      "name": "Studios & Deals",
+      "slug": "studios-deals",
+      "parent": "category:business",
+      "url": "/c/business/studios-deals/",
+      "heading": "Studios & Deals",
+      "subtitle": ""
+    },
+    {
+      "key": "category:media",
+      "name": "Media",
+      "slug": "media",
+      "parent": "category:business",
+      "url": "/c/business/media/",
+      "heading": "Media",
+      "subtitle": ""
+    },
+    {
+      "key": "category:unions-labour",
+      "name": "Unions & Labour",
+      "slug": "unions-labour",
+      "parent": "category:business",
+      "url": "/c/business/unions-labour/",
+      "heading": "Unions & Labour",
+      "subtitle": ""
+    },
+    {
+      "key": "category:production-incentives",
+      "name": "Production & Incentives",
+      "slug": "production-incentives",
+      "parent": "category:business",
+      "url": "/c/business/production-incentives/",
+      "heading": "Production & Incentives",
       "subtitle": ""
     },
     {
@@ -253,6 +533,525 @@
       "url": "/c/business/business-news/",
       "heading": "Business News",
       "subtitle": ""
+    },
+    {
+      "key": "category:awards",
+      "name": "Awards",
+      "slug": "awards",
+      "parent": null,
+      "url": "/c/awards/",
+      "heading": "Awards",
+      "subtitle": ""
+    },
+    {
+      "key": "category:baftas",
+      "name": "BAFTAs",
+      "slug": "baftas",
+      "parent": "category:awards",
+      "url": "/c/awards/baftas/",
+      "heading": "BAFTAs",
+      "subtitle": ""
+    },
+    {
+      "key": "category:oscars",
+      "name": "Oscars",
+      "slug": "oscars",
+      "parent": "category:awards",
+      "url": "/c/awards/oscars/",
+      "heading": "Oscars",
+      "subtitle": ""
+    },
+    {
+      "key": "category:emmys",
+      "name": "Emmys",
+      "slug": "emmys",
+      "parent": "category:awards",
+      "url": "/c/awards/emmys/",
+      "heading": "Emmys",
+      "subtitle": ""
+    },
+    {
+      "key": "category:golden-globes",
+      "name": "Golden Globes",
+      "slug": "golden-globes",
+      "parent": "category:awards",
+      "url": "/c/awards/golden-globes/",
+      "heading": "Golden Globes",
+      "subtitle": ""
+    },
+    {
+      "key": "category:olivier-awards",
+      "name": "Olivier Awards",
+      "slug": "olivier-awards",
+      "parent": "category:awards",
+      "url": "/c/awards/olivier-awards/",
+      "heading": "Olivier Awards",
+      "subtitle": ""
+    },
+    {
+      "key": "category:brit-awards",
+      "name": "BRIT Awards",
+      "slug": "brit-awards",
+      "parent": "category:awards",
+      "url": "/c/awards/brit-awards/",
+      "heading": "BRIT Awards",
+      "subtitle": ""
+    }
+  ],
+  "menus": [
+    {
+      "name": "Main Navigation",
+      "locations": [
+        "primary",
+        "mega"
+      ],
+      "items": [
+        {
+          "title": "News",
+          "taxonomy": "category",
+          "term": "news",
+          "url": "/c/news/",
+          "children": [
+            {
+              "title": "Latest",
+              "taxonomy": "category",
+              "term": "general-news",
+              "url": "/c/news/general-news/"
+            },
+            {
+              "title": "UK",
+              "taxonomy": "category",
+              "term": "uk",
+              "url": "/c/news/uk/"
+            },
+            {
+              "title": "International",
+              "taxonomy": "category",
+              "term": "international",
+              "url": "/c/news/international/"
+            },
+            {
+              "title": "Culture & Politics",
+              "taxonomy": "category",
+              "term": "culture-politics",
+              "url": "/c/news/culture-politics/"
+            },
+            {
+              "title": "Investigations",
+              "taxonomy": "category",
+              "term": "investigations",
+              "url": "/c/news/investigations/"
+            },
+            {
+              "title": "Obituaries",
+              "taxonomy": "category",
+              "term": "obituaries",
+              "url": "/c/news/obituaries/"
+            }
+          ]
+        },
+        {
+          "title": "Film",
+          "taxonomy": "category",
+          "term": "movies",
+          "url": "/c/movies/",
+          "children": [
+            {
+              "title": "News",
+              "taxonomy": "category",
+              "term": "movie-news",
+              "url": "/c/movies/movie-news/"
+            },
+            {
+              "title": "Reviews",
+              "taxonomy": "category",
+              "term": "movie-reviews",
+              "url": "/c/movies/movie-reviews/"
+            },
+            {
+              "title": "Features",
+              "taxonomy": "category",
+              "term": "movie-features",
+              "url": "/c/movies/movie-features/"
+            },
+            {
+              "title": "Interviews",
+              "taxonomy": "category",
+              "term": "movie-interviews",
+              "url": "/c/movies/movie-interviews/"
+            },
+            {
+              "title": "Box Office",
+              "taxonomy": "category",
+              "term": "box-office",
+              "url": "/c/movies/box-office/"
+            },
+            {
+              "title": "Festivals",
+              "taxonomy": "category",
+              "term": "film-festivals",
+              "url": "/c/movies/film-festivals/"
+            }
+          ]
+        },
+        {
+          "title": "TV",
+          "taxonomy": "category",
+          "term": "tv",
+          "url": "/c/tv/",
+          "children": [
+            {
+              "title": "News",
+              "taxonomy": "category",
+              "term": "tv-news",
+              "url": "/c/tv/tv-news/"
+            },
+            {
+              "title": "Reviews",
+              "taxonomy": "category",
+              "term": "tv-reviews",
+              "url": "/c/tv/tv-reviews/"
+            },
+            {
+              "title": "Features",
+              "taxonomy": "category",
+              "term": "tv-features",
+              "url": "/c/tv/tv-features/"
+            },
+            {
+              "title": "Streaming",
+              "taxonomy": "category",
+              "term": "tv-streaming",
+              "url": "/c/tv/tv-streaming/"
+            },
+            {
+              "title": "Ratings",
+              "taxonomy": "category",
+              "term": "tv-ratings",
+              "url": "/c/tv/tv-ratings/"
+            },
+            {
+              "title": "Premiere Dates",
+              "taxonomy": "category",
+              "term": "premiere-dates",
+              "url": "/c/tv/premiere-dates/"
+            }
+          ]
+        },
+        {
+          "title": "Music",
+          "taxonomy": "category",
+          "term": "music",
+          "url": "/c/music/",
+          "children": [
+            {
+              "title": "News",
+              "taxonomy": "category",
+              "term": "music-news",
+              "url": "/c/music/music-news/"
+            },
+            {
+              "title": "Reviews",
+              "taxonomy": "category",
+              "term": "music-reviews",
+              "url": "/c/music/music-reviews/"
+            },
+            {
+              "title": "Features",
+              "taxonomy": "category",
+              "term": "music-features",
+              "url": "/c/music/music-features/"
+            },
+            {
+              "title": "Festivals",
+              "taxonomy": "category",
+              "term": "music-festivals",
+              "url": "/c/music/music-festivals/"
+            },
+            {
+              "title": "Music Industry",
+              "taxonomy": "category",
+              "term": "music-industry-news",
+              "url": "/c/music/music-industry-news/"
+            }
+          ]
+        },
+        {
+          "title": "Culture",
+          "taxonomy": "category",
+          "term": "culture",
+          "url": "/c/culture/",
+          "children": [
+            {
+              "title": "Theatre",
+              "taxonomy": "category",
+              "term": "theatre",
+              "url": "/c/culture/theatre/"
+            },
+            {
+              "title": "Arts & Exhibitions",
+              "taxonomy": "category",
+              "term": "arts-exhibitions",
+              "url": "/c/culture/arts-exhibitions/"
+            },
+            {
+              "title": "Books",
+              "taxonomy": "category",
+              "term": "books",
+              "url": "/c/culture/books/"
+            },
+            {
+              "title": "Comedy",
+              "taxonomy": "category",
+              "term": "comedy",
+              "url": "/c/culture/comedy/"
+            }
+          ]
+        },
+        {
+          "title": "Lifestyle",
+          "taxonomy": "category",
+          "term": "lifestyle",
+          "url": "/c/lifestyle/",
+          "children": [
+            {
+              "title": "Wellness",
+              "taxonomy": "category",
+              "term": "wellness",
+              "url": "/c/lifestyle/wellness/"
+            },
+            {
+              "title": "Style",
+              "taxonomy": "category",
+              "term": "style",
+              "url": "/c/lifestyle/style/"
+            },
+            {
+              "title": "Travel",
+              "taxonomy": "category",
+              "term": "travel",
+              "url": "/c/lifestyle/travel/"
+            },
+            {
+              "title": "Food & Drink",
+              "taxonomy": "category",
+              "term": "food-drink",
+              "url": "/c/lifestyle/food-drink/"
+            },
+            {
+              "title": "Shopping",
+              "taxonomy": "category",
+              "term": "shopping",
+              "url": "/c/lifestyle/shopping/"
+            },
+            {
+              "title": "Real Estate",
+              "taxonomy": "category",
+              "term": "real-estate",
+              "url": "/c/lifestyle/real-estate/"
+            }
+          ]
+        },
+        {
+          "title": "Tech & AI",
+          "taxonomy": "category",
+          "term": "tech-ai",
+          "url": "/c/tech-ai/",
+          "children": [
+            {
+              "title": "AI",
+              "taxonomy": "category",
+              "term": "ai",
+              "url": "/c/tech-ai/ai/"
+            },
+            {
+              "title": "Tech",
+              "taxonomy": "category",
+              "term": "tech",
+              "url": "/c/tech-ai/tech/"
+            },
+            {
+              "title": "Streaming Platforms",
+              "taxonomy": "category",
+              "term": "streaming-platforms",
+              "url": "/c/tech-ai/streaming-platforms/"
+            },
+            {
+              "title": "Social & Creators",
+              "taxonomy": "category",
+              "term": "social-creators",
+              "url": "/c/tech-ai/social-creators/"
+            },
+            {
+              "title": "Podcasts",
+              "taxonomy": "category",
+              "term": "podcasts",
+              "url": "/c/tech-ai/podcasts/"
+            },
+            {
+              "title": "Gaming",
+              "taxonomy": "category",
+              "term": "gaming",
+              "url": "/c/tech-ai/gaming/"
+            }
+          ]
+        },
+        {
+          "title": "Business",
+          "taxonomy": "category",
+          "term": "business",
+          "url": "/c/business/",
+          "children": [
+            {
+              "title": "Studios & Deals",
+              "taxonomy": "category",
+              "term": "studios-deals",
+              "url": "/c/business/studios-deals/"
+            },
+            {
+              "title": "Media",
+              "taxonomy": "category",
+              "term": "media",
+              "url": "/c/business/media/"
+            },
+            {
+              "title": "Legal (THR Esq)",
+              "taxonomy": "vertical",
+              "term": "thr-esq",
+              "url": "/e/thr-esq/"
+            },
+            {
+              "title": "Unions & Labour",
+              "taxonomy": "category",
+              "term": "unions-labour",
+              "url": "/c/business/unions-labour/"
+            },
+            {
+              "title": "Production & Incentives",
+              "taxonomy": "category",
+              "term": "production-incentives",
+              "url": "/c/business/production-incentives/"
+            }
+          ]
+        },
+        {
+          "title": "Awards",
+          "taxonomy": "category",
+          "term": "awards",
+          "url": "/c/awards/",
+          "children": [
+            {
+              "title": "BAFTAs",
+              "taxonomy": "category",
+              "term": "baftas",
+              "url": "/c/awards/baftas/"
+            },
+            {
+              "title": "Oscars",
+              "taxonomy": "category",
+              "term": "oscars",
+              "url": "/c/awards/oscars/"
+            },
+            {
+              "title": "Emmys",
+              "taxonomy": "category",
+              "term": "emmys",
+              "url": "/c/awards/emmys/"
+            },
+            {
+              "title": "Golden Globes",
+              "taxonomy": "category",
+              "term": "golden-globes",
+              "url": "/c/awards/golden-globes/"
+            },
+            {
+              "title": "Olivier Awards",
+              "taxonomy": "category",
+              "term": "olivier-awards",
+              "url": "/c/awards/olivier-awards/"
+            },
+            {
+              "title": "BRIT Awards",
+              "taxonomy": "category",
+              "term": "brit-awards",
+              "url": "/c/awards/brit-awards/"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Footer Menu",
+      "locations": [
+        "footer"
+      ],
+      "items": [
+        {
+          "title": "Subscriber Support",
+          "url": "",
+          "children": [
+            {
+              "title": "Get the Magazine",
+              "url": "/contact/"
+            },
+            {
+              "title": "Customer Service",
+              "page": "contact",
+              "url": "/contact/"
+            },
+            {
+              "title": "Back Issues",
+              "url": "/contact/"
+            }
+          ]
+        },
+        {
+          "title": "The Hollywood Reporter UK",
+          "url": "",
+          "children": [
+            {
+              "title": "About Us",
+              "page": "masthead",
+              "url": "/masthead/"
+            },
+            {
+              "title": "Careers",
+              "url": "/contact/"
+            },
+            {
+              "title": "Contact Us",
+              "page": "contact",
+              "url": "/contact/"
+            },
+            {
+              "title": "Accessibility",
+              "page": "accessibility",
+              "url": "/accessibility/"
+            }
+          ]
+        },
+        {
+          "title": "Legal",
+          "url": "",
+          "children": [
+            {
+              "title": "Terms of Use",
+              "page": "terms-of-use",
+              "url": "/terms-of-use/"
+            },
+            {
+              "title": "Privacy Policy",
+              "page": "privacy-policy",
+              "url": "/privacy-policy/"
+            },
+            {
+              "title": "Cookie Policy",
+              "page": "cookie-policy",
+              "url": "/cookie-policy/"
+            }
+          ]
+        }
+      ]
     }
   ],
   "topics": [

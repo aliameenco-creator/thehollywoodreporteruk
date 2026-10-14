@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	initStickyHeader();
 	initTabbar();
 	initMegaMenu();
+	initSectionDropdowns();
 	initLiveSearch();
 	initSubnav();
 	initScrollers();
@@ -141,6 +142,44 @@ function initMegaMenu() {
 			col.classList.toggle('is-open', willOpen);
 			btn.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
 		});
+	});
+}
+
+// Section bar dropdowns open on hover in CSS; the chevron opens them for touch and keyboard.
+function initSectionDropdowns() {
+	const toggles = document.querySelectorAll('.js-thr-dropdown');
+	if (!toggles.length) return;
+
+	const closeAll = (except) => {
+		document.querySelectorAll('.thr-nav__item.is-open').forEach((item) => {
+			if (item === except) return;
+			item.classList.remove('is-open');
+			const btn = item.querySelector('.js-thr-dropdown');
+			if (btn) btn.setAttribute('aria-expanded', 'false');
+		});
+	};
+
+	toggles.forEach((btn) => {
+		btn.addEventListener('click', () => {
+			const item = btn.closest('.thr-nav__item');
+			const willOpen = !item.classList.contains('is-open');
+			closeAll(item);
+			item.classList.toggle('is-open', willOpen);
+			btn.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
+		});
+	});
+
+	document.addEventListener('click', (e) => {
+		if (!e.target.closest('.thr-nav__item')) closeAll(null);
+	});
+
+	document.addEventListener('keydown', (e) => {
+		if (e.key !== 'Escape') return;
+		const open = document.querySelector('.thr-nav__item.is-open');
+		if (!open) return;
+		closeAll(null);
+		const btn = open.querySelector('.js-thr-dropdown');
+		if (btn) btn.focus();
 	});
 }
 

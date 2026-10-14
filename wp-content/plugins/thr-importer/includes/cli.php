@@ -27,6 +27,7 @@ class THR_CLI_Command {
 			WP_CLI::line( sprintf( '- Verticals: %d created, %d existed', $r['verticals_created'], $r['verticals_skipped'] ) );
 			WP_CLI::line( sprintf( '- Video Categories: %d created, %d existed', $r['vcategories_created'], $r['vcategories_skipped'] ) );
 			WP_CLI::line( sprintf( '- Pages: %d created, %d existed', $r['pages_created'], $r['pages_skipped'] ) );
+			WP_CLI::line( sprintf( '- Menus: %d created, %d existed', $r['menus_created'], $r['menus_skipped'] ) );
 		} else {
 			WP_CLI::error( $result['message'] );
 		}

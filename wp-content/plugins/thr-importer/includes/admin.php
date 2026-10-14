@@ -45,17 +45,19 @@ function thr_importer_handle_action() {
 			if ( $result['success'] ) {
 				$r                 = $result['report'];
 				$result['message'] = sprintf(
-					'%s Created: %d categories, %d topics, %d verticals, %d video categories, %d pages. (Already existed: %d categories, %d topics, %d verticals, %d pages.)',
+					'%s Created: %d categories, %d topics, %d verticals, %d video categories, %d pages, %d menus. (Already existed: %d categories, %d topics, %d verticals, %d pages, %d menus.)',
 					$result['message'],
 					$r['categories_created'],
 					$r['topics_created'],
 					$r['verticals_created'],
 					$r['vcategories_created'],
 					$r['pages_created'],
+					$r['menus_created'],
 					$r['categories_skipped'],
 					$r['topics_skipped'],
 					$r['verticals_skipped'],
-					$r['pages_skipped']
+					$r['pages_skipped'],
+					$r['menus_skipped']
 				);
 			}
 			break;
@@ -95,6 +97,7 @@ function thr_render_importer_page() {
 		array( __( 'Verticals (/e/)', 'thr-importer' ), taxonomy_exists( 'vertical' ) ? wp_count_terms( array( 'taxonomy' => 'vertical', 'hide_empty' => false ) ) : 0, isset( $expected['verticals'] ) ? $expected['verticals'] : '' ),
 		array( __( 'Video Categories', 'thr-importer' ), taxonomy_exists( 'vcategory' ) ? wp_count_terms( array( 'taxonomy' => 'vcategory', 'hide_empty' => false ) ) : 0, isset( $expected['video_categories'] ) ? $expected['video_categories'] : '' ),
 		array( __( 'Pages', 'thr-importer' ), wp_count_posts( 'page' )->publish + wp_count_posts( 'page' )->draft, isset( $expected['pages'] ) ? $expected['pages'] : '' ),
+		array( __( 'Menus (Appearance → Menus)', 'thr-importer' ), count( wp_get_nav_menus() ), isset( $expected['menus'] ) ? $expected['menus'] : '' ),
 	);
 	$demo_count = THR_Demo_Seeder::count();
 	?>
@@ -109,7 +112,7 @@ function thr_render_importer_page() {
 
 		<div class="card">
 			<h2><?php esc_html_e( '1. Site structure', 'thr-importer' ); ?></h2>
-			<p><?php esc_html_e( 'Sets permalinks and creates sections, topics, verticals, video categories and pages. Safe to run again: existing items are kept.', 'thr-importer' ); ?></p>
+			<p><?php esc_html_e( 'Sets permalinks and creates sections, topics, verticals, video categories, pages and the starter menus. Safe to run again: existing items, and menus you have edited, are kept.', 'thr-importer' ); ?></p>
 			<table class="widefat striped">
 				<thead>
 					<tr>

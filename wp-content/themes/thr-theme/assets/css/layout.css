@@ -170,7 +170,7 @@
 		display: flex;
 		justify-content: center;
 		flex-wrap: wrap;
-		gap: 4px 36px;
+		gap: 4px 28px;
 	}
 
 	.thr-section-bar__link {
@@ -182,6 +182,103 @@
 		letter-spacing: 0.05em;
 		text-transform: uppercase;
 		color: var(--black);
+	}
+
+	/* Section dropdowns: open on hover, or via the chevron button (touch and keyboard). */
+	.thr-nav__item {
+		position: relative;
+		display: flex;
+		align-items: center;
+		gap: 2px;
+	}
+
+	.thr-nav__item:hover > .thr-section-bar__link,
+	.thr-nav__item.is-open > .thr-section-bar__link {
+		color: var(--brand-primary);
+	}
+
+	.thr-nav__toggle {
+		display: inline-flex;
+		align-items: center;
+		padding: 4px 0;
+		background: none;
+		border: 0;
+		color: var(--black);
+		cursor: pointer;
+	}
+
+	.thr-nav__toggle svg {
+		transition: transform 0.15s ease;
+	}
+
+	.thr-nav__item:hover > .thr-nav__toggle,
+	.thr-nav__item.is-open > .thr-nav__toggle {
+		color: var(--brand-primary);
+	}
+
+	.thr-nav__item:hover > .thr-nav__toggle svg,
+	.thr-nav__item.is-open > .thr-nav__toggle svg {
+		transform: rotate(180deg);
+	}
+
+	.thr-nav__dropdown {
+		position: absolute;
+		top: 100%;
+		left: -16px;
+		z-index: 130;
+		min-width: 220px;
+		max-height: 70vh;
+		overflow-y: auto;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+		background: var(--white);
+		border: 1px solid var(--grey-light);
+		border-top: 2px solid var(--brand-primary);
+		box-shadow: 0 8px 20px rgb(0 0 0 / 12%);
+		opacity: 0;
+		visibility: hidden;
+		transform: translateY(4px);
+		transition: opacity 0.15s ease, transform 0.15s ease, visibility 0s linear 0.15s;
+	}
+
+	/* The last items open leftwards so the panel stays on screen. */
+	.thr-nav__item:nth-last-child(-n+2) > .thr-nav__dropdown {
+		left: auto;
+		right: -16px;
+	}
+
+	.thr-nav__item:hover > .thr-nav__dropdown,
+	.thr-nav__item.is-open > .thr-nav__dropdown,
+	.thr-sticky .thr-nav__item:focus-within > .thr-nav__dropdown {
+		opacity: 1;
+		visibility: visible;
+		transform: none;
+		transition: opacity 0.15s ease, transform 0.15s ease;
+	}
+
+	.thr-nav__dropdown a {
+		display: block;
+		padding: 12px 16px;
+		border-bottom: 1px solid var(--grey-lightest);
+		font-family: var(--font-sans);
+		font-size: 13px;
+		font-weight: var(--fw-accent);
+		letter-spacing: 0.05em;
+		text-transform: uppercase;
+		white-space: nowrap;
+		color: var(--black);
+	}
+
+	.thr-nav__dropdown li:last-child a {
+		border-bottom: 0;
+	}
+
+	.thr-nav__dropdown a:hover,
+	.thr-nav__dropdown a:focus-visible {
+		color: var(--brand-primary);
+		background: var(--grey-lightest);
+		text-decoration: none;
 	}
 }
 
@@ -255,10 +352,28 @@
 		height: 34px;
 	}
 
+	/* Clip only sideways so dropdowns can still hang below the bar. */
 	.thr-sticky__nav {
 		flex: 1;
 		min-width: 0;
-		overflow: hidden;
+		overflow-x: clip;
+		overflow-y: visible;
+	}
+
+	/* The compact bar has no room for chevrons; hover and keyboard focus open dropdowns instead. */
+	.thr-sticky .thr-nav__toggle {
+		display: none;
+	}
+
+	/* Items fill the bar's height so a dropdown starts at its bottom edge, with no hover gap. */
+	.thr-sticky .thr-nav__item {
+		height: var(--sticky-height);
+	}
+
+	/* The bar clips sideways, so the right-hand items open leftwards. */
+	.thr-sticky .thr-nav__item:nth-last-child(-n+3) > .thr-nav__dropdown {
+		left: auto;
+		right: -16px;
 	}
 
 	.thr-sticky__list {
@@ -722,6 +837,10 @@ body.has-tabbar {
 
 	.thr-mega__logo .thr-logo__main {
 		font-size: 30px;
+	}
+
+	.thr-mega__logo .thr-logo__img {
+		height: 40px;
 	}
 
 	.thr-mega__logo .thr-logo__the {

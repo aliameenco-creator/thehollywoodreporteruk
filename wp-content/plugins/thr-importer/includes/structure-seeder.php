@@ -44,6 +44,8 @@ class THR_Structure_Seeder {
 			'vcategories_skipped'=> 0,
 			'pages_created'      => 0,
 			'pages_skipped'      => 0,
+			'menus_created'      => 0,
+			'menus_skipped'      => 0,
 		);
 
 		if ( isset( $data['settings'] ) ) {
@@ -239,6 +241,13 @@ class THR_Structure_Seeder {
 			}
 		}
 
+		// Menus last: their items point at the categories, verticals and pages created above.
+		if ( ! empty( $data['menus'] ) ) {
+			foreach ( $data['menus'] as $menu ) {
+				self::seed_menu( $menu, $report );
+			}
+		}
+
 		if ( ! function_exists( 'thr_apply_permalink_settings' ) ) {
 			flush_rewrite_rules();
 		}
@@ -248,5 +257,85 @@ class THR_Structure_Seeder {
 			'message' => 'Site structure successfully seeded.',
 			'report'  => $report,
 		);
+	}
+
+	/**
+	 * Create one starter menu (Appearance → Menus) and assign it to its empty locations.
+	 * A menu that already exists by name is left exactly as editors made it.
+	 *
+	 * @param array $menu   Manifest entry: name, locations[], items[].
+	 * @param array $report Counters, updated in place.
+	 */
+	private static function seed_menu( $menu, &$report ) {
+		$existing = wp_get_nav_menu_object( $menu['name'] );
+		if ( $existing ) {
+			$menu_id = (int) $existing->term_id;
+			$report['menus_skipped']++;
+		} else {
+			$menu_id = wp_create_nav_menu( $menu['name'] );
+			if ( is_wp_error( $menu_id ) ) {
+				return;
+			}
+			$position = 0;
+			foreach ( $menu['items'] as $item ) {
+				self::add_menu_item( $menu_id, $item, 0, $position );
+			}
+			$report['menus_created']++;
+		}
+
+		// Fill empty locations only; a location an editor already set is kept.
+		$locations = get_theme_mod( 'nav_menu_locations', array() );
+		$changed   = false;
+		foreach ( $menu['locations'] as $location ) {
+			if ( empty( $locations[ $location ] ) ) {
+				$locations[ $location ] = $menu_id;
+				$changed                = true;
+			}
+		}
+		if ( $changed ) {
+			set_theme_mod( 'nav_menu_locations', $locations );
+		}
+	}
+
+	/**
+	 * Add a menu item and its children. Items link to the real category, vertical or page
+	 * when it exists (so renames and URL changes follow automatically), else to the path.
+	 *
+	 * @param int   $menu_id  Menu term ID.
+	 * @param array $item     Manifest item: title, url, optional taxonomy+term or page, children[].
+	 * @param int   $parent   Parent menu item ID.
+	 * @param int   $position Running menu order; WordPress orders the whole menu by it, parents before their children.
+	 */
+	private static function add_menu_item( $menu_id, $item, $parent, &$position ) {
+		$args = array(
+			'menu-item-title'     => $item['title'],
+			'menu-item-parent-id' => $parent,
+			'menu-item-position'  => ++$position,
+			'menu-item-status'    => 'publish',
+			'menu-item-type'      => 'custom',
+			// Column headings without a link store "#"; site paths stay relative so the menu survives a domain change.
+			'menu-item-url'       => '' !== $item['url'] ? $item['url'] : '#',
+		);
+
+		$term = ! empty( $item['taxonomy'] ) ? get_term_by( 'slug', $item['term'], $item['taxonomy'] ) : false;
+		$page = ! empty( $item['page'] ) ? get_page_by_path( $item['page'] ) : null;
+
+		if ( $term ) {
+			$args['menu-item-type']      = 'taxonomy';
+			$args['menu-item-object']    = $item['taxonomy'];
+			$args['menu-item-object-id'] = $term->term_id;
+		} elseif ( $page && 'publish' === $page->post_status ) {
+			$args['menu-item-type']      = 'post_type';
+			$args['menu-item-object']    = 'page';
+			$args['menu-item-object-id'] = $page->ID;
+		}
+
+		$item_id = wp_update_nav_menu_item( $menu_id, 0, $args );
+		if ( is_wp_error( $item_id ) || empty( $item['children'] ) ) {
+			return;
+		}
+		foreach ( $item['children'] as $child ) {
+			self::add_menu_item( $menu_id, $child, $item_id, $position );
+		}
 	}
 }

@@ -7,7 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'THR_THEME_VERSION', '1.2.2' );
+define( 'THR_THEME_VERSION', '1.2.3' );
 
 require_once get_template_directory() . '/inc/template-tags.php';
 require_once get_template_directory() . '/inc/icons.php';
@@ -45,13 +45,38 @@ function thr_theme_setup() {
 
 	register_nav_menus(
 		array(
-			'primary' => __( 'Section Bar (Top Navigation)', 'thr-theme' ),
-			'mega'    => __( 'Mega Menu Drawer (2 levels: column → links)', 'thr-theme' ),
-			'footer'  => __( 'Footer Main Menu', 'thr-theme' ),
+			'primary' => __( 'Main Navigation (section bar; sub-items become hover dropdowns)', 'thr-theme' ),
+			'mega'    => __( 'Menu Drawer (☰ button; leave empty to reuse Main Navigation)', 'thr-theme' ),
+			'footer'  => __( 'Footer Links (top-level items are column headings)', 'thr-theme' ),
 		)
 	);
 }
 add_action( 'after_setup_theme', 'thr_theme_setup' );
+
+/**
+ * On Appearance → Menus, point admins to the importer while no Main Navigation is set.
+ * Until then the section bar lists every category.
+ */
+function thr_menus_admin_notice() {
+	$screen = get_current_screen();
+	if ( ! $screen || 'nav-menus' !== $screen->id || ! current_user_can( 'manage_options' ) ) {
+		return;
+	}
+	if ( has_nav_menu( 'primary' ) ) {
+		return;
+	}
+
+	$message = __( 'No menu is set for Main Navigation, so the header lists every category.', 'thr-theme' );
+	if ( class_exists( 'THR_Structure_Seeder' ) ) {
+		$message .= ' ' . sprintf(
+			/* translators: %s: link to the THR Importer screen. */
+			__( 'Create the starter Main Navigation and Footer menus with one click under %s, then edit them here.', 'thr-theme' ),
+			'<a href="' . esc_url( admin_url( 'tools.php?page=thr-importer' ) ) . '">' . esc_html__( 'Tools → THR Importer → Seed / Sync Site Structure', 'thr-theme' ) . '</a>'
+		);
+	}
+	printf( '<div class="notice notice-info"><p>%s</p></div>', wp_kses( $message, array( 'a' => array( 'href' => array() ) ) ) );
+}
+add_action( 'admin_notices', 'thr_menus_admin_notice' );
 
 /**
  * Typography: free preset by default, or Adobe Fonts (Kepler Std Semicondensed
@@ -116,9 +141,10 @@ function thr_theme_scripts() {
 add_action( 'wp_enqueue_scripts', 'thr_theme_scripts' );
 
 /**
- * Site wordmark: the uploaded custom logo or THR Settings logo, else a typeset wordmark.
+ * Site logo: an uploaded custom logo (Appearance → Customize → Site Identity) or
+ * THR Settings logo URL, else the bundled THR UK logo.
  *
- * @param string $context Class modifier: header, menu, footer.
+ * @param string $context Class modifier: header, sticky, menu.
  */
 function thr_the_logo( $context = 'header' ) {
 	$classes = 'thr-logo thr-logo--' . sanitize_html_class( $context );
@@ -131,7 +157,7 @@ function thr_the_logo( $context = 'header' ) {
 		<?php elseif ( $img_url ) : ?>
 			<img class="thr-logo__img" src="<?php echo esc_url( $img_url ); ?>" alt="" />
 		<?php else : ?>
-			<?php thr_the_wordmark(); ?>
+			<img class="thr-logo__img" src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/logo.svg' ); ?>" alt="" width="302" height="73" />
 		<?php endif; ?>
 	</a>
 	<?php

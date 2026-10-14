@@ -105,6 +105,25 @@ On phones, a bar with **Home · Sections · Search · Video · Newsletters** sit
 
 On desktop, a compact header with the menu, logo, sections and Subscribe button slides in once you scroll past the main header.
 
+### Menus (Appearance → Menus)
+
+Every menu on the site is an ordinary WordPress menu, so anyone with admin access can change it. No code is involved.
+
+| Menu | Where it shows | How it works |
+|---|---|---|
+| **Main Navigation** | The section bar under the logo, the compact bar after scrolling, and the ☰ menu drawer | Top-level items are the sections (News, Film, TV…). Items dragged **under** a section (indented one step) become its hover dropdown on desktop, and its fold-out list in the drawer. |
+| **Footer Menu** | The footer link columns | Top-level items are the column headings (a Custom Link with `#` as the URL); the items under each one are its links. |
+
+- **Add a link:** pick it from the boxes on the left (**Categories**, **Pages**, **Verticals** or **Custom Links**), click **Add to Menu**, drag it into place, then **Save Menu**. Linking to the category itself (not a typed URL) means a renamed category or changed URL updates the menu automatically.
+- **Change the label** without renaming the category: open the item and edit **Navigation Label**. This is how "General News" shows as **Latest**, and "Film Reviews" as **Reviews** under Film.
+- **Keep a category off the menu:** don't add it. **Health** is a category inside **Wellness**: its stories appear on the Wellness page, but it has no menu link of its own.
+- **Want the ☰ drawer to differ from the section bar?** Create another menu and tick **Menu Drawer** under *Menu Settings*. Left empty, the drawer reuses Main Navigation.
+- The two starter menus come from **Tools → THR Importer → Seed / Sync Site Structure**. Running it again never touches a menu that already exists, so your edits are safe.
+
+### Logo
+
+The header uses the THR UK logo (the version with the Union Jack inside "UK"). To replace it, upload a new one under **Appearance → Customize → Site Identity → Logo**. A wide SVG or PNG around 600 × 145 px works best.
+
 ---
 
 ## 8. Newsletters
@@ -168,7 +187,7 @@ What you still need:
 ## 12. One-time setup on the live site (after installing this update)
 
 1. Install the new theme and plugin versions: Dashboard → Updates once releases are set up, or upload the zips this time.
-2. **Tools → THR Importer → Seed / Sync Site Structure**: this publishes the Contact and Newsletters pages and adds their intro text if they are empty. Nothing else is changed.
+2. **Tools → THR Importer → Seed / Sync Site Structure**: this publishes the Contact and Newsletters pages and adds their intro text if they are empty. From v1.2.3 it also adds the new sections (Culture, Tech & AI, Awards and their sub-sections, with Health inside Wellness) and creates the **Main Navigation** and **Footer Menu** under Appearance → Menus. Existing categories, posts and menus are never changed or deleted.
 3. **Settings → THR Settings**: set the Contact and Tip Line email addresses, and check the Mobile tab bar option.
 4. Install **Yoast SEO** and follow section 10.
 5. Install **WP Mail SMTP** and send a test email.
