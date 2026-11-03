@@ -3,7 +3,7 @@
  * Plugin Name: THR Core
  * Plugin URI:  https://thehollywoodreporter.co.uk
  * Description: Editorial data model, custom post types, taxonomies, custom permalinks, and settings for The Hollywood Reporter UK.
- * Version:     1.2.3
+ * Version:     2.0.0
  * Author:      The Hollywood Reporter UK
  * Author URI:  https://thehollywoodreporter.co.uk
  * Text Domain: thr-core
@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'THR_CORE_VERSION', '1.2.3' );
+define( 'THR_CORE_VERSION', '2.0.0' );
 define( 'THR_CORE_PATH', plugin_dir_path( __FILE__ ) );
 define( 'THR_CORE_URL', plugin_dir_url( __FILE__ ) );
 

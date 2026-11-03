@@ -184,7 +184,11 @@ What you still need:
 
 ---
 
-## 12. One-time setup on the live site (after installing this update)
+## 12. Article audio ("Listen to this article")
+
+The **THR Audio** plugin makes a spoken version of each article with ElevenLabs when it is published, and shows a player above the share buttons. Each article has an **Article Audio** box in the editor: tick which voices to make on publish (all are ticked by default), see each voice's status, and remake, replace or remove audio. Setup, costs and how it works are in [THR-AUDIO.md](THR-AUDIO.md).
+
+## 13. One-time setup on the live site (after installing this update)
 
 1. Install the new theme and plugin versions: Dashboard → Updates once releases are set up, or upload the zips this time.
 2. **Tools → THR Importer → Seed / Sync Site Structure**: this publishes the Contact and Newsletters pages and adds their intro text if they are empty. From v1.2.3 it also adds the new sections (Culture, Tech & AI, Awards and their sub-sections, with Health inside Wellness) and creates the **Main Navigation** and **Footer Menu** under Appearance → Menus. Existing categories, posts and menus are never changed or deleted.

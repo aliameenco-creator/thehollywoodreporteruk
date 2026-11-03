@@ -1,7 +1,7 @@
 name: Release
 
 # Tag a version (git tag v1.2.0 && git push origin v1.2.0) to lint, package the
-# theme and both plugins, and publish them as a GitHub release. WordPress then
+# theme and the plugins, and publish them as a GitHub release. WordPress then
 # offers the update under Dashboard > Updates. No connection to the host is made.
 
 on:
@@ -27,13 +27,15 @@ jobs:
         run: find wp-content -name '*.php' -print0 | xargs -0 -n1 php -l > /dev/null
 
       - name: JS syntax check
-        run: node --check wp-content/themes/thr-theme/assets/js/main.js
+        run: |
+          node --check wp-content/themes/thr-theme/assets/js/main.js
+          for f in wp-content/plugins/thr-audio/assets/js/*.js; do node --check "$f"; done
 
       - name: Check versions match the tag
         run: |
           set -euo pipefail
           TAG="${GITHUB_REF_NAME#v}"
-          for f in wp-content/themes/thr-theme/style.css wp-content/plugins/thr-core/thr-core.php wp-content/plugins/thr-importer/thr-importer.php; do
+          for f in wp-content/themes/thr-theme/style.css wp-content/plugins/thr-core/thr-core.php wp-content/plugins/thr-importer/thr-importer.php wp-content/plugins/thr-audio/thr-audio.php; do
             V="$(grep -m1 -E '^[ *]*Version:' "$f" | sed -E 's/.*Version:[[:space:]]*//' | tr -d '[:space:]')"
             [ "$V" = "$TAG" ] || { echo "::error::$f is version '$V' but the tag is '$TAG'"; exit 1; }
           done
@@ -44,4 +46,4 @@ jobs:
       - name: Publish release
         env:
           GH_TOKEN: ${{ github.token }}
-        run: gh release create "$GITHUB_REF_NAME" thr-theme.zip thr-core.zip thr-importer.zip --title "$GITHUB_REF_NAME" --generate-notes
+        run: gh release create "$GITHUB_REF_NAME" thr-theme.zip thr-core.zip thr-importer.zip thr-audio.zip --title "$GITHUB_REF_NAME" --generate-notes

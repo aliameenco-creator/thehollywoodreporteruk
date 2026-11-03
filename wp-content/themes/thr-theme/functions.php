@@ -7,7 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'THR_THEME_VERSION', '1.2.3' );
+define( 'THR_THEME_VERSION', '2.0.0' );
 
 require_once get_template_directory() . '/inc/template-tags.php';
 require_once get_template_directory() . '/inc/icons.php';

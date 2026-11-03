@@ -54,6 +54,12 @@ while ( have_posts() ) :
 								</figure>
 							<?php endif; ?>
 
+							<?php
+							if ( function_exists( 'thr_audio_player' ) ) {
+								thr_audio_player( $post_id );
+							}
+							?>
+
 							<?php get_template_part( 'template-parts/single/share-bar' ); ?>
 
 							<?php

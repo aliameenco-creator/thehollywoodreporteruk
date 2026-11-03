@@ -4,7 +4,7 @@
  *
  * WordPress pulls updates itself (Dashboard > Updates); nothing connects to the
  * host over SSH. Each GitHub release tagged vX.Y.Z carries three zip assets:
- * thr-theme.zip, thr-core.zip and thr-importer.zip (built by the release workflow).
+ * thr-theme.zip, thr-core.zip, thr-importer.zip and thr-audio.zip (built by the release workflow).
  *
  * Optional wp-config.php constants:
  *   THR_GITHUB_REPO  owner/name, defaults to the project repository.
@@ -90,7 +90,7 @@ function thr_updater_release_from_redirect() {
 
 	$tag    = $match[1];
 	$assets = array();
-	foreach ( array( 'thr-theme.zip', 'thr-core.zip', 'thr-importer.zip' ) as $name ) {
+	foreach ( array( 'thr-theme.zip', 'thr-core.zip', 'thr-importer.zip', 'thr-audio.zip' ) as $name ) {
 		$assets[ $name ] = $base . '/download/' . rawurlencode( $tag ) . '/' . $name;
 	}
 
@@ -156,6 +156,7 @@ function thr_updater_filter_plugins( $transient ) {
 	$plugins = array(
 		'thr-core/thr-core.php'         => 'thr-core.zip',
 		'thr-importer/thr-importer.php' => 'thr-importer.zip',
+		'thr-audio/thr-audio.php'       => 'thr-audio.zip',
 	);
 
 	foreach ( $plugins as $file => $asset ) {
