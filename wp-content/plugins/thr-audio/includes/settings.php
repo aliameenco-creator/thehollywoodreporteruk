@@ -42,18 +42,22 @@ function thr_audio_settings() {
 		'output_format' => 'mp3_44100_64',
 		'default_voice' => 'v1',
 		'auto_publish'  => 1,
+		'other_voices'  => 'full',
 		'preview_chars' => 350,
 		'on_demand'     => 1,
 		'rate_limit'    => 10,
 		'monthly_cap'   => 2000000,
 		'alert_email'   => get_option( 'admin_email' ),
+		'storage'       => 'local',
 		'voices'        => $voices,
+		'podcast'       => thr_audio_podcast_defaults(),
 	);
 
 	$saved = get_option( 'thr_audio_settings', array() );
 	$saved = is_array( $saved ) ? $saved : array();
 
-	$settings = array_merge( $defaults, $saved );
+	$settings            = array_merge( $defaults, $saved );
+	$settings['podcast'] = array_merge( $defaults['podcast'], isset( $saved['podcast'] ) && is_array( $saved['podcast'] ) ? $saved['podcast'] : array() );
 	foreach ( thr_audio_slots() as $slot ) {
 		$settings['voices'][ $slot ] = array_merge(
 			$voices[ $slot ],
@@ -147,12 +151,15 @@ function thr_audio_sanitize_settings( $input ) {
 		'output_format' => isset( $input['output_format'] ) && in_array( $input['output_format'], array_keys( thr_audio_output_formats() ), true ) ? $input['output_format'] : 'mp3_44100_64',
 		'default_voice' => isset( $input['default_voice'] ) && in_array( $input['default_voice'], thr_audio_slots(), true ) ? $input['default_voice'] : 'v1',
 		'auto_publish'  => empty( $input['auto_publish'] ) ? 0 : 1,
+		'other_voices'  => isset( $input['other_voices'] ) && 'preview' === $input['other_voices'] ? 'preview' : 'full',
 		'preview_chars' => isset( $input['preview_chars'] ) ? min( 2000, max( 100, absint( $input['preview_chars'] ) ) ) : 350,
 		'on_demand'     => empty( $input['on_demand'] ) ? 0 : 1,
 		'rate_limit'    => isset( $input['rate_limit'] ) ? min( 200, max( 1, absint( $input['rate_limit'] ) ) ) : 10,
 		'monthly_cap'   => isset( $input['monthly_cap'] ) ? absint( $input['monthly_cap'] ) : 2000000,
 		'alert_email'   => isset( $input['alert_email'] ) ? sanitize_email( $input['alert_email'] ) : '',
+		'storage'       => isset( $input['storage'] ) && 'r2' === $input['storage'] && thr_audio_r2_configured() ? 'r2' : 'local',
 		'voices'        => array(),
+		'podcast'       => thr_audio_sanitize_podcast( isset( $input['podcast'] ) && is_array( $input['podcast'] ) ? $input['podcast'] : array() ),
 	);
 
 	foreach ( thr_audio_slots() as $slot ) {
@@ -328,6 +335,14 @@ function thr_audio_render_settings() {
 					<td><label><input type="checkbox" name="<?php echo esc_attr( $name ); ?>[auto_publish]" value="1" <?php checked( $s['auto_publish'] ); ?> /> <?php esc_html_e( 'Make audio automatically when an article is published (manual and n8n posts alike)', 'thr-audio' ); ?></label></td>
 				</tr>
 				<tr>
+					<th scope="row"><?php esc_html_e( 'Other voices', 'thr-audio' ); ?></th>
+					<td>
+						<label><input type="radio" name="<?php echo esc_attr( $name ); ?>[other_voices]" value="full" <?php checked( $s['other_voices'], 'full' ); ?> /> <?php esc_html_e( 'Full recording for every voice: switching voices is instant (costs about one full article per voice)', 'thr-audio' ); ?></label><br />
+						<label><input type="radio" name="<?php echo esc_attr( $name ); ?>[other_voices]" value="preview" <?php checked( $s['other_voices'], 'preview' ); ?> /> <?php esc_html_e( 'Opening clip only: the full version is made when a reader picks the voice (cheaper; the reader may wait a few seconds)', 'thr-audio' ); ?></label>
+						<p class="description"><?php esc_html_e( 'The default voice is always made in full. For articles already published, use "Make audio now" in the Article Audio box.', 'thr-audio' ); ?></p>
+					</td>
+				</tr>
+				<tr>
 					<th scope="row"><label for="thr-audio-preview"><?php esc_html_e( 'Opening clip length', 'thr-audio' ); ?></label></th>
 					<td>
 						<input type="number" id="thr-audio-preview" min="100" max="2000" step="50" name="<?php echo esc_attr( $name ); ?>[preview_chars]" value="<?php echo esc_attr( $s['preview_chars'] ); ?>" class="small-text" /> <?php esc_html_e( 'characters', 'thr-audio' ); ?>
@@ -364,6 +379,10 @@ function thr_audio_render_settings() {
 					<td><input type="email" id="thr-audio-email" name="<?php echo esc_attr( $name ); ?>[alert_email]" value="<?php echo esc_attr( $s['alert_email'] ); ?>" class="regular-text" /></td>
 				</tr>
 			</table>
+
+			<?php thr_audio_render_storage_settings( $s, $name ); ?>
+
+			<?php thr_audio_render_podcast_settings( $s['podcast'], $name . '[podcast]' ); ?>
 
 			<?php submit_button(); ?>
 		</form>

@@ -132,14 +132,53 @@
 			audio.play().catch(() => setPlaying(false));
 		};
 
-		// Load a file and continue from $at seconds.
+		/* ----- Getting ready before the click -----
+		 * Pages load no audio. When a reader reaches for play (hover, focus or touch) the file
+		 * starts downloading in full, so the click plays at once. There is deliberately no
+		 * "metadata" preload: browsers pause such a download part-way, and on Hostinger's CDN
+		 * over HTTP/3 a paused download can hang the connection so nothing plays.
+		 * Opening the voice menu fetches the other voices' opening clips.
+		 */
+
+		const warm = () => {
+			if (!audio.getAttribute('src') || audio.preload === 'auto') {
+				return;
+			}
+			audio.preload = 'auto';
+			if (audio.readyState === 0 && audio.paused && audio.networkState !== audio.NETWORK_LOADING) {
+				audio.load();
+			}
+		};
+		['pointerenter', 'focus'].forEach((type) => playBtn.addEventListener(type, warm));
+		playBtn.addEventListener('touchstart', warm, { passive: true });
+
+		const warmed = new Set();
+		const warmClips = () => {
+			voices.forEach((v) => {
+				if (v !== voice && !v.src && v.preview && !warmed.has(v.preview)) {
+					warmed.add(v.preview);
+					fetch(v.preview, { priority: 'low' })
+						.then((r) => r.blob())
+						.catch(() => warmed.delete(v.preview));
+				}
+			});
+		};
+
+		// Load a file and continue from $at seconds. Each load gets a number so a slow
+		// "metadata ready" from an earlier file can never move the new one.
+		let loadId = 0;
 		const load = (url, at, autoplay) => {
+			const id = ++loadId;
+			audio.preload = 'auto';
 			audio.src = url;
 			applySpeed();
 			if (at > 0) {
 				audio.addEventListener(
 					'loadedmetadata',
 					() => {
+						if (id !== loadId) {
+							return;
+						}
 						audio.currentTime = Math.min(at, Math.max(0, audio.duration - 1));
 						applySpeed();
 					},
@@ -196,7 +235,9 @@
 			showStatus(message, { retry: true });
 			retryBtn.onclick = () => {
 				hideStatus();
-				chooseVoice(failed.voice, true);
+				if (failed) {
+					chooseVoice(failed.voice, true);
+				}
 			};
 			// The menu shows what is actually playing.
 			if (select) {
@@ -204,8 +245,10 @@
 			}
 		};
 
-		const handle = (reply) => {
-			if (!pending) {
+		// $job is the request the reply belongs to. A reply for a voice the reader has since
+		// moved away from is dropped, so it can never be applied to the newer choice.
+		const handle = (job, reply) => {
+			if (!pending || pending !== job) {
 				return;
 			}
 			const v = pending.voice;
@@ -241,7 +284,9 @@
 				showStatus(root.dataset.msgSlow, { busy: true });
 			}
 			pending.timer = setTimeout(() => {
-				ask(v, false).then(handle).catch(() => failPending(root.dataset.msgFailed));
+				ask(v, false)
+					.then((r) => handle(job, r))
+					.catch(() => pending === job && failPending(root.dataset.msgFailed));
 			}, POLL_MS);
 		};
 
@@ -256,13 +301,14 @@
 				return;
 			}
 			stopPending();
-			pending = { voice: v, onReady, started: Date.now(), timer: null, slowShown: false };
+			const job = { voice: v, onReady, started: Date.now(), timer: null, slowShown: false };
+			pending = job;
 			if (message) {
 				showStatus(message, { busy: true });
 			}
 			ask(v, true)
-				.then(handle)
-				.catch(() => failPending(root.dataset.msgFailed));
+				.then((r) => handle(job, r))
+				.catch(() => pending === job && failPending(root.dataset.msgFailed));
 		};
 
 		// Full recording arrived while the opening clip is playing (or has just finished).
@@ -286,9 +332,12 @@
 				select.value = v.value;
 			}
 
-			const wasPlaying = !audio.paused;
-			const at = audio.currentTime || 0;
-			const ratio = audio.duration && isFinite(audio.duration) ? at / audio.duration : 0;
+			// Waiting for the rest of an opening clip counts as playing.
+			const wasPlaying = !audio.paused || waitingForRest;
+			// After the end, a new voice starts from the beginning instead of at its last second.
+			const finished = audio.ended && !waitingForRest;
+			const at = finished ? 0 : audio.currentTime || 0;
+			const ratio = !finished && audio.duration && isFinite(audio.duration) ? at / audio.duration : 0;
 
 			// Ready: switch straight away, at the same point in the article.
 			if (v.src) {
@@ -316,7 +365,7 @@
 				(ready) => {
 					const pos = audio.currentTime || 0;
 					const r = audio.duration && isFinite(audio.duration) ? pos / audio.duration : 0;
-					useFull(ready, mode === 'full' && ready.duration ? r * ready.duration : pos, !audio.paused);
+					useFull(ready, mode === 'full' && ready.duration ? r * ready.duration : pos, !audio.paused || waitingForRest);
 				},
 				preparing(v)
 			);
@@ -332,6 +381,7 @@
 				audio.src = match.src || match.preview;
 				applySpeed();
 			}
+			['focus', 'pointerdown'].forEach((type) => select.addEventListener(type, warmClips));
 			select.addEventListener('change', () => {
 				chooseVoice(voices[select.selectedIndex], true);
 			});
@@ -380,7 +430,58 @@
 			seeking = false;
 		});
 
+		let retried = false; // See the 'error' handler.
+
+		/* Watchdog: if sound hasn't started (or has stopped) a few seconds after play, the
+		 * request is stuck somewhere between the browser and the CDN. Ask again on a fresh
+		 * request from the same point; the second retry adds ?r= so it can't share the stuck one. */
+		const STALL_MS = 2500;
+		let watchdog = null;
+		let rescues = 0;
+		const disarm = () => clearTimeout(watchdog);
+		const arm = () => {
+			disarm();
+			watchdog = setTimeout(() => {
+				const src = audio.getAttribute('src');
+				if (!src || audio.paused || waitingForRest || audio.readyState >= 3) {
+					return;
+				}
+				rescues++;
+				if (rescues > 3) {
+					setPlaying(false);
+					showStatus(root.dataset.msgFailed, { retry: true });
+					retryBtn.onclick = () => {
+						hideStatus();
+						rescues = 0;
+						load(src, audio.currentTime || 0, true);
+					};
+					return;
+				}
+				const clean = src.replace(/[?&]r=\d+$/, '');
+				load(rescues > 1 ? clean + (clean.includes('?') ? '&' : '?') + 'r=' + rescues : clean, audio.currentTime || 0, true);
+			}, STALL_MS);
+		};
+		['play', 'waiting', 'stalled'].forEach((type) => audio.addEventListener(type, arm));
+		// Data still arriving (just a slow connection): give it more time instead of restarting.
+		audio.addEventListener('progress', () => {
+			if (!audio.paused && audio.readyState < 3) {
+				arm();
+			}
+		});
+		audio.addEventListener('pause', disarm);
+		audio.addEventListener('playing', () => {
+			disarm();
+			rescues = 0;
+		});
+
 		audio.addEventListener('play', () => setPlaying(true));
+		// Sound is coming out: an old error or "preparing" note no longer applies.
+		audio.addEventListener('playing', () => {
+			retried = false;
+			if (!pending && !waitingForRest) {
+				hideStatus();
+			}
+		});
 		audio.addEventListener('pause', () => {
 			if (!waitingForRest) {
 				setPlaying(false);
@@ -408,12 +509,24 @@
 			current.textContent = formatTime(audio.currentTime);
 			paintProgress();
 		});
+		// A network hiccup gets one quiet retry from the same point before an error is shown.
 		audio.addEventListener('error', () => {
-			if (!audio.getAttribute('src')) {
+			const src = audio.getAttribute('src');
+			if (!src) {
+				return;
+			}
+			if (!retried) {
+				retried = true;
+				load(src, audio.currentTime || 0, true);
 				return;
 			}
 			setPlaying(false);
-			showStatus(root.dataset.msgFailed);
+			showStatus(root.dataset.msgFailed, { retry: true });
+			retryBtn.onclick = () => {
+				hideStatus();
+				retried = false;
+				load(src, audio.currentTime || 0, true);
+			};
 		});
 
 		paintProgress();

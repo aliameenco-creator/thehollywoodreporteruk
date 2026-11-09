@@ -3,7 +3,7 @@
  * Plugin Name: THR Audio
  * Plugin URI:  https://thehollywoodreporter.co.uk
  * Description: "Listen to this article" for The Hollywood Reporter UK. Makes audio with ElevenLabs when an article is published (default voice in full, an opening clip for the other voices), makes other voices on request, and plays them in a player with voice and speed controls.
- * Version:     2.0.0
+ * Version:     2.4.0
  * Author:      The Hollywood Reporter UK
  * Author URI:  https://thehollywoodreporter.co.uk
  * Text Domain: thr-audio
@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'THR_AUDIO_VERSION', '2.0.0' );
+define( 'THR_AUDIO_VERSION', '2.4.0' );
 define( 'THR_AUDIO_PATH', plugin_dir_path( __FILE__ ) );
 define( 'THR_AUDIO_URL', plugin_dir_url( __FILE__ ) );
 
@@ -36,12 +36,17 @@ require_once THR_AUDIO_PATH . 'includes/generator.php';
 require_once THR_AUDIO_PATH . 'includes/rest.php';
 require_once THR_AUDIO_PATH . 'includes/meta-box.php';
 require_once THR_AUDIO_PATH . 'includes/player.php';
+require_once THR_AUDIO_PATH . 'includes/podcast.php';
+require_once THR_AUDIO_PATH . 'includes/library.php';
+require_once THR_AUDIO_PATH . 'includes/storage.php';
+require_once THR_AUDIO_PATH . 'includes/distribute.php';
 
 /**
  * Stop the background safety-net event when the plugin is switched off. Audio and settings stay.
  */
 function thr_audio_deactivate() {
 	wp_clear_scheduled_hook( 'thr_audio_cron' );
+	wp_clear_scheduled_hook( 'thr_audio_watchdog' );
 }
 register_deactivation_hook( __FILE__, 'thr_audio_deactivate' );
 

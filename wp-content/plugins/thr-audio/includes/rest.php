@@ -76,6 +76,11 @@ function thr_audio_rest_voice( $request ) {
 
 	$status = thr_audio_get_status( $post_id, $voice, 'full' );
 	if ( in_array( $status['state'], array( 'queued', 'generating' ), true ) ) {
+		// The player checks back every few seconds: each check makes sure the work is moving,
+		// so a lost background request can't leave a reader waiting.
+		if ( ! thr_audio_runner_alive() && ! thr_audio_work_after_reply() ) {
+			thr_audio_kick();
+		}
 		return thr_audio_rest_reply( 'generating' );
 	}
 
@@ -95,7 +100,9 @@ function thr_audio_rest_voice( $request ) {
 	}
 
 	thr_audio_enqueue( $post_id, $voice, 'full', false, 0 );
-	thr_audio_kick();
+	if ( ! thr_audio_work_after_reply() ) {
+		thr_audio_kick();
+	}
 
 	return thr_audio_rest_reply( 'generating' );
 }

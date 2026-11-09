@@ -15,6 +15,8 @@ PACKAGES = [
     ('wp-content/plugins/thr-core', 'thr-core.zip', 'thr-core'),
     ('wp-content/plugins/thr-importer', 'thr-importer.zip', 'thr-importer'),
     ('wp-content/plugins/thr-audio', 'thr-audio.zip', 'thr-audio'),
+    ('wp-content/plugins/thr-distribute', 'thr-distribute.zip', 'thr-distribute'),
+    ('wp-content/plugins/thr-security', 'thr-security.zip', 'thr-security'),
 ]
 
 def make_clean_zip(source_rel, output_name, root_name):

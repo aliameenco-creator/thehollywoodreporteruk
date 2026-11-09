@@ -35,7 +35,7 @@ jobs:
         run: |
           set -euo pipefail
           TAG="${GITHUB_REF_NAME#v}"
-          for f in wp-content/themes/thr-theme/style.css wp-content/plugins/thr-core/thr-core.php wp-content/plugins/thr-importer/thr-importer.php wp-content/plugins/thr-audio/thr-audio.php; do
+          for f in wp-content/themes/thr-theme/style.css wp-content/plugins/thr-core/thr-core.php wp-content/plugins/thr-importer/thr-importer.php wp-content/plugins/thr-audio/thr-audio.php wp-content/plugins/thr-distribute/thr-distribute.php wp-content/plugins/thr-security/thr-security.php; do
             V="$(grep -m1 -E '^[ *]*Version:' "$f" | sed -E 's/.*Version:[[:space:]]*//' | tr -d '[:space:]')"
             [ "$V" = "$TAG" ] || { echo "::error::$f is version '$V' but the tag is '$TAG'"; exit 1; }
           done
@@ -46,4 +46,4 @@ jobs:
       - name: Publish release
         env:
           GH_TOKEN: ${{ github.token }}
-        run: gh release create "$GITHUB_REF_NAME" thr-theme.zip thr-core.zip thr-importer.zip thr-audio.zip --title "$GITHUB_REF_NAME" --generate-notes
+        run: gh release create "$GITHUB_REF_NAME" thr-theme.zip thr-core.zip thr-importer.zip thr-audio.zip thr-distribute.zip thr-security.zip --title "$GITHUB_REF_NAME" --generate-notes

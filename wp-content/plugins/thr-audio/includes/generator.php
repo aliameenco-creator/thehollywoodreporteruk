@@ -87,6 +87,20 @@ function thr_audio_unlock( $name ) {
 	delete_option( 'thr_audio_lock_' . $name );
 }
 
+/** Seconds after which a silent worker counts as dead (its lock and its job are taken over). */
+const THR_AUDIO_RUNNER_TTL = 300;
+
+/**
+ * Whether a worker is alive: it holds the lock and has touched it recently.
+ *
+ * @return bool
+ */
+function thr_audio_runner_alive() {
+	wp_cache_delete( 'thr_audio_lock_runner', 'options' );
+	$since = (int) get_option( 'thr_audio_lock_runner' );
+	return $since && time() - $since < THR_AUDIO_RUNNER_TTL;
+}
+
 /**
  * Run $callback while holding the queue lock (waits up to ~3 seconds for it).
  *
@@ -163,6 +177,38 @@ function thr_audio_kick() {
 }
 
 /**
+ * Do the queued work in this request, after the reply has gone to the browser. Used by the
+ * reader endpoint so a voice someone is waiting for never depends on the background request
+ * (which some hosts drop) or on WP-Cron (which only runs when the site gets visits).
+ *
+ * Returns false when the server can't send the reply early; the caller then uses thr_audio_kick().
+ *
+ * @return bool
+ */
+function thr_audio_work_after_reply() {
+	if ( ! function_exists( 'litespeed_finish_request' ) && ! function_exists( 'fastcgi_finish_request' ) ) {
+		return false;
+	}
+	static $hooked = false;
+	if ( ! $hooked ) {
+		$hooked = true;
+		add_action(
+			'shutdown',
+			function () {
+				if ( function_exists( 'litespeed_finish_request' ) ) {
+					litespeed_finish_request();
+				} else {
+					fastcgi_finish_request();
+				}
+				thr_audio_run_queue();
+			},
+			1000
+		);
+	}
+	return true;
+}
+
+/**
  * Fire the background request now, with WP-Cron as the fallback.
  */
 function thr_audio_kick_now() {
@@ -211,10 +257,42 @@ add_action( 'wp_ajax_nopriv_thr_audio_run', 'thr_audio_ajax_run' );
 add_action( 'thr_audio_cron', 'thr_audio_run_queue' );
 
 /**
+ * @param array $schedules Cron schedules.
+ * @return array
+ */
+function thr_audio_cron_schedules( $schedules ) {
+	$schedules['thr_audio_5min'] = array(
+		'interval' => 5 * MINUTE_IN_SECONDS,
+		'display'  => __( 'Every 5 minutes (THR Audio)', 'thr-audio' ),
+	);
+	return $schedules;
+}
+add_filter( 'cron_schedules', 'thr_audio_cron_schedules' );
+
+/**
+ * Safety net every 5 minutes: if work is waiting and no worker is alive, start one.
+ * Recovers from a worker the host stopped, a lost background request or a stale lock.
+ */
+function thr_audio_watchdog() {
+	$queue = get_option( 'thr_audio_queue', array() );
+	if ( $queue && ! thr_audio_runner_alive() ) {
+		thr_audio_run_queue();
+	}
+}
+add_action( 'thr_audio_watchdog', 'thr_audio_watchdog' );
+
+function thr_audio_schedule_watchdog() {
+	if ( ! wp_next_scheduled( 'thr_audio_watchdog' ) ) {
+		wp_schedule_event( time() + 60, 'thr_audio_5min', 'thr_audio_watchdog' );
+	}
+}
+add_action( 'init', 'thr_audio_schedule_watchdog' );
+
+/**
  * Work through the queue: readers' requests first, then oldest. One worker at a time.
  */
 function thr_audio_run_queue() {
-	if ( ! thr_audio_lock( 'runner', 300 ) ) {
+	if ( ! thr_audio_lock( 'runner', THR_AUDIO_RUNNER_TTL ) ) {
 		return;
 	}
 
@@ -225,7 +303,9 @@ function thr_audio_run_queue() {
 
 	$started = time();
 
-	while ( time() - $started < 150 ) {
+	// Short shifts: Hostinger stopped workers after about 60 seconds (9 November 2026), whatever
+	// set_time_limit() says. Finishing early lets the worker hand over cleanly to the next one.
+	while ( time() - $started < 45 ) {
 		$job = thr_audio_next_job();
 		if ( ! $job ) {
 			break;
@@ -262,7 +342,9 @@ function thr_audio_next_job() {
 			$due = array_filter(
 				$queue,
 				function ( $job ) {
-					return $job['not_before'] <= time();
+					// A job "running" for longer than a worker can live was lost with its worker: run it again.
+					$running = ! empty( $job['running_since'] ) && time() - (int) $job['running_since'] < THR_AUDIO_RUNNER_TTL;
+					return $job['not_before'] <= time() && ! $running;
 				}
 			);
 			if ( ! $due ) {
@@ -274,9 +356,9 @@ function thr_audio_next_job() {
 					return array( $a['priority'], $a['added'] ) <=> array( $b['priority'], $b['added'] );
 				}
 			);
-			$key    = array_key_first( $due );
-			$picked = $queue[ $key ];
-			unset( $queue[ $key ] );
+			$key                            = array_key_first( $due );
+			$queue[ $key ]['running_since'] = time();
+			$picked                         = $queue[ $key ];
 			return $queue;
 		}
 	);
@@ -290,28 +372,35 @@ function thr_audio_next_job() {
  * @param array $job Job.
  */
 function thr_audio_process_job( $job ) {
+	$key = $job['post'] . '|' . $job['voice'] . '|' . $job['kind'];
 	thr_audio_set_status( $job['post'], $job['voice'], $job['kind'], 'generating' );
 
 	$result = thr_audio_generate( $job['post'], $job['voice'], $job['kind'], $job['force'] );
+
+	$data  = is_wp_error( $result ) ? $result->get_error_data() : array();
+	$retry = is_wp_error( $result ) && ! empty( $data['retry'] ) && $job['attempts'] + 1 < THR_AUDIO_MAX_ATTEMPTS;
+
+	// The job stayed in the queue while it ran (so a dying worker can't lose it): settle it now.
+	thr_audio_with_queue(
+		function ( $queue ) use ( $key, $job, $retry ) {
+			if ( $retry ) {
+				$job['attempts']++;
+				$job['not_before'] = time() + 30 * $job['attempts'];
+				unset( $job['running_since'] );
+				$queue[ $key ] = $job;
+			} else {
+				unset( $queue[ $key ] );
+			}
+			return $queue;
+		}
+	);
 
 	if ( ! is_wp_error( $result ) ) {
 		thr_audio_set_status( $job['post'], $job['voice'], $job['kind'], 'ready' );
 		return;
 	}
 
-	$data  = $result->get_error_data();
-	$retry = ! empty( $data['retry'] ) && $job['attempts'] + 1 < THR_AUDIO_MAX_ATTEMPTS;
-
 	if ( $retry ) {
-		$job['attempts']++;
-		$job['not_before'] = time() + 30 * $job['attempts'];
-		$key               = $job['post'] . '|' . $job['voice'] . '|' . $job['kind'];
-		thr_audio_with_queue(
-			function ( $queue ) use ( $key, $job ) {
-				$queue[ $key ] = $job;
-				return $queue;
-			}
-		);
 		thr_audio_set_status( $job['post'], $job['voice'], $job['kind'], 'queued', $result->get_error_message() . ' ' . __( 'Retrying shortly.', 'thr-audio' ) );
 		return;
 	}
@@ -349,10 +438,12 @@ function thr_audio_queue_publish_set( $post_id ) {
 	$default = thr_audio_default_slot();
 	$full    = in_array( $default, $picked, true ) ? $default : $picked[0];
 
+	$others = 'preview' === thr_audio_settings()['other_voices'] ? 'preview' : 'full';
+
 	thr_audio_enqueue( $post_id, $full, 'full' );
 	foreach ( $picked as $slot ) {
 		if ( $slot !== $full ) {
-			thr_audio_enqueue( $post_id, $slot, 'preview' );
+			thr_audio_enqueue( $post_id, $slot, $others );
 		}
 	}
 	thr_audio_kick();
@@ -447,7 +538,7 @@ function thr_audio_generate( $post_id, $voice, $kind, $force = false ) {
 		thr_audio_add_usage( $chars );
 	}
 
-	$attachment_id = thr_audio_save_file( $post, $config, $kind, $bytes );
+	$attachment_id = thr_audio_save_file( $post, $voice, $config, $kind, $bytes );
 	if ( is_wp_error( $attachment_id ) ) {
 		return $attachment_id;
 	}
@@ -484,24 +575,60 @@ function thr_audio_generate( $post_id, $voice, $kind, $force = false ) {
 }
 
 /**
- * Save MP3 bytes to the Media Library, attached to the article.
+ * Recordings live in their own folder, uploads/thr-audio/YYYY/MM, apart from photos.
+ *
+ * @param array $dirs wp_upload_dir() values.
+ * @return array
+ */
+function thr_audio_upload_dir( $dirs ) {
+	$sub            = '/thr-audio' . $dirs['subdir'];
+	$dirs['path']   = $dirs['basedir'] . $sub;
+	$dirs['url']    = $dirs['baseurl'] . $sub;
+	$dirs['subdir'] = $sub;
+	return $dirs;
+}
+
+/**
+ * Let browsers and the CDN keep recordings for a year. Safe because a file never changes:
+ * a remake is saved under a new name. Written once into uploads/thr-audio.
+ */
+function thr_audio_write_cache_rules() {
+	$dir  = wp_upload_dir()['basedir'] . '/thr-audio';
+	$file = $dir . '/.htaccess';
+	if ( file_exists( $file ) || ! wp_mkdir_p( $dir ) ) {
+		return;
+	}
+	$rules = "# THR Audio: recordings never change (a remake gets a new file name), so they can be cached for a year.\n"
+		. "<IfModule mod_mime.c>\n\tAddType audio/mpeg .mp3\n</IfModule>\n"
+		. "<IfModule mod_headers.c>\n\t<FilesMatch \"\\.mp3$\">\n\t\tHeader set Cache-Control \"public, max-age=31536000, immutable\"\n\t</FilesMatch>\n</IfModule>\n";
+	file_put_contents( $file, $rules ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_file_put_contents
+}
+
+/**
+ * Save MP3 bytes as a recording, attached to the article. Recordings are kept out of the
+ * Media Library and listed in the Audio Library instead.
  *
  * @param WP_Post $post   Article.
+ * @param string  $voice  Voice slot.
  * @param array   $config Voice settings.
  * @param string  $kind   full|preview.
  * @param string  $bytes  MP3 data.
  * @return int|WP_Error Attachment ID.
  */
-function thr_audio_save_file( $post, $config, $kind, $bytes ) {
+function thr_audio_save_file( $post, $voice, $config, $kind, $bytes ) {
 	require_once ABSPATH . 'wp-admin/includes/file.php';
 	require_once ABSPATH . 'wp-admin/includes/media.php';
 	require_once ABSPATH . 'wp-admin/includes/image.php';
 
 	$name = sanitize_title( $post->post_name ? $post->post_name : $post->post_title );
 	$name = mb_substr( $name ? $name : 'article-' . $post->ID, 0, 80 );
-	$name = sanitize_file_name( $name . '-' . sanitize_title( $config['label'] . ' ' . $config['region'] ) . ( 'preview' === $kind ? '-opening' : '' ) . '.mp3' );
+	// The random tail gives every recording its own address, so cached copies are never stale.
+	$name = sanitize_file_name( $name . '-' . sanitize_title( $config['label'] . ' ' . $config['region'] ) . ( 'preview' === $kind ? '-opening' : '' ) . '-' . strtolower( wp_generate_password( 8, false ) ) . '.mp3' );
 
+	thr_audio_write_cache_rules();
+	add_filter( 'upload_dir', 'thr_audio_upload_dir' );
 	$upload = wp_upload_bits( $name, null, $bytes );
+	remove_filter( 'upload_dir', 'thr_audio_upload_dir' );
 	if ( ! empty( $upload['error'] ) ) {
 		return new WP_Error( 'thr_audio_upload', __( 'Could not save the MP3: ', 'thr-audio' ) . $upload['error'] );
 	}
@@ -530,6 +657,13 @@ function thr_audio_save_file( $post, $config, $kind, $bytes ) {
 
 	wp_update_attachment_metadata( $attachment_id, wp_generate_attachment_metadata( $attachment_id, $upload['file'] ) );
 	update_post_meta( $attachment_id, '_thr_audio_generated', 1 );
+	update_post_meta( $attachment_id, '_thr_audio_voice', $voice );
+	update_post_meta( $attachment_id, '_thr_audio_kind', $kind );
+	update_post_meta( $attachment_id, '_thr_audio_bytes', strlen( $bytes ) );
+	delete_transient( 'thr_audio_library_totals' );
+
+	/** Fires once a recording is saved; storage.php copies it to R2 when Storage is R2. */
+	do_action( 'thr_audio_file_saved', (int) $attachment_id );
 
 	return (int) $attachment_id;
 }
